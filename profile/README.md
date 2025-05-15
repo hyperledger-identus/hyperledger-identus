@@ -1,6 +1,34 @@
 ![Identus](../resources/images/hyperledger-identus.svg)
 ---
 Identus provides components to develop decentralized identity solutions that adhere to widely recognized self-sovereign identity (SSI) standards.  It offers complete DID and verifiable credential functionality and simplifies the complexities of adopting a decentralized identity solution into existing and new workflows.
+
+## Community Projects
+
+<a href="https://www.csign.io" target="_blank" rel="noopener noreferrer">
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="../resources/images/community/csign/csign-dark.png" height="128">
+  <img src="../resources/images/community/csign/csign-light.png" alt="CSIGN" height="128">
+</picture>
+</a>
+
+<a href="https://blocktrust.dev/" target="_blank" rel="noopener noreferrer">
+<picture>
+  <img src="../resources/images/community/blocktrust/blocktrust.svg" alt="blocktrust" height="128">
+</picture>
+</a>
+
+<a href="https://socious.io/" target="_blank" rel="noopener noreferrer">
+<picture>
+  <img src="../resources/images/community/socious/socious.png" alt="blocktrust" height="128">
+</picture>
+</a>
+
+<a href="https://github.com/trust0-project" target="_blank" rel="noopener noreferrer">
+<picture>
+  <img src="../resources/images/community/trust0/trust0.png" alt="trust0" height="128">
+</picture>
+</a>
+
  
 ## Quick Start Guide and Documentation
 
