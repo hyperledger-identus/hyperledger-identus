@@ -31,7 +31,7 @@ services:
         condition: service_healthy
 
   cloud-agent:
-    image: identus/identus-cloud-agent:1.40.0
+    image: hyperledgeridentus/identus-cloud-agent:2.0.0
     network_mode: "host"
     ports:
       - "8085:8085" # API endpoint
