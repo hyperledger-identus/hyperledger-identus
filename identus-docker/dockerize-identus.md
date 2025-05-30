@@ -82,19 +82,19 @@ If you see the following message `No java installations was detected.` when star
 For more information check the [issues](https://github.com/hyperledger/identus-cloud-agent/issues/1482)
 
 The workaround is to disable CPU's vector extensions. So we need to create a new docker image based on the previous one.
-We do that on the [Dockerfile](./identus-docker/cloud-agent-M4-workaround/Dockerfile) (for version 1.40.0) where we hard-code the workaround.
+We do that on the [Dockerfile](./identus-docker/cloud-agent-M4-workaround/Dockerfile) (for version 2.0.0) where we hard-code the workaround.
 
 So on your docker compose file [docker-compose.yaml](identus-docker/docker-compose.yaml) you need to use the new image we just created.
 By changing the following:
 
 - From
   ```
-    image: docker.io/identus/identus-cloud-agent:1.40.0
+    image: docker.io/hyperledgeridentus/identus-cloud-agent:2.0.0
     # build: ./cloud-agent-M4-workaround
   ```
 - To
   ```
-    # image: docker.io/identus/identus-cloud-agent:1.40.0
+    # image: docker.io/hyperledgeridentus/identus-cloud-agent:2.0.0
     build: ./cloud-agent-M4-workaround
   ```
 
