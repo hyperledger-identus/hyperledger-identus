@@ -2,9 +2,6 @@ import SDK from "@hyperledger/identus-sdk";
 import { useCallback, useEffect, useState } from "react";
 import { useMessages, useVerifier } from "@trust0/identus-react/hooks";
 import { Step } from "@/types";
-import OOBCode from "@/components/core/OOBCode";
-import { useWorkshop } from "@/pages/_app";
-
 
 function Presentation({ presentation }: { presentation: SDK.Domain.Message }) {
     const {verifyPresentation, agent, state: agentState} = useVerifier();
@@ -15,9 +12,7 @@ function Presentation({ presentation }: { presentation: SDK.Domain.Message }) {
         }
         try {
             const verify = await verifyPresentation(presentation);
-            console.log("verify", verify);
-            debugger;
-            setVerified(true);
+            setVerified(verify);
         } catch (error) {
             setVerified(false);
         }

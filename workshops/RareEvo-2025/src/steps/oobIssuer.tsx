@@ -58,9 +58,9 @@ const step: Step = {
         }, [agentState, getOOBURL, setStore]);
 
         const onCreate = useCallback(async (issuerRequest: Request) => {
-            setIssuanceFlows([...issuanceFlows, issuerRequest]);
+            setIssuanceFlows(prev => [...prev, issuerRequest]);
             setActiveTab('existing');
-        }, [issuanceFlows, setIssuanceFlows, setActiveTab]);
+        }, [setActiveTab]);
 
         return (
             <div>

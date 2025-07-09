@@ -74,7 +74,7 @@ export function StepComponent(props: { step: Step } & NextFnProps) {
                     <h2 className="text-4xl font-bold text-blue-700">
                         {step.title}
                     </h2>
-                    <Status />
+                    <Status type={agentType}/>
                 </div>
             }
             <p className="text-gray-600 leading-relaxed mb-6">

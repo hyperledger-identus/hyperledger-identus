@@ -27,14 +27,27 @@ const step: Step = {
         const [credentialOffers, setCredentialOffers] = useState<SDK.Domain.Message[]>([]);
 
         useEffect(() => {
-            const credentialOffers = receivedMessages.filter(({ piuri }) => piuri === SDK.ProtocolType.DidcommOfferCredential);
-            const credentialRequests = sentMessages.filter(({ piuri }) => piuri === SDK.ProtocolType.DidcommRequestCredential);
-            const pendingOffers = credentialOffers
-            setCredentialOffers((prev) => {
-                return [
-                    ...prev.filter(({ id:prevId }) => !pendingOffers.some(({ id:offerId }) => prevId === offerId)),
-                    ...pendingOffers,
-                ].filter(({ thid:offerThid }) => !credentialRequests.some(({ thid:requestThid }) => offerThid === requestThid));
+            const offers = receivedMessages.filter(({ piuri }) => piuri === SDK.ProtocolType.DidcommOfferCredential);
+            const requests = sentMessages.filter(({ piuri }) => piuri === SDK.ProtocolType.DidcommRequestCredential);
+            const pendingOffers = offers;
+            
+            const newCredentialOffers = [
+                ...offers.filter(({ id:prevId }) => !pendingOffers.some(({ id:offerId }) => prevId === offerId)),
+                ...pendingOffers,
+            ].filter(({ thid:offerThid }) => !requests.some(({ thid:requestThid }) => offerThid === requestThid));
+            
+            // Only update state if the offers have actually changed
+            setCredentialOffers(prev => {
+                if (prev.length !== newCredentialOffers.length) {
+                    return newCredentialOffers;
+                }
+                // Check if any offer IDs have changed
+                const prevIds = prev.map(o => o.id).sort();
+                const newIds = newCredentialOffers.map(o => o.id).sort();
+                if (prevIds.join(',') !== newIds.join(',')) {
+                    return newCredentialOffers;
+                }
+                return prev;
             });
         }, [sentMessages, receivedMessages])
 

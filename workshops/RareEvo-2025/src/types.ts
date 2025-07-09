@@ -13,8 +13,6 @@ export type RequestState<T extends Doc<typeof schemas.issuance>> =
     
 
 export type Store = {
-    nextBusy?: boolean,
-    nextDisabled?: boolean,
     issuerStarted?: boolean,
     issuerPrismDID?: SDK.Domain.DID,
     issuerPrismDIDPublished?: boolean,

@@ -39,9 +39,9 @@ function PresentationRequest({ request }: { request: SDK.RequestPresentation }) 
     const [selectedCredential, setSelectedCredential] = useState<SDK.Domain.Credential | null>(null);
     const message = request.makeMessage();
     const { handlePresentationRequest, state: agentState, agent } = useHolder();
-    const { deleteMessage } = useMessages();
+    const { deleteMessage, load: loadMessages } = useMessages();
     const { state: dbState } = useDatabase();
-    const { hasResponse, hasAnswered } = useMessageStatus(message);
+    const { hasAnswered } = useMessageStatus(message);
 
     const onHandleAccept = useCallback(async () => {
         if (!agent || agentState !== SDK.Domain.Startable.State.RUNNING) {
@@ -50,24 +50,22 @@ function PresentationRequest({ request }: { request: SDK.RequestPresentation }) 
         if (!selectedCredential) {
             throw new Error("No credential selected");
         }
-        debugger;
         await handlePresentationRequest(message, selectedCredential);
     }, [agent, agentState, selectedCredential, message, handlePresentationRequest]);
 
     const onHandleReject = useCallback(async () => {
         if (dbState === 'loaded') {
             await deleteMessage(message);
+            await loadMessages();
         }
-    }, [dbState, deleteMessage, message]);
+    }, [dbState, deleteMessage, message, loadMessages]);
 
     return <div>
         <h2>{JSON.stringify(request)}</h2>
-
         {!hasAnswered && <>
             <CredentialSelector request={request} onSelected={setSelectedCredential} />
             <button className="bg-blue-500 text-white px-4 py-2 rounded-md" onClick={onHandleAccept}>Accept</button>
             <button className="mx-2 bg-red-500 text-white px-4 py-2 rounded-md" onClick={onHandleReject}>Reject</button>
-
         </>}
         {hasAnswered && <p>You already accepted this offer.</p>}
     </div>

@@ -17,21 +17,30 @@ const step: Step = {
         const { issueCredential } = useIssuer();
         const { getIssuanceFlow } = useDatabase();
         const { receivedMessages,sentMessages, deleteMessage } = useMessages();
-
-
-        
         const [credentialRequests, setCredentialRequests] = useState<SDK.Domain.Message[]>([]);
 
         useEffect(() => {
-            setCredentialRequests(
-                receivedMessages
+            const newCredentialRequests = receivedMessages
                 .filter(m => m.piuri === SDK.ProtocolType.DidcommRequestCredential)
                 .filter(( message ) => {
                     const issuedCredential = sentMessages.find(({ thid, piuri }) => piuri === SDK.ProtocolType.DidcommIssueCredential && thid === message.thid);
                     return !issuedCredential; 
-                })
-            );
-        }, [receivedMessages, setCredentialRequests]);
+                });
+            
+            // Only update state if requests have actually changed
+            setCredentialRequests(prev => {
+                if (prev.length !== newCredentialRequests.length) {
+                    return newCredentialRequests;
+                }
+                // Check if any request IDs have changed
+                const prevIds = prev.map(r => r.id).sort();
+                const newIds = newCredentialRequests.map(r => r.id).sort();
+                if (prevIds.join(',') !== newIds.join(',')) {
+                    return newCredentialRequests;
+                }
+                return prev;
+            });
+        }, [receivedMessages, sentMessages]);
 
         const onReject = useCallback(async (message: SDK.Domain.Message) => {
             deleteMessage(message);
@@ -44,7 +53,6 @@ const step: Step = {
             }
             const issuerDID = SDK.Domain.DID.fromString(issuanceFlow.issuingDID);
             if (issuanceFlow.credentialFormat === SDK.Domain.CredentialType.JWT || issuanceFlow.credentialFormat === SDK.Domain.CredentialType.SDJWT) {
-                setStore({ ...store, nextBusy: true });
                 await issueCredential(
                     issuanceFlow.credentialFormat,
                     message,
@@ -52,7 +60,7 @@ const step: Step = {
                     issuerDID,
                     message.from!
                 );
-                setStore({ ...store, nextBusy: false,  issuerAccepted:true });
+                setStore({ ...store,  issuerAccepted:true });
             }
         }, [getIssuanceFlow, setStore, store, issueCredential]);
 
