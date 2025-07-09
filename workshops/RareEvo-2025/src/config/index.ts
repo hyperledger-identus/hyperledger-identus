@@ -11,10 +11,13 @@ export const RareEvoClaims: Claim[] = [
         id: crypto.randomUUID(), name: "handle", value: "", type: "string"
     },
     {
-        id: crypto.randomUUID(), name: "RareEvo", value: "2025", type: "string"
+        id: crypto.randomUUID(), name: "event", value: "RareEvo", type: "string"
     },
     {
-        id: crypto.randomUUID(), name: "Location", value: "Las Vegas", type: "string"
+        id: crypto.randomUUID(), name: "year", value: "2025", type: "string"
+    },
+    {
+        id: crypto.randomUUID(), name: "location", value: "Las Vegas", type: "string"
     }
 ]
 

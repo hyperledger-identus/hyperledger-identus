@@ -50,6 +50,7 @@ function PresentationRequest({ request }: { request: SDK.RequestPresentation }) 
         if (!selectedCredential) {
             throw new Error("No credential selected");
         }
+        debugger;
         await handlePresentationRequest(message, selectedCredential);
     }, [agent, agentState, selectedCredential, message, handlePresentationRequest]);
 
@@ -101,7 +102,7 @@ function PresentCredential() {
                 })
             }
         }
-    }, [agentState, store, parseOOB, setStore, agent, loadMessages])
+    }, [agentState, store, parseOOB, setStore, agent, loadMessages, pluto])
 
     return <div>
         {

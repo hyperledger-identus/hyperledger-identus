@@ -29,7 +29,7 @@ export function CredentialOffer(props: { credentialOffer: SDK.Domain.Message  } 
         }
         await deleteMessage(credentialOffer);
         await loadMessages();
-    }, [dbState, deleteMessage]);
+    }, [dbState, deleteMessage, loadMessages]);
     
     return <div className="mt-4 space-y-4">
     <div className="border border-slate-200 rounded-lg p-4 bg-slate-50">
@@ -49,13 +49,14 @@ export function CredentialOffer(props: { credentialOffer: SDK.Domain.Message  } 
 
             {
                 body.credential_preview.body.attributes.map((field: { name: string, value: string }, i: number) => {
-                    return <div>
-                        <span className="text-sm font-medium text-slate-600">   {field.name}: </span>
-                        <p className=" text-md font-normal text-gray-500 lg:text-xl  dark:text-gray-400 break-all">
-                            {field.value}
-                        </p>
-                    </div>
-
+                    return (
+                        <div key={i}>
+                            <span className="text-sm font-medium text-slate-600">{field.name}: </span>
+                            <p className=" text-md font-normal text-gray-500 lg:text-xl  dark:text-gray-400 break-all">
+                                {field.value}
+                            </p>
+                        </div>
+                    );
                 })
             }
             </div>

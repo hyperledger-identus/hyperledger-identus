@@ -9,7 +9,7 @@ import SDK from "@hyperledger/identus-sdk";
 import { useWallet } from "@meshsdk/react";
 import { BrowserWallet, Transaction } from "@meshsdk/core";
 import { useWorkshop } from "@/pages/_app";
-
+import Image from "next/image";
 const step: Step = {
     type: 'issuer',
     disableCondition: (store) => !store.issuerPrismDID,
@@ -352,7 +352,7 @@ export default function PublishPrismDID() {
                         className="w-full px-6 py-3 bg-gradient-to-r from-teal-500 to-emerald-600 hover:from-teal-600 hover:to-emerald-700 text-white font-medium rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
                     >
                         <div className="flex items-center justify-center space-x-2">
-                            <img src="/lace.svg" alt="Lace Wallet" className="w-5 h-5" />
+                            <Image src="/lace.svg" alt="Lace Wallet" className="w-5 h-5" width={5} height={5} />
                             <span>Publish With Lace Wallet</span>
                         </div>
                     </button>

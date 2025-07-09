@@ -5,6 +5,14 @@ import { useDatabase, useIssuer, useMessages } from "@trust0/identus-react/hooks
 import SDK from '@hyperledger/identus-sdk';
 import { useWorkshop } from "@/pages/_app";
 
+
+import {
+    OEA,
+} from '@hyperledger/identus-sdk/plugins/oea';
+import * as ddd2 from '@hyperledger/identus-sdk/plugins/dif';
+
+
+
 const step: Step = {
     type: 'issuer',
     disableCondition: (store) => !store.issuerAccepted,
@@ -53,10 +61,11 @@ const step: Step = {
             }
             const issuerDID = SDK.Domain.DID.fromString(issuanceFlow.issuingDID);
             if (issuanceFlow.credentialFormat === SDK.Domain.CredentialType.JWT || issuanceFlow.credentialFormat === SDK.Domain.CredentialType.SDJWT) {
+               debugger;
                 await issueCredential(
                     issuanceFlow.credentialFormat,
                     message,
-                    issuanceFlow.claims as any,
+                    issuanceFlow.claims,
                     issuerDID,
                     message.from!
                 );
