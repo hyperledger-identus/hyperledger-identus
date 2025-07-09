@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 
 import SDK from "@hyperledger/identus-sdk";
 import { useAgent } from "@trust0/identus-react/hooks";
@@ -18,30 +18,29 @@ function protect(credential: SDK.Domain.Credential) {
 
 export function Credential(props: { credential: SDK.Domain.Credential }) {
     const { credential } = props;
-    const { agent } = useAgent();
+    const { agent, state: agentState } = useAgent();
     const [claims, setClaims] = useState(protect(credential));
 
-    function revealAttributes(credential: SDK.Domain.Credential, claimIndex: number, field: string) {
-        agent?.pluto.getLinkSecret()
-            .then((linkSecret) => {
-                agent?.revealCredentialFields(
-                    credential,
-                    [field],
-                    linkSecret?.secret ?? ''
-                ).then((revealedFields) => {
-                    const revealed = claims.map((claim, index) => {
-                        if (claimIndex === index) {
-                            return {
-                                ...claim,
-                                [field]: (revealedFields as any)[field]
-                            }
-                        }
-                        return claim
-                    })
-                    setClaims(revealed)
-                })
+    const revealAttributes = useCallback(async (credential: SDK.Domain.Credential, claimIndex: number, field: string) => {
+        if (agent && agentState === SDK.Domain.Startable.State.RUNNING) {
+            const linkSecret = await agent.pluto.getLinkSecret();
+            const revealedFields = await agent.revealCredentialFields(
+                credential,
+                [field],
+                linkSecret?.secret ?? ''
+            )
+            const revealed = claims.map((claim, index) => {
+                if (claimIndex === index) {
+                    return {
+                        ...claim,
+                        [field]: (revealedFields as any)[field]
+                    }
+                }
+                return claim
             })
-    }
+            setClaims(revealed)
+        }
+    }, [agent, agentState, claims])
 
     const credentialType = credential.credentialType || "Digital Credential";
 
