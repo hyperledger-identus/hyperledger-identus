@@ -31,7 +31,9 @@ export const CreateFlowForm = ({
     }, [claims]);
 
     const handleDIDSelect = useCallback((didItem: DIDAlias) => {
-        setIssuingDID(didItem.did)
+        if (didItem?.did) {
+            setIssuingDID(didItem.did)
+        }
     }, [setIssuingDID]);
 
     const handleSubmit = useCallback(async (e: React.FormEvent) => {

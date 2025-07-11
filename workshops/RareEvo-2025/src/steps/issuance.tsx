@@ -1,17 +1,13 @@
 
 import { Step } from "@/types";
 import React, { useCallback, useEffect, useMemo, useState  } from "react";
-import { useDatabase, useIssuer, useMessages } from "@trust0/identus-react/hooks";
+import { useDatabase, useIssuer, useMessages, usePrismDID } from "@trust0/identus-react/hooks";
 import SDK from '@hyperledger/identus-sdk';
 import { useWorkshop } from "@/pages/_app";
 
 
-import {
-    OEA,
-} from '@hyperledger/identus-sdk/plugins/oea';
-import * as ddd2 from '@hyperledger/identus-sdk/plugins/dif';
-
-
+import { Request } from "@/types";
+import { FlowCard } from "@/components/core/FlowCard";
 
 const step: Step = {
     type: 'issuer',
@@ -23,45 +19,69 @@ const step: Step = {
             setStore, ...store
         } = useWorkshop();     
         const { issueCredential } = useIssuer();
-        const { getIssuanceFlow } = useDatabase();
+        const { getIssuanceFlow, updateDIDStatus } = useDatabase();
         const { receivedMessages,sentMessages, deleteMessage } = useMessages();
-        const [credentialRequests, setCredentialRequests] = useState<SDK.Domain.Message[]>([]);
+        const [credentialRequests, setCredentialRequests] = useState<{message: SDK.Domain.Message, request: Request}[]>([]);
+        const [approveBusy, setApproveBusy] = useState(false);
+        const [rejectBusy, setRejectBusy] = useState(false);
+        const { isPublished: isPublishedPrismDID } = usePrismDID();
+
+        const withFlow = useCallback(async (messages: SDK.Domain.Message[]) => {
+            const withFlows: {message: SDK.Domain.Message, request: Request}[] = [];
+            const newCredentialRequests = receivedMessages
+            .filter(m => m.piuri === SDK.ProtocolType.DidcommRequestCredential)
+            .filter(( message ) => {
+                const issuedCredential = sentMessages.find(({ thid, piuri }) => piuri === SDK.ProtocolType.DidcommIssueCredential && thid === message.thid);
+                return !issuedCredential; 
+            });
+            for (const message of newCredentialRequests) {
+                const flow = await getIssuanceFlow(message.thid!);
+                if (flow) {
+                    withFlows.push({
+                        message,
+                        request: flow
+                    })
+                }
+            }
+            return withFlows;
+        }, [getIssuanceFlow, receivedMessages, sentMessages]);
+
+
 
         useEffect(() => {
-            const newCredentialRequests = receivedMessages
-                .filter(m => m.piuri === SDK.ProtocolType.DidcommRequestCredential)
-                .filter(( message ) => {
-                    const issuedCredential = sentMessages.find(({ thid, piuri }) => piuri === SDK.ProtocolType.DidcommIssueCredential && thid === message.thid);
-                    return !issuedCredential; 
+            withFlow(receivedMessages).then((withFlows) => {
+                setCredentialRequests(prev => {
+                    if (prev.length !== withFlows.length) {
+                        return withFlows;
+                    }
+                    // Check if any request IDs have changed
+                    const prevIds = prev.map(r => r.message.id).sort();
+                    const newIds = withFlows.map(r => r.message.id).sort();
+                    if (prevIds.join(',') !== newIds.join(',')) {
+                        return withFlows;
+                    }
+                    return prev;
                 });
-            
-            // Only update state if requests have actually changed
-            setCredentialRequests(prev => {
-                if (prev.length !== newCredentialRequests.length) {
-                    return newCredentialRequests;
-                }
-                // Check if any request IDs have changed
-                const prevIds = prev.map(r => r.id).sort();
-                const newIds = newCredentialRequests.map(r => r.id).sort();
-                if (prevIds.join(',') !== newIds.join(',')) {
-                    return newCredentialRequests;
-                }
-                return prev;
-            });
-        }, [receivedMessages, sentMessages]);
+            })
+        }, [getIssuanceFlow, receivedMessages, sentMessages, withFlow]);
 
         const onReject = useCallback(async (message: SDK.Domain.Message) => {
-            deleteMessage(message);
+            setRejectBusy(true);
+            await deleteMessage(message);
+            setRejectBusy(false);
         }, [deleteMessage]);
 
         const onApprove = useCallback(async (message: SDK.Domain.Message) => {
+            setApproveBusy(true);
             const issuanceFlow = await getIssuanceFlow(message.thid!);
             if (!issuanceFlow) {
                 throw new Error("No issuance flow found");
             }
-            const issuerDID = SDK.Domain.DID.fromString(issuanceFlow.issuingDID);
+            const issuerDID = await isPublishedPrismDID(SDK.Domain.DID.fromString(issuanceFlow.issuingDID)) ? 
+            SDK.Domain.DID.fromString(issuanceFlow.issuingDID) : 
+            SDK.Domain.DID.fromString(issuanceFlow.issuingDID);
+            
             if (issuanceFlow.credentialFormat === SDK.Domain.CredentialType.JWT || issuanceFlow.credentialFormat === SDK.Domain.CredentialType.SDJWT) {
-               debugger;
                 await issueCredential(
                     issuanceFlow.credentialFormat,
                     message,
@@ -71,7 +91,8 @@ const step: Step = {
                 );
                 setStore({ ...store,  issuerAccepted:true });
             }
-        }, [getIssuanceFlow, setStore, store, issueCredential]);
+            setApproveBusy(false);
+        }, [getIssuanceFlow, isPublishedPrismDID, issueCredential, setStore, store]);
 
         const isRequestPending = useCallback((message: SDK.Domain.Message) => {
             const hasSentIssuance = sentMessages
@@ -94,39 +115,43 @@ const step: Step = {
                 <div className="space-y-4">
                     {credentialRequests.map((request, index) => (
                         <div key={index} className="border border-slate-200 rounded-lg p-4 bg-slate-50">
-                            <div className="flex justify-between items-start mb-3">
-                                <div className="flex-1">
-                                    <h4 className="text-lg font-medium text-slate-900">
-                                        Request #{index + 1}
-                                    </h4>
-                                    <p className="text-sm text-slate-600">
-                                        From: {request.from?.toString().slice(0, 74) || 'Unknown'}
-                                    </p>
-                                    <p className="text-sm text-slate-600">
-                                        To: {request.to?.toString() || 'Unknown'}
-                                    </p>
-                                    <p className="text-sm text-slate-600">
-                                        ID: {request.id || 'Unknown'}
-                                    </p>
-                                </div>
-                            </div>
 
+<FlowCard
+                    isSelected={false}
+                    key={request.request.id}
+                    flow={request.request}
+                    index={index}
+                    busy={true}
+                />
+
+                            <div className="mt-4">
                             {
-                                isRequestPending(request) && <div className="flex space-x-3">
+                                isRequestPending(request.message) && <div className="flex space-x-3">
                                     <button
-                                        onClick={() => onApprove(request)}
-                                        className="flex-1 bg-emerald-500 hover:bg-emerald-600 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2"
+                                        disabled={approveBusy || rejectBusy}
+                                        onClick={() => onApprove(request.message)}
+                                        className={`flex-1 font-medium py-2 px-4 rounded-lg transition-all duration-200 ${
+                                            approveBusy || rejectBusy
+                                                ? 'bg-slate-300 text-slate-500 cursor-not-allowed shadow-none'
+                                                : 'bg-emerald-500 hover:bg-emerald-600 text-white focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 shadow-md hover:shadow-lg cursor-pointer'
+                                        }`}
                                     >
-                                        Approve
+                                        {approveBusy ? 'Issuing...' : 'Issue Credential'}
                                     </button>
                                     <button
-                                        onClick={() => onReject(request)}
-                                        className="flex-1 bg-red-500 hover:bg-red-600 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
+                                        disabled={approveBusy || rejectBusy}
+                                        onClick={() => onReject(request.message)}
+                                        className={`flex-1 font-medium py-2 px-4 rounded-lg transition-all duration-200 ${
+                                            approveBusy || rejectBusy
+                                                ? 'bg-slate-300 text-slate-500 cursor-not-allowed shadow-none'
+                                                : 'bg-red-500 hover:bg-red-600 text-white focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 shadow-md hover:shadow-lg cursor-pointer'
+                                        }`}
                                     >
-                                        Reject
+                                        {rejectBusy ? 'Rejecting...' : 'Reject'}
                                     </button>
                                 </div>
                             }
+                            </div>
                         </div>
                     ))}
                 </div>

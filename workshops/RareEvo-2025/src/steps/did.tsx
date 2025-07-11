@@ -10,6 +10,7 @@ import { useWallet } from "@meshsdk/react";
 import { BrowserWallet, Transaction } from "@meshsdk/core";
 import { useWorkshop } from "@/pages/_app";
 import Image from "next/image";
+import { BLOCKFROST_KEY } from "@/config";
 const step: Step = {
     type: 'issuer',
     disableCondition: (store) => !store.issuerPrismDID,
@@ -21,7 +22,8 @@ const step: Step = {
             ...store
         } = useWorkshop();        
         const [published, setPublished] = useState(false);
-        const { getSettingsByKey, pluto } = useDatabase();
+        const [publishing, setPublishing] = useState(false);
+        const { getSettingsByKey, pluto, updateDIDStatus } = useDatabase();
         const { agent, state: agentState } = useAgent();
         const { wallet, connect, connected } = useWallet();
         const castor = useCastor();
@@ -68,7 +70,7 @@ const step: Step = {
 
         async function checkTransactionConfirmation(txHash: string) {
             try {
-                const projectId = await getSettingsByKey('blockfrost-key') ?? null;
+                const projectId = await getSettingsByKey('blockfrost-key') ?? BLOCKFROST_KEY;
                 if (!projectId) {
                     throw new Error("No blockfrost key found");
                 }
@@ -104,6 +106,11 @@ const step: Step = {
             if (!prismDID) {
                 throw new Error("Prism DID not found, create one first");
             }
+
+            if (!publishing) {
+                setPublishing(true);
+            }
+            
             const keys = await pluto.getDIDPrivateKeysByDID(prismDID);
             const document = await agent.castor.resolveDID(prismDID.toString());
             const signingKey = document.verificationMethods.find(key => key.id.includes("#master"));
@@ -121,21 +128,17 @@ const step: Step = {
             if (!secret) {
                 throw new Error("No secret key found");
             }
-
             const atalaObject = await castor.createPrismDIDAtalaObject(secret, prismDID)
             const metadataBody = {
                 v: 1,
                 c: splitStringIntoChunks(atalaObject),
             };
+            
             const txHash = await buildAndSubmitTransaction(metadataBody);
+            
             const checkConfirmation = async () => {
                 const isConfirmed = await checkTransactionConfirmation(txHash);
-                if (isConfirmed) {
-                    setPublished(true);
-                    setStore({
-                        issuerPrismDIDPublished: true
-                    })
-                } else {
+                if (!isConfirmed) {
                     await new Promise<void>((resolve) => {
                         setTimeout(async () => {
                             await checkConfirmation();
@@ -148,6 +151,12 @@ const step: Step = {
             await new Promise<void>((resolve) => {
                 setTimeout(async () => {
                     await checkConfirmation();
+                    await updateDIDStatus(prismDID, 'published')
+                    setPublished(true);
+                    setStore({
+                        issuerPrismDIDPublished: true
+                    })
+                    setPublishing(false);
                     resolve();
                 }, 15000);
             });
@@ -159,161 +168,6 @@ const step: Step = {
                 <p className="text-base text-slate-700 leading-relaxed">
                     In this step, we will learn how to create and publish the Issuer&apos;s DID on Cardano Blockchain using Lace Wallet.
                 </p>
-            </div>
-
-            <div className="bg-slate-50 rounded-lg p-4">
-                <Codes codes={{
-                    "With React Providers": {
-                        language: 'typescript',
-                        code: `import { AgentProvider } from '@trust0/identus-react';
-import { useWallet } from "@meshsdk/react";
-import { useAgent, usePrismDID, useApollo, useCastor, usePluto} from "@trust0/identus-react/hooks";
-import SDK from "@hyperledger/identus-sdk";
-import { Transaction } from "@meshsdk/core";
-
-/**
- * IMPORTANT: Remember adding import { MeshProvider } from '@meshsdk/react';
- * and wrapp your application with <MeshProvider>
- */
-
-
-/**
- * This Component is able to use an existing instance of the Agent to create a Prism DID.
- * Instance must be configured and running to create a Prism DID if not, create will throw an exception.
- */
-const BLOCKFROST_PROJECT_ID = "YOUR_BLOCKFROST_PROJECT_ID";
-function splitStringIntoChunks(input: Uint8Array, chunkSize = 64): Uint8Array[] {
-    const buffer = Buffer.from(input);
-    const chunks: Uint8Array[] = [];
-    for (let i = 0; i < buffer.length; i += chunkSize) {
-        chunks.push(
-            Uint8Array.from(buffer.slice(i, i + chunkSize))
-        );
-    }
-    return chunks;
-}
-export default function PublishPrismDID() {
-    const apollo = useApollo();
-    const castor = useCastor();
-    const pluto = usePluto();
-    const { agent } = useAgent();
-    const { prismDID, create } = usePrismDID();
-    const [published, setPublished] = useState(false);
-    const { connect, disconnect, connected, wallet } = useWallet();
-
-    const createPrismDID = async () => {
-        const alias = 'did' + crypto.randomUUID();
-        await create(alias);
-    }
-
-    const buildAndSubmitTransaction = useCallback(async (metadataBody: any) => {
-        if (!wallet) throw new Error("No wallet connected");
-        // Create a new transaction with the "initiator" set to the connected wallet
-        const tx = new Transaction({ initiator: wallet })
-            .sendLovelace(
-                {
-                    address: await wallet.getChangeAddress(),
-                },
-                "1000000"
-            )
-            .setMetadata(21325, metadataBody);
-        // Build and sign
-        const unsignedTx = await tx.build();
-        const signedTx = await wallet.signTx(unsignedTx);
-        const txHash = await wallet.submitTx(signedTx);
-        return txHash;
-    }, [wallet])
-
-    async function checkTransactionConfirmation(txHash: string, project_id: string) {
-        try {
-            const response = await fetch(
-                \`https://cardano-mainnet.blockfrost.io/api/v0/txs/\${txHash}\`,
-                {
-                    headers: {
-                        project_id:BLOCKFROST_PROJECT_ID
-                    },
-                }
-            );
-            return response.ok;
-        } catch (error) {
-            return false;
-        }
-    }
-
-    const publishPrismDID = useCallback(async () => {
-        if (!agent) {
-            throw new Error("Agent not found");
-        }
-        if (!prismDID) {
-            throw new Error("Prism DID not found, create one first");
-        }
-        try {
-            const keys = await pluto.getDIDPrivateKeysByDID(prismDID);
-            const document = await agent.castor.resolveDID(didString);
-            const signingKey = document.verificationMethods.find(key => key.id.includes("#master"));
-            console.log("Publish clicked - Wallet ID:", walletId, "Project ID:", projectId);
-            if (!signingKey) {
-                throw new Error("No master key found");
-            }
-
-            const pk = await agent.runTask(new SDK.Tasks.PKInstance({ verificationMethod: signingKey }))
-            if (!pk) {
-                throw new Error("No master key found");
-            }
-
-            const secret = keys.find(key => Buffer.from(key.publicKey().raw).toString('hex') === Buffer.from(pk.raw).toString('hex'))
-            if (!secret) {
-                throw new Error("No secret key found");
-            }
-
-            const atalaObject = await castor.createPrismDIDAtalaObject(secret, didItem.did)
-            const metadataBody = {
-                v: 1,
-                c: splitStringIntoChunks(atalaObject),
-            };
-
-            await connect('lace');
-            const txHash = await buildAndSubmitTransaction(metadataBody);
-            const checkConfirmation = async () => {
-                const isConfirmed = await checkTransactionConfirmation(txHash, projectId);
-                if (isConfirmed) {
-                    setPublished(true);
-                } else {
-                    await new Promise<void>((resolve) => {
-                        setTimeout(async () => {
-                            await checkConfirmation();
-                            resolve();
-                        }, 15000);
-                    });
-                }
-            };
-
-            await new Promise<void>((resolve) => {
-                setTimeout(async () => {
-                    await checkConfirmation();
-                    resolve();
-                }, 15000);
-            });
-        } catch (err: any) {
-            setError(err.message || "Failed to publish DID");
-        }
-    }, [agent, prismDID, pluto, castor, buildAndSubmitTransaction, wallet])
-
-    return <div>
-        <button onClick={createPrismDID}>Create Issuer Prism DID</button>
-        {prismDID && (
-            <p>✅ DID Successfully Created:</p>
-            <p>{prismDID.toString()}</p>
-        )}
-        <button onClick={publishPrismDID}>Publish Prism DID</button>
-    </div>
-}`,
-                    },
-                    "Without React": {
-                        language: 'typescript',
-                        code: `TBD`
-                    }
-                }} />
             </div>
 
             <div className="space-y-4">
@@ -347,13 +201,13 @@ export default function PublishPrismDID() {
 
                 {connected && prismDID && !published && (
                     <button
-                        disabled={published}
+                        disabled={published || publishing}
                         onClick={publishPrismDID}
                         className="w-full px-6 py-3 bg-gradient-to-r from-teal-500 to-emerald-600 hover:from-teal-600 hover:to-emerald-700 text-white font-medium rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
                     >
                         <div className="flex items-center justify-center space-x-2">
                             <Image src="/lace.svg" alt="Lace Wallet" className="w-5 h-5" width={5} height={5} />
-                            <span>Publish With Lace Wallet</span>
+                            <span>{publishing ? 'Waiting for TX Confirmation...' : 'Publish With Lace Wallet'}</span>
                         </div>
                     </button>
                 )}

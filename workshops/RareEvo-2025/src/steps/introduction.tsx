@@ -198,11 +198,11 @@ docker compose up -d`,
                             <CodeComponent content={{
                                 language: 'bash',
                                 code: `# Optional PeerDID, required if u want to use a different mediator (not local one we provide)
-# MEDIATOR_DID=
+# NEXT_PUBLIC_MEDIATOR_DID=
 # Optional, used to fetch public Cardano network data + required if publishing DIDS wants to be used
-# BLOCKFROST_KEY=
+# NEXT_PUBLIC_BLOCKFROST_KEY=
 # Optional, required only to resolve DIDS written onchain in mainnet and requires a PrismDID universal resolver endpoint
-# RESOLVER_URL=`,
+# NEXT_PUBLIC_RESOLVER_URL=`,
                                 showCopyButton: false
                             }} />
                             <p className="text-xs text-slate-500 mt-1">

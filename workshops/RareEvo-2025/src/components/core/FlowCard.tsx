@@ -1,20 +1,23 @@
 import { Request } from "@/types";
 import SDK from "@hyperledger/identus-sdk";
 import { useMessages } from "@trust0/identus-react/hooks";
-import { useCallback } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 
 export const FlowCard = ({
     flow,
     index,
     isSelected,
-    onSelect
+    onSelect,
+    busy: busyProp
 }: {
     flow: Request;
     index: number;
     isSelected: boolean;
-    onSelect: (flow: Request) => void;
+    onSelect?: (flow: Request) => void;
+    busy: boolean;
 }) => {
+    const [busy, setBusy] = useState(busyProp);
     const { receivedMessages, sentMessages } = useMessages();
     const getIssuanceStatus = useCallback((request: Request) => {
         const received = receivedMessages.filter((message) => message.thid === request.id);
@@ -28,6 +31,14 @@ export const FlowCard = ({
         return 'pending'
     }, [receivedMessages, sentMessages]);
     const status = getIssuanceStatus(flow);
+
+    useEffect(() => {
+        if (isSelected) {
+            setBusy(false);
+        }
+    }, [isSelected])
+
+    const disabled = busy || status === 'completed';
     return <div className="bg-slate-50 border border-slate-200 rounded-xl p-6 hover:shadow-lg transition-all duration-200">
         <div className="flex justify-between items-start mb-4">
             <div className="flex items-center space-x-3">
@@ -48,25 +59,34 @@ export const FlowCard = ({
                     </span>
                 </div>
             </div>
-            {!isSelected && status !== 'completed' && (
-                <button
-                    onClick={() => {
-                        onSelect(flow);
-                    }}
-                    className="px-4 py-2 bg-gradient-to-r from-emerald-500 to-teal-500 text-white rounded-lg font-medium hover:from-emerald-600 hover:to-teal-600 transition-all duration-200 shadow-md hover:shadow-lg"
-                >
-                    Use OOB Offer
-                </button>
-            )}
+
+            {onSelect && <button
+                disabled={disabled}
+                onClick={() => {
+                    setBusy(true)
+                    onSelect(flow);
+                }}
+                className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 ${
+                    disabled
+                        ? 'bg-slate-300 text-slate-500 cursor-not-allowed shadow-none'
+                        : 'bg-gradient-to-r from-emerald-500 to-teal-500 text-white hover:from-emerald-600 hover:to-teal-600 shadow-md hover:shadow-lg cursor-pointer'
+                }`}
+            >
+                {
+                    busy  ? 'Creating OOB Offer...' : 'Use OOB Offer'
+                }
+            </button>}
         </div>
 
         <div className="space-y-3">
-            <div>
+            {
+                onSelect && <div>
                 <span className="text-sm font-medium text-slate-600">Issuing DID:</span>
                 <p className="text-sm font-mono text-slate-800 px-2 py-1 mt-1 break-all">
                     {flow.issuingDID.slice(0, 74)}
                 </p>
             </div>
+            }
 
             <div className="flex items-center justify-between">
                 <div>
@@ -79,9 +99,9 @@ export const FlowCard = ({
             {flow.claims && flow.claims.length > 0 && (
                 <div>
                     <span className="text-sm font-medium text-slate-600 mb-2 block">Claims:</span>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                    <div className="flex flex-wrap gap-2">
                         {flow.claims.map((claim, claimIndex) => (
-                            <div key={claimIndex} className="bg-emerald-50 border border-emerald-200 rounded-lg p-2">
+                            <div key={claimIndex} className="bg-emerald-50 border border-emerald-200 rounded-lg p-2 flex-auto min-w-fit">
                                 <div className="text-xs font-medium text-emerald-700">{claim.name}</div>
                                 <div className="text-sm text-emerald-600">{claim.value}</div>
                             </div>

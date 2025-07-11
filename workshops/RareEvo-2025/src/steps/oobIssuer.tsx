@@ -25,7 +25,6 @@ const step: Step = {
         const { getIssuanceFlows, state: dbState } = useDatabase();
         const [activeTab, setActiveTab] = useState<'existing' | 'create'>('existing');
         const [busy, setBusy] = useState(false);
-        const [oobUrl, setOobUrl] = useState<string | null>(null);
         const [oobFlow, setOobFlow] = useState<Request | null>(null);
         
         useEffect(() => {
@@ -44,7 +43,6 @@ const step: Step = {
                     setBusy(true);
                     const oob = await getOOBURL(flow);
                     if (!oob) return;
-                    setOobUrl(oob);
                     setOobFlow(flow);
                     setBusy(false);
                     setStore({

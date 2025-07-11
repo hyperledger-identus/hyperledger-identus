@@ -30,6 +30,7 @@ export const DIDSelector = React.memo(function DIDSelector({
                 prism,
                 ...dids
             };
+            debugger;
             setGroupedDIDs(groupedData);
             setError(null);
         } catch (err: any) {
@@ -87,7 +88,7 @@ export const DIDSelector = React.memo(function DIDSelector({
                             key={didItem.did.toString()}
                             value={didItem.did.toString()}
                         >
-                            {didItem.alias || didItem.did.toString().substring(0, 16) + '...'}
+                            [{didItem.status}] {didItem.alias || didItem.did.toString().substring(0, 16) + '...'} 
                         </option>
                     ))}
                 </optgroup>

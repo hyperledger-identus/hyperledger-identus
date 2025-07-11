@@ -30,13 +30,13 @@ export function AgentWorkFlow({children, type: agentType}: {children: React.Reac
         if (!mediator) {
             await setMediator(SDK.Domain.DID.fromString(MEDIATOR_DID));
         }
-        const blockfrost = await getSettingsByKey('blockfrost-key');
-        if (!blockfrost && BLOCKFROST_KEY) {
-            await storeSettingsByKey('blockfrost-key', BLOCKFROST_KEY);
-        }
         const resolverUrl = await getResolverUrl();
         if (!resolverUrl && RESOLVER_URL) {
             await setResolverUrl(RESOLVER_URL);
+        }
+        const blockfrost = await getSettingsByKey('blockfrost-key');
+        if (!blockfrost && BLOCKFROST_KEY) {
+            await storeSettingsByKey('blockfrost-key', BLOCKFROST_KEY);
         }
     }, [getMediator, setMediator, getSettingsByKey, storeSettingsByKey, getResolverUrl, setResolverUrl]);
 
@@ -48,6 +48,7 @@ export function AgentWorkFlow({children, type: agentType}: {children: React.Reac
             }
             setStep('ready');
             await configure()
+            debugger;
             await startAgent();
         }
     }, [dbState, getSeed, configure, startAgent]);

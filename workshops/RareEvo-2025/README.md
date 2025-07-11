@@ -28,12 +28,12 @@ cd workshops/RareEvo-2025
 If you want to publish dids onChain in mainnet using any Cardano wallet, you will need 2 specific environment variables:
 
 Optional
-* BLOCKFROST_KEY, create your Blockfrost project [here](https://blockfrost.io/)
-* RESOLVER_URL
+* NEXT_PUBLIC_BLOCKFROST_KEY, create your Blockfrost project [here](https://blockfrost.io/)
+* NEXT_PUBLIC_RESOLVER_URL
 
-MEDIATOR_DID is also optional and configured to use the local [Identus mediator](https://github.com/hyperledger/identus-mediator)
+NEXT_PUBLIC_MEDIATOR_DID is also optional and configured to use the local [Identus mediator](https://github.com/hyperledger/identus-mediator)
 
-So, if you want to publish dids on-chain on this workshop, you will need to configure BLOCKFROST_KEY and RESOLVER_URL. 
+So, if you want to publish dids on-chain on this workshop, you will need to configure NEXT_PUBLIC_BLOCKFROST_KEY and NEXT_PUBLIC_RESOLVER_URL. 
 
 Create .env file inside the workshop directory and configure the env variables.
 

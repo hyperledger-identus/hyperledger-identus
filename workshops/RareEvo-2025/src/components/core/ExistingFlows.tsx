@@ -1,9 +1,5 @@
-import SDK from "@hyperledger/identus-sdk";
-import { useMessages } from "@trust0/identus-react/hooks";
-import { useCallback } from "react";
 import { FlowCard } from "./FlowCard";
 import { Request } from "@/types";
-import { useMessageStatus } from "@/utils";
 
 // Existing Flows Component
 export const ExistingFlows = ({
@@ -48,6 +44,7 @@ export const ExistingFlows = ({
                     key={flow.id}
                     flow={flow}
                     index={index}
+                    busy={busy}
                     onSelect={(flow) => {
                         onSelectFlow(flow);
                     }}
