@@ -6,14 +6,17 @@ import { Step } from "@/types";
 function Presentation({ presentation }: { presentation: SDK.Domain.Message }) {
     const {verifyPresentation, agent, state: agentState} = useVerifier();
     const [verified, setVerified] = useState<boolean | null>(null);
+    const [error, setError] = useState<Error | null>(null);
     const onHandleVerify = useCallback(async () => {
         if (!agent || agentState !== SDK.Domain.Startable.State.RUNNING) {
             throw new Error("Agent not running");
         }
         try {
+            debugger;
             const verify = await verifyPresentation(presentation);
             setVerified(verify);
         } catch (error) {
+            setError(error as Error);
             setVerified(false);
         }
     }, [agent, agentState, presentation, verifyPresentation]);
@@ -23,6 +26,9 @@ function Presentation({ presentation }: { presentation: SDK.Domain.Message }) {
             verified !== null && <>
             {verified && <p>Presentation is Valid</p>}
             {!verified && <p>Presentation is Invalid</p>}
+            {
+                error && <p>Error: {error.message}</p>
+            }
             </>
         }
         {

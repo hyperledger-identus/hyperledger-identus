@@ -1,7 +1,7 @@
 import { Step } from "@/types";
 import SDK from "@hyperledger/identus-sdk";
 import { useCredentials, useDatabase, useHolder, useMessages } from "@trust0/identus-react/hooks";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useWorkshop } from "@/pages/_app";
 import { useMessageStatus } from "@/utils";
 
@@ -15,33 +15,41 @@ function CredentialSelector({ request }: { request: SDK.RequestPresentation }) {
     const [isAccepting, setIsAccepting] = useState(false);
     const [isRejecting, setIsRejecting] = useState(false);
 
-    const requestPresentation = request.decodedAttachments.at(0);
+    const requestPresentation = useMemo(() => request.decodedAttachments.at(0).payload, [request]);
 
-    const claims: any[] = requestPresentation?.presentation_definition ?
-        requestPresentation.presentation_definition.input_descriptors.at(0)?.constraints.fields ?? [] :
-        [];
+    const claims: any[] = useMemo(() => {
+        return requestPresentation?.presentation_definition ?
+            requestPresentation.presentation_definition.input_descriptors.at(0)?.constraints.fields ?? [] :
+            []
+    }, [requestPresentation]);
 
-    const fields = claims.reduce<any>((all, claim) => [
-        ...all,
-        {
-            name: claim.name,
-            type: claim.filter.type,
-            value: claim.filter.pattern
-        }
-    ], []);
-
-    const availableCredentials = credentials.filter((credential) => {
-        const hasFields = fields.every((field) => {
-            if (field.name === 'issuer') {
-                return credential.issuer.includes(field.value);
+    const fields = useMemo(() => {
+        return claims.reduce<any>((all, claim) => [
+            ...all,
+            {
+                name: claim.name,
+                type: claim.filter.type,
+                value: claim.filter.pattern || claim.filter.value || claim.filter.enum
             }
-            return credential.claims.some((claim) => {
-                const keys = Object.keys(claim);
-                return keys.includes(field.name);
+        ], [])
+    }, [claims]);
+
+
+    const availableCredentials = useMemo(() => {
+        return credentials.filter((credential) => {
+            debugger
+            const hasFields = fields.every((field) => {
+                if (field.name === 'iss' || field.name === "issuer") {
+                    return credential.issuer.includes(field.value);
+                }
+                return credential.claims.some((claim) => {
+                    const keys = Object.keys(claim);
+                    return keys.includes(field.name);
+                })
             })
+            return hasFields;
         })
-        return hasFields;
-    })
+    }, [credentials, fields]);
 
     const onHandleAccept = useCallback(async () => {
         if (!agent || agentState !== SDK.Domain.Startable.State.RUNNING) {
@@ -78,8 +86,8 @@ function CredentialSelector({ request }: { request: SDK.RequestPresentation }) {
                 availableCredentials.length === 0 ?
                     <>
                         <p>You have no credentials that match the request</p>
-                        <button 
-                            className="mt-4 mx-2 bg-red-500 text-white px-4 py-2 rounded-md disabled:opacity-50 disabled:cursor-not-allowed" 
+                        <button
+                            className="mt-4 mx-2 bg-red-500 text-white px-4 py-2 rounded-md disabled:opacity-50 disabled:cursor-not-allowed"
                             onClick={onHandleReject}
                             disabled={dbState !== 'loaded' || isRejecting}
                         >
@@ -108,20 +116,20 @@ function CredentialSelector({ request }: { request: SDK.RequestPresentation }) {
                                     return `${allClaims}${claimKeys.join(', ')}`
                                 }, '')
                                 return <option key={credential.id} value={credential.id}>
-                                   Credential[{credential.credentialType}] {credentialClaimKeys}
+                                    Credential[{credential.credentialType}] {credentialClaimKeys} {credential.issuer.slice(0, 74)}
                                 </option>
                             })}
                         </select>
 
-                        <button 
-                            className="mt-4 bg-blue-500 text-white px-4 py-2 rounded-md disabled:opacity-50 disabled:cursor-not-allowed" 
+                        <button
+                            className="mt-4 bg-blue-500 text-white px-4 py-2 rounded-md disabled:opacity-50 disabled:cursor-not-allowed"
                             onClick={onHandleAccept}
                             disabled={!agent || agentState !== SDK.Domain.Startable.State.RUNNING || !selectedCredential || isAccepting || isRejecting}
                         >
                             {isAccepting ? 'Accepting...' : 'Accept'}
                         </button>
-                        <button 
-                            className="mt-4 mx-2 bg-red-500 text-white px-4 py-2 rounded-md disabled:opacity-50 disabled:cursor-not-allowed" 
+                        <button
+                            className="mt-4 mx-2 bg-red-500 text-white px-4 py-2 rounded-md disabled:opacity-50 disabled:cursor-not-allowed"
                             onClick={onHandleReject}
                             disabled={dbState !== 'loaded' || isAccepting || isRejecting}
                         >

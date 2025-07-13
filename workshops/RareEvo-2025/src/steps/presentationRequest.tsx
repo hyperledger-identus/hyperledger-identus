@@ -29,6 +29,7 @@ const PresentationRequest = () => {
         
         setIsProcessing(true)
         try {
+            debugger;
             const code = await issueOOBPresentationRequest(
                 SDK.Domain.CredentialType.SDJWT,
                 {

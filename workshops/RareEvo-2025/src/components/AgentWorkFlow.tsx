@@ -48,7 +48,6 @@ export function AgentWorkFlow({children, type: agentType}: {children: React.Reac
             }
             setStep('ready');
             await configure()
-            debugger;
             await startAgent();
         }
     }, [dbState, getSeed, configure, startAgent]);
@@ -76,8 +75,7 @@ export function AgentWorkFlow({children, type: agentType}: {children: React.Reac
             if (dbState === "disconnected") {
                 return start({
                     dbName: `rare-evo-${agentType}`,
-                    storageType: StorageType.IndexDB,
-                    password: 'password'
+                    storageType: StorageType.IndexDB
                 });
             }
             const shouldLoad = step !== 'busy' && step !== 'ready' && step !== 'seed';

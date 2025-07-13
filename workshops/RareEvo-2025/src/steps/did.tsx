@@ -36,14 +36,7 @@ const step: Step = {
                     issuerPrismDIDPublished: true
                 })
             }
-            BrowserWallet
-                .getAvailableWallets()
-                .then(async (wallets) => {
-                    if (wallets.find((w) => w.name === 'lace')) {
-                        await connect('lace');
-                    }
-                })
-        }, [connect, prismDID, setStore, store])
+        }, [connect, prismDID, setStore, store, connected])
 
         const createPrismDID = async () => {
             const alias = 'did' + crypto.randomUUID();
@@ -110,7 +103,8 @@ const step: Step = {
             if (!publishing) {
                 setPublishing(true);
             }
-            
+            debugger;
+            await connect('lace');
             const keys = await pluto.getDIDPrivateKeysByDID(prismDID);
             const document = await agent.castor.resolveDID(prismDID.toString());
             const signingKey = document.verificationMethods.find(key => key.id.includes("#master"));

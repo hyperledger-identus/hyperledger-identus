@@ -78,10 +78,11 @@ const step: Step = {
                 throw new Error("No issuance flow found");
             }
             const issuerDID = await isPublishedPrismDID(SDK.Domain.DID.fromString(issuanceFlow.issuingDID)) ? 
-            SDK.Domain.DID.fromString(issuanceFlow.issuingDID) : 
+            SDK.Domain.DID.fromString(issuanceFlow.issuingDID.slice(0,74)) : 
             SDK.Domain.DID.fromString(issuanceFlow.issuingDID);
             
             if (issuanceFlow.credentialFormat === SDK.Domain.CredentialType.JWT || issuanceFlow.credentialFormat === SDK.Domain.CredentialType.SDJWT) {
+                debugger;
                 await issueCredential(
                     issuanceFlow.credentialFormat,
                     message,

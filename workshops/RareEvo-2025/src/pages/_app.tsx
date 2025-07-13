@@ -1,7 +1,8 @@
 'use client';
-import React, { createContext, useContext, useState } from "react";
-import { MeshProvider } from "@meshsdk/react";
+import React, { createContext, useContext, useEffect, useState } from "react";
+import { MeshProvider, useWallet } from "@meshsdk/react";
 import { Store } from "@/types";
+import { BrowserWallet } from "@meshsdk/core";
 
 
 type WorkshopContextType = Store & {
@@ -19,6 +20,19 @@ export function useWorkshop() {
 
 function WorkshopProvider({ children }: { children: React.ReactNode }) {
     const [store, setStore] = useState<Store>({} as Store);
+    const { connect, connected } = useWallet();
+
+    useEffect(() => {
+       if (!connected) {
+        BrowserWallet
+        .getAvailableWallets()
+        .then(async (wallets) => {
+            if (wallets.find((w) => w.name === 'lace')) {
+                await connect('lace', true);
+            }
+        })
+       }
+    }, [connect, setStore, store, connected])
     return <WorkshopContext.Provider value={{ ...store, setStore: (store) => setStore((prev) => ({ ...prev, ...store })) }}>
         {children}
     </WorkshopContext.Provider>
