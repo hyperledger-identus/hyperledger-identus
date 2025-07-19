@@ -4,7 +4,83 @@ import { useCredentials, useDatabase, useHolder, useMessages } from "@trust0/ide
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useWorkshop } from "@/pages/_app";
 import { useMessageStatus } from "@/utils";
+import { getClaimsPreview } from "@/utils/credentials";
+import dynamic from "next/dynamic";
+import { EnrichedSelect, EnrichedSelectItem } from "@/components/core/EnrichedSelect";
 
+const Flowchart = dynamic(() => import("@/components/core/Flowchart"), { ssr: false });
+
+// Credential Item Renderer for Presentation Selection
+const CredentialItemRenderer = ({ 
+    credential,
+    index,
+    fields
+}: { 
+    credential: SDK.Domain.Credential;
+    index: number;
+    fields: any[];
+}) => {
+    const credentialType = credential.credentialType || "Digital Credential";
+    
+    // Get relevant claims based on the request fields
+    const getRelevantClaims = () => {
+        const relevantClaims: string[] = [];
+        
+        credential.claims.forEach(claim => {
+            fields.forEach(field => {
+                const keys = Object.keys(claim);
+                if (keys.includes(field.name)) {
+                    const value = claim[field.name];
+                    let displayValue = '';
+                    
+                    if (typeof value === 'object' && value !== null && 'value' in value) {
+                        displayValue = String(value.value);
+                    } else {
+                        displayValue = String(value);
+                    }
+                    
+                    displayValue = displayValue.length > 20 ? displayValue.substring(0, 20) + '...' : displayValue;
+                    relevantClaims.push(`${field.name}: ${displayValue}`);
+                }
+            });
+        });
+        
+        // If no matching claims found, fall back to general claims preview
+        if (relevantClaims.length === 0) {
+            return getClaimsPreview(credential);
+        }
+        
+        return relevantClaims.join(', ');
+    };
+
+    const relevantClaims = getRelevantClaims();
+
+    return (
+        <div className="flex items-center justify-between p-4 hover:bg-slate-50 border-b border-slate-100 last:border-b-0">
+            <div className="flex items-center space-x-3 flex-1 min-w-0">
+                <div className="w-8 h-8 bg-gradient-to-br from-green-500 to-emerald-500 rounded-full flex items-center justify-center text-white text-sm font-bold flex-shrink-0">
+                    {index + 1}
+                </div>
+                <div className="min-w-0 flex-1">
+                    <div className="flex items-center space-x-2 mb-1">
+                        <span className="text-sm font-medium text-slate-900 truncate">
+                            {credentialType}
+                        </span>
+                    </div>
+                    <div className="text-xs text-slate-500 mb-1 truncate">
+                        <strong>Issuer:</strong> {credential.issuer.substring(0, 40)}...
+                    </div>
+                    <div className="text-xs text-slate-500 truncate">
+                        <strong>Matching Claims:</strong> {relevantClaims}
+                    </div>
+                    <div className="text-xs text-slate-400 mt-1">
+                        ID: {credential.id.slice(0, 12)}...
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+};
 
 function CredentialSelector({ request }: { request: SDK.RequestPresentation }) {
     const { credentials } = useCredentials()
@@ -37,7 +113,6 @@ function CredentialSelector({ request }: { request: SDK.RequestPresentation }) {
 
     const availableCredentials = useMemo(() => {
         return credentials.filter((credential) => {
-            debugger
             const hasFields = fields.every((field) => {
                 if (field.name === 'iss' || field.name === "issuer") {
                     return credential.issuer.includes(field.value);
@@ -78,7 +153,7 @@ function CredentialSelector({ request }: { request: SDK.RequestPresentation }) {
         }
     }, [dbState, deleteMessage, request, loadMessages]);
 
-    return <div className="bg-white/95 dark:bg-[#0A0A0A]/95 backdrop-blur-lg rounded-lg shadow-lg overflow-hidden border border-gray-200 dark:border-gray-800">
+    return <div className="bg-white/95 dark:bg-[#0A0A0A]/95 backdrop-blur-lg rounded-lg shadow-lg  border border-gray-200 dark:border-gray-800">
         <div className="p-4">
 
             <h2>Choose your Credential</h2>
@@ -97,29 +172,37 @@ function CredentialSelector({ request }: { request: SDK.RequestPresentation }) {
                     </> :
                     <>
 
-                        <select
-                            value={selectedCredential?.id}
-                            onChange={(e) => {
-                                const credential = credentials.find((c) => c.id === e.target.value);
-                                if (credential) {
-                                    setSelectedCredential(credential);
-                                }
-                            }}
-                            className="w-full px-3 py-2 border border-slate-300 rounded-lg bg-white text-slate-900 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-colors"
-                        >
-                            {availableCredentials.map((credential) => {
-                                const credentialClaimKeys = credential.claims.reduce((allClaims, claim) => {
-                                    const claimKeys = Object.keys(claim)
-                                        .filter((key) => !['iss', 'sub', 'iat', 'jti'].includes(key))
-                                        .map((key) => `${key}: ${claim[key].value}`)
-                                        .slice(0, 2)
-                                    return `${allClaims}${claimKeys.join(', ')}`
-                                }, '')
-                                return <option key={credential.id} value={credential.id}>
-                                    Credential[{credential.credentialType}] {credentialClaimKeys} {credential.issuer.slice(0, 74)}
-                                </option>
-                            })}
-                        </select>
+                        <EnrichedSelect<SDK.Domain.Credential>
+                            items={availableCredentials.map(credential => ({
+                                id: credential.id,
+                                data: credential
+                            }))}
+                            renderItem={(item, index) => (
+                                <CredentialItemRenderer
+                                    credential={item.data}
+                                    index={index}
+                                    fields={fields}
+                                />
+                            )}
+                            renderSelectedItem={(item) => (
+                                <div className="flex items-center space-x-2">
+                                    <div className="w-5 h-5 bg-gradient-to-br from-green-500 to-emerald-500 rounded-full flex items-center justify-center text-white text-xs font-bold">
+                                        ✓
+                                    </div>
+                                    <span className="text-sm font-medium text-slate-900 truncate">
+                                        {item.data.credentialType} - {getClaimsPreview(item.data)}
+                                    </span>
+                                    <span className="text-xs text-slate-500 bg-green-100 px-2 py-0.5 rounded-full">
+                                        Selected
+                                    </span>
+                                </div>
+                            )}
+                            onSelectItem={(item) => setSelectedCredential(item.data)}
+                            placeholder="Choose a credential to present"
+                            selectedItemId={selectedCredential?.id}
+                            focusColor="emerald"
+                            className="mb-4"
+                        />
 
                         <button
                             className="mt-4 bg-blue-500 text-white px-4 py-2 rounded-md disabled:opacity-50 disabled:cursor-not-allowed"
@@ -163,6 +246,7 @@ function PresentCredential() {
     const { parseOOB, agent, state: agentState } = useHolder();
     const { receivedMessages, sentMessages, load: loadMessages } = useMessages();
     const [presentationRequests, setPresentationRequests] = useState<SDK.RequestPresentation[]>([]);
+    const [lastLink, setLastLink] = useState<string | null>(null);
 
     useEffect(() => {
         const presentationRequests = receivedMessages.filter(({ piuri }) => piuri === SDK.ProtocolType.DidcommRequestPresentation);
@@ -175,28 +259,29 @@ function PresentCredential() {
     }, [receivedMessages, sentMessages]);
 
     useEffect(() => {
-        if (agent && agentState === SDK.Domain.Startable.State.RUNNING) {
-            const url = new URL(store.verifierRequestOOB ?? window.location.href);
+        if (agent && agentState === SDK.Domain.Startable.State.RUNNING && store.verifierRequestOOB) {
+            const url = new URL(store.verifierRequestOOB ?? window.location);
             const oob = url.searchParams.get('oob');
-            if (store.verifierRequestOOB && oob) {
-                setStore({ verifierRequestOOB: undefined })
+            if ( oob !== null && oob !== lastLink) {
+                setLastLink(oob);
                 parseOOB(store.verifierRequestOOB).then(async (message) => {
                     setPresentationRequests((prev) => [...prev, SDK.RequestPresentation.fromMessage(message)]);
-                    await pluto.storeMessage(message);
-                    loadMessages();
                 })
             }
         }
-    }, [agentState, store, parseOOB, setStore, agent, loadMessages, pluto])
+    }, [agentState, store, parseOOB, setLastLink,setPresentationRequests, agent, loadMessages, pluto, lastLink])
 
-    return <div>
-        {
-            presentationRequests.length === 0 && <p>No presentation requests found</p>
-        }
-        {presentationRequests.length > 0 && presentationRequests.map((request) => (
-            <PresentationRequest key={`presentation-request-${request.id}`} request={request} />
-        ))}
-    </div>
+    return (
+        <div>
+            <Flowchart stepType="present" />
+            {
+                presentationRequests.length === 0 && <p>No presentation requests found</p>
+            }
+            {presentationRequests.length > 0 && presentationRequests.map((request) => (
+                <PresentationRequest key={`presentation-request-${request.id}`} request={request} />
+            ))}
+        </div>
+    );
 }
 
 

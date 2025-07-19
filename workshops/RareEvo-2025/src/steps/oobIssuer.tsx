@@ -9,6 +9,9 @@ import { Request } from "@/types";
 import { ExistingFlows } from "@/components/core/ExistingFlows";
 import { CreateFlowForm } from "@/components/core/CreateFlowForm";
 import { useWorkshop } from "@/pages/_app";
+import dynamic from "next/dynamic";
+
+const Flowchart = dynamic(() => import("@/components/core/Flowchart"), { ssr: false });
 
 const step: Step = {
     type: 'issuer',
@@ -26,7 +29,7 @@ const step: Step = {
         const [activeTab, setActiveTab] = useState<'existing' | 'create'>('existing');
         const [busy, setBusy] = useState(false);
         const [oobFlow, setOobFlow] = useState<Request | null>(null);
-        
+
         useEffect(() => {
             async function loadIssuanceFlows() {
                 const flows = await getIssuanceFlows();
@@ -61,39 +64,35 @@ const step: Step = {
         }, [setActiveTab]);
 
         return (
-            <div>
-
+            <>
+                <Flowchart stepType="oobIssuer" />
                 <TabNavigation
                     activeTab={activeTab}
                     setActiveTab={setActiveTab}
                     flowsCount={issuanceFlows.length}
                 />
                 {activeTab === 'existing' && (
-                    <div className="mt-4 space-y-4">
-                        <ExistingFlows
-                            busy={busy}
-                            flows={issuanceFlows}
-                            selectedFlowId={oobFlow?.id}
-                            onSelectFlow={handleSelectFlow}
-                            onCreateNew={() => setActiveTab('create')}
-                        />
-                    </div>
+                    <ExistingFlows
+                        busy={busy}
+                        flows={issuanceFlows}
+                        selectedFlowId={oobFlow?.id}
+                        onSelectFlow={handleSelectFlow}
+                        onCreateNew={() => setActiveTab('create')}
+                    />
                 )}
 
                 {activeTab === 'create' && (
-                    <div className="space-y-6">
-                        <CreateFlowForm
-                            onCreate={onCreate}
-                            onBackToExisting={() => setActiveTab('existing')}
-                        />
-                    </div>
+                    <CreateFlowForm
+                        onCreate={onCreate}
+                        onBackToExisting={() => setActiveTab('existing')}
+                    />
                 )}
 
-                {store.issuerRequestOOB &&
+                {activeTab !== 'create' && store.issuerRequestOOB &&
                     <OOBCode code={store.issuerRequestOOB} type="offer" />
                 }
 
-            </div>
+            </>
         );
     }
 }

@@ -5,14 +5,15 @@ import SDK from '@hyperledger/identus-sdk';
 import { useDatabase, useHolder, useMessages } from "@trust0/identus-react/hooks";
 import { useWorkshop } from "@/pages/_app";
 import { CredentialOffer } from "@/components/CredentialOffer";
+import dynamic from "next/dynamic";
 
-
+const Flowchart = dynamic(() => import("@/components/core/Flowchart"), { ssr: false });
 
 
 const step: Step = {
     type: 'holder',
     disableCondition: (store) =>  !store.holderAccepted,
-    title: 'Accept Credential Offer',
+    title: 'Credential Offer',
     description: 'Switch to the holder perspective to process the Out-of-Band credential offer. Parse the OOB invitation, review the credential details, and accept the offer to initiate the credential request process.',
     content() {
         const {
@@ -20,11 +21,10 @@ const step: Step = {
             ...store
         } = useWorkshop();   
         
-        const  { sentMessages, receivedMessages, load: loadMessages } = useMessages();
-        const { pluto } = useDatabase();
+        const  { sentMessages, receivedMessages } = useMessages();
         const { parseOOBOffer, state:agentState, agent } = useHolder();
-        const [hasCheckedOOB, setHasCheckedOOB] = useState(false);
         const [credentialOffers, setCredentialOffers] = useState<SDK.Domain.Message[]>([]);
+        const [lastLink, setLastLink] = useState<string | null>(null);
 
         useEffect(() => {
             const offers = receivedMessages.filter(({ piuri }) => piuri === SDK.ProtocolType.DidcommOfferCredential);
@@ -52,20 +52,24 @@ const step: Step = {
         }, [sentMessages, receivedMessages])
 
         useEffect(() => {
-            if(agent && agentState === SDK.Domain.Startable.State.RUNNING) {
+            if(agent && agentState === SDK.Domain.Startable.State.RUNNING && store.issuerRequestOOB) {
                 const url = new URL(store.issuerRequestOOB ?? window.location);
                 const oob = url.searchParams.get('oob');
-                if (store.issuerRequestOOB && oob) {
-                    setStore({ issuerRequestOOB: undefined })
+                if (
+                    oob !== null && 
+                    lastLink !== oob
+                ) { 
+                    setLastLink(oob);
                     parseOOBOffer(store.issuerRequestOOB).then((message) => {
                         setCredentialOffers((prev) => [...prev, message]);
                     })
                 } 
             }
-        }, [agentState, store, parseOOBOffer, setStore, agent, loadMessages])
+        }, [agentState, store, parseOOBOffer, agent, lastLink, setLastLink, setCredentialOffers])
 
         if (credentialOffers.length === 0) {
             return <div>
+            <Flowchart stepType="oobHolder" />
             <div className="mt-6 p-4 bg-slate-50 rounded-lg border border-slate-200">
                 <div className="flex items-center space-x-2 mb-2">
                     <div className="w-2 h-2 bg-yellow-500 rounded-full"></div>
@@ -79,6 +83,7 @@ const step: Step = {
         }
 
         return <div>
+            <Flowchart stepType="oobHolder" />
             <div className="mt-6 p-4 bg-slate-50 rounded-lg border border-slate-200">
                 <div className="flex items-center space-x-2 mb-2">
                     <div className="w-2 h-2 bg-emerald-500 rounded-full"></div>

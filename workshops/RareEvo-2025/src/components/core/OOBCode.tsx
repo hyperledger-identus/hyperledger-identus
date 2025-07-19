@@ -12,8 +12,8 @@ export default function OOBCode({code, type}: {code: string, type: "offer" | "pr
         <h3 className="text-xl font-semibold text-emerald-900">
             {
                 type === "offer" ? 
-                    "OOB Offer Created Successfully!" : 
-                    "OOB Presentation Request Created Successfully!"
+                    "OOB Offer" : 
+                    "OOB Presentation Request"
             }
         </h3>
     </div>
@@ -22,7 +22,7 @@ export default function OOBCode({code, type}: {code: string, type: "offer" | "pr
         <p className="text-base text-emerald-800">
             {
             type === "offer" ? 
-                    "Share the following URL with the holder to initiate the credential issuance process:" : 
+                    "This out of band offer will be then shared with the Holder, scroll down to discover more" : 
                     "Share the following URL with the verifier to initiate the credential presentation process:"
             }
         </p>

@@ -95,16 +95,16 @@ export function AgentWorkFlow({children, type: agentType}: {children: React.Reac
 
     if (dbState === "error") {
         return (
-            <div className="py-6 px-4 bg-white rounded-xl border border-red-200 shadow-sm">
-                <div className="flex items-center space-x-3">
-                    <div className="flex-shrink-0 w-8 h-8 bg-red-100 rounded-full flex items-center justify-center">
-                        <svg className="w-5 h-5 text-red-600" fill="currentColor" viewBox="0 0 20 20">
+            <div className="py-4 px-3 md:py-6 md:px-4 lg:py-8 lg:px-6 bg-white rounded-xl border border-red-200 shadow-sm">
+                <div className="flex items-center space-x-2 md:space-x-3 lg:space-x-4">
+                    <div className="flex-shrink-0 w-6 h-6 md:w-8 md:h-8 lg:w-10 lg:h-10 bg-red-100 rounded-full flex items-center justify-center">
+                        <svg className="w-4 h-4 md:w-5 md:h-5 lg:w-6 lg:h-6 text-red-600" fill="currentColor" viewBox="0 0 20 20">
                             <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
                         </svg>
                     </div>
                     <div>
-                        <h3 className="text-lg font-medium text-red-900">Database Error</h3>
-                        <p className="text-sm text-red-700">
+                        <h3 className="text-base md:text-lg lg:text-xl font-medium text-red-900">Database Error</h3>
+                        <p className="text-xs md:text-sm lg:text-base text-red-700">
                             Database error occurred. Please refresh the page. If that doesn&apos;t work, clear storage and try again.
                         </p>
                     </div>
@@ -115,14 +115,14 @@ export function AgentWorkFlow({children, type: agentType}: {children: React.Reac
 
     if (dbState === "loading" || dbState === "disconnected") {
         return (
-            <div className="py-6 px-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-                <div className="flex items-center space-x-3">
+            <div className="py-4 px-3 md:py-6 md:px-4 lg:py-8 lg:px-6 bg-white rounded-xl border border-slate-200 shadow-sm">
+                <div className="flex items-center space-x-2 md:space-x-3 lg:space-x-4">
                     <div className="flex-shrink-0">
-                        <div className="w-8 h-8 border-2 border-blue-200 border-t-blue-600 rounded-full animate-spin"></div>
+                        <div className="w-6 h-6 md:w-8 md:h-8 lg:w-10 lg:h-10 border-2 border-blue-200 border-t-blue-600 rounded-full animate-spin"></div>
                     </div>
                     <div>
-                        <h3 className="text-lg font-medium text-slate-900">Loading Database</h3>
-                        <p className="text-sm text-slate-600">
+                        <h3 className="text-base md:text-lg lg:text-xl font-medium text-slate-900">Loading Database</h3>
+                        <p className="text-xs md:text-sm lg:text-base text-slate-600">
                             Please wait while we initialize your database connection...
                         </p>
                     </div>
@@ -132,21 +132,7 @@ export function AgentWorkFlow({children, type: agentType}: {children: React.Reac
     }
 
     if (step === 'seed') {
-        return <div className="py-6 px-4 bg-white rounded-xl border border-slate-200 shadow-sm space-y-6">
-            <div className="text-center">
-                <div className="w-12 h-12 bg-gradient-to-br from-emerald-500 to-teal-500 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                    </svg>
-                </div>
-                <h3 className="text-xl font-semibold text-slate-900 mb-2">
-                    {agentType.charAt(0).toUpperCase() + agentType.slice(1)} Agent Seed
-                </h3>
-                <div className="max-w-md mx-auto space-y-3">
-                    <p className="text-base text-slate-700">Each instance of the agent will need to have a seed to work and derive the corresponding keys.</p>
-                    <p className="text-sm text-slate-600">For this example, just generate a new seed and click continue.</p>
-                </div>
-            </div>
+        return <div className="py-4 px-3 md:py-6 md:px-4 lg:py-8 lg:px-6 rounded-xl space-y-4 md:space-y-6 lg:space-y-8">
             <Mnemonics onNext={onHandleMnemonicsNext} />
         </div>       
     }

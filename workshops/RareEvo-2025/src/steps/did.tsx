@@ -4,36 +4,39 @@
 import { Step } from "@/types";
 import React, { useCallback, useEffect, useState } from "react";
 import { useAgent, useCastor, useDatabase, usePrismDID } from "@trust0/identus-react/hooks";
-import { Codes } from "@/components/core/Codes";
 import SDK from "@hyperledger/identus-sdk";
 import { useWallet } from "@meshsdk/react";
-import { BrowserWallet, Transaction } from "@meshsdk/core";
+import { Transaction } from "@meshsdk/core";
 import { useWorkshop } from "@/pages/_app";
 import Image from "next/image";
 import { BLOCKFROST_KEY } from "@/config";
+import dynamic from "next/dynamic";
+
+const Flowchart = dynamic(() => import("@/components/core/Flowchart"), { ssr: false });
+
 const step: Step = {
     type: 'issuer',
     disableCondition: (store) => !store.issuerPrismDID,
-    title: 'Create & Publish Issuer DID on Cardano',
-    description: 'Generate a new Prism DID for the issuer and publish it on the Cardano blockchain using Lace Wallet. Learn how DIDs are created, structured, and anchored on-chain to establish cryptographic identity and trust.',
+    title: '',
+    description: 'In this step we create the Issuer\'s PrismDID and optionally publish it on Cardano Mainnet',
     content() {
         const {
             setStore,
             ...store
-        } = useWorkshop();        
+        } = useWorkshop();
         const [published, setPublished] = useState(false);
         const [publishing, setPublishing] = useState(false);
         const { getSettingsByKey, pluto, updateDIDStatus } = useDatabase();
         const { agent, state: agentState } = useAgent();
         const { wallet, connect, connected } = useWallet();
         const castor = useCastor();
-        const { prismDID, create } = usePrismDID();
+        const { prismDID, create, isPublished } = usePrismDID();
 
         useEffect(() => {
             if (!store.issuerPrismDID && prismDID) {
                 setStore({
                     issuerPrismDID: prismDID,
-                    issuerPrismDIDPublished: true
+                    issuerPrismDIDPublished: false
                 })
             }
         }, [connect, prismDID, setStore, store, connected])
@@ -103,7 +106,6 @@ const step: Step = {
             if (!publishing) {
                 setPublishing(true);
             }
-            debugger;
             await connect('lace');
             const keys = await pluto.getDIDPrivateKeysByDID(prismDID);
             const document = await agent.castor.resolveDID(prismDID.toString());
@@ -127,9 +129,9 @@ const step: Step = {
                 v: 1,
                 c: splitStringIntoChunks(atalaObject),
             };
-            
+
             const txHash = await buildAndSubmitTransaction(metadataBody);
-            
+
             const checkConfirmation = async () => {
                 const isConfirmed = await checkTransactionConfirmation(txHash);
                 if (!isConfirmed) {
@@ -156,48 +158,54 @@ const step: Step = {
             });
         }
 
-        return <div>
+        return <div className="w-full">
             <div className="prose prose-slate max-w-none">
-                <h3 className="text-xl font-semibold text-slate-900 mb-4">Creating and Publishing DID</h3>
+                <h3 className="text-left text-xl font-semibold text-slate-900 mb-4">Creating and Publishing DID</h3>
                 <p className="text-base text-slate-700 leading-relaxed">
                     In this step, we will learn how to create and publish the Issuer&apos;s DID on Cardano Blockchain using Lace Wallet.
                 </p>
             </div>
-
+            <div className="w-full ">
+                <Flowchart stepType="did" />
+            </div>
             <div className="space-y-4">
-            
-                        {!prismDID ? (
-                            <button
-                                onClick={createPrismDID}
-                                className="w-full px-6 py-3 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white font-medium rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2"
-                            >
-                                Create Issuer Prism DID
-                            </button>
-                        ) : (
-                            <div className="space-y-4">
-                                <div className="p-4 bg-emerald-50 border border-emerald-200 rounded-lg">
-                                    <div className="flex items-center mb-2">
-                                        <div className="flex-shrink-0 w-5 h-5 bg-emerald-500 rounded-full flex items-center justify-center mr-2">
-                                            <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
-                                                <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                                            </svg>
-                                        </div>
-                                        <p className="text-sm font-medium text-emerald-800">DID Successfully Created</p>
-                                    </div>
-                                    <div className="bg-white p-3 rounded border border-emerald-200">
-                                        <p className="text-sm text-slate-700 font-mono break-all">
-                                            {prismDID.toString()}
-                                        </p>
-                                    </div>
+
+                {!prismDID ? (
+                    <button
+                        onClick={createPrismDID}
+                        className="w-full px-6 py-3 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white font-medium rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-102 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2"
+                    >
+                        Create Prism DID
+                    </button>
+                ) : (
+                    <div className="space-y-4">
+                        <div className="p-4 bg-emerald-50 border border-emerald-200 rounded-lg">
+                            <div className="flex items-center mb-2">
+                                <div className="flex-shrink-0 w-5 h-5 bg-emerald-500 rounded-full flex items-center justify-center mr-2">
+                                    <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                                    </svg>
                                 </div>
+                                <p className="text-sm font-medium text-emerald-800">DID Successfully Created</p>
                             </div>
-                        )}
+                            <div className="bg-white p-3 rounded border border-emerald-200">
+                                <p className="text-sm text-slate-700 font-mono break-all">
+                                    {
+                                        store.issuerPrismDIDPublished ?
+                                            prismDID.toString().slice(0, 74) :
+                                            prismDID.toString()
+                                    }
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                )}
 
                 {connected && prismDID && !published && (
                     <button
                         disabled={published || publishing}
                         onClick={publishPrismDID}
-                        className="w-full px-6 py-3 bg-gradient-to-r from-teal-500 to-emerald-600 hover:from-teal-600 hover:to-emerald-700 text-white font-medium rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+                        className="w-full px-6 py-3 bg-gradient-to-r from-teal-500 to-emerald-600 hover:from-teal-600 hover:to-emerald-700 text-white font-medium rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-102 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
                     >
                         <div className="flex items-center justify-center space-x-2">
                             <Image src="/lace.svg" alt="Lace Wallet" className="w-5 h-5" width={5} height={5} />

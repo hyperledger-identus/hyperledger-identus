@@ -30,7 +30,6 @@ export const DIDSelector = React.memo(function DIDSelector({
                 prism,
                 ...dids
             };
-            debugger;
             setGroupedDIDs(groupedData);
             setError(null);
         } catch (err: any) {
@@ -100,10 +99,10 @@ export const DIDSelector = React.memo(function DIDSelector({
     if (isLoading && dbState === 'loaded') {
         return (
             <div className={className}>
-                <label className="block text-sm font-medium text-slate-700 mb-2">
+                <label className="block text-sm font-medium text-slate-700 mb-1">
                     {label}
                 </label>
-                <div className="p-3 bg-slate-50 border border-slate-200 rounded-lg">
+                <div className="p-2 bg-slate-50 border border-slate-200 rounded-lg">
                     <div className="flex items-center">
                         <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-emerald-500 mr-2"></div>
                         <span className="text-sm text-slate-600">Loading DIDs...</span>
@@ -115,12 +114,12 @@ export const DIDSelector = React.memo(function DIDSelector({
 
     return (
         <div className={className}>
-            <label className="block text-sm font-medium text-slate-700 mb-2">
+            <label className="block text-sm font-medium text-slate-700 mb-1">
                 {label}
             </label>
 
             {error ? (
-                <div className="p-3 bg-red-50 border border-red-200 rounded-lg">
+                <div className="p-2 bg-red-50 border border-red-200 rounded-lg">
                     <div className="flex items-center">
                         <svg className="w-4 h-4 text-red-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -129,7 +128,7 @@ export const DIDSelector = React.memo(function DIDSelector({
                     </div>
                 </div>
             ) : !hasAnyDIDs ? (
-                <div className="p-3 bg-slate-50 border border-slate-200 rounded-lg">
+                <div className="p-2 bg-slate-50 border border-slate-200 rounded-lg">
                     <div className="flex items-center justify-between">
                         <div className="flex items-center">
                             <svg className="w-4 h-4 text-slate-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -138,7 +137,7 @@ export const DIDSelector = React.memo(function DIDSelector({
                             <span className="text-sm text-slate-600">No DIDs available</span>
                         </div>
                         <button 
-                            className="px-3 py-1.5 text-sm bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-white rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-opacity-50 shadow-sm"
+                            className="px-2 py-1 text-xs bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-white rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-opacity-50 shadow-sm"
                             onClick={handleCreateDID}
                         >
                             Create {label} DID
@@ -147,7 +146,7 @@ export const DIDSelector = React.memo(function DIDSelector({
                 </div>
             ) : (
                 <select
-                    className="w-full px-3 py-2 border border-slate-300 rounded-lg bg-white text-slate-900 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-colors"
+                    className="w-full px-2 py-1.5 text-sm border border-slate-300 rounded-lg bg-white text-slate-900 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-colors"
                     onChange={handleDIDChange}
                     value={selectedDID || ""}
                 >

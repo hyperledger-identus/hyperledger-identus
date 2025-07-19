@@ -12,24 +12,24 @@ export const TabNavigation = ({
     flowsCount: number;
 }) => (
     <div className="border-b border-slate-200">
-        <nav className="flex space-x-8">
+        <nav className="flex space-x-4 md:space-x-6 lg:space-x-8">
             <button
                 onClick={() => setActiveTab('existing')}
-                className={`py-3 px-1 border-b-2 font-medium text-sm transition-colors ${activeTab === 'existing'
+                className={`py-2 md:py-3 lg:py-4 border-b-2 font-medium text-xs md:text-sm lg:text-base transition-colors ${activeTab === 'existing'
                     ? 'border-emerald-500 text-emerald-600'
                     : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300'
                     }`}
             >
-                Existing Flows ({flowsCount})
+                Credential Offers ({flowsCount})
             </button>
             <button
                 onClick={() => setActiveTab('create')}
-                className={`py-3 px-1 border-b-2 font-medium text-sm transition-colors ${activeTab === 'create'
+                className={`py-2 md:py-3 lg:py-4 border-b-2 font-medium text-xs md:text-sm lg:text-base transition-colors ${activeTab === 'create'
                     ? 'border-emerald-500 text-emerald-600'
                     : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300'
                     }`}
             >
-                Create New
+                New
             </button>
         </nav>
     </div>

@@ -14,71 +14,44 @@ export const ClaimsEditor = ({
         return claims.some(claim => claim.isValid === false);
     }, [claims]);
     return <div>
-        <div className="flex items-center justify-between mb-4">
+        <div className="flex items-center justify-between mb-1.5 md:mb-2 lg:mb-3">
             <div>
-                <h4 className="text-lg font-medium text-slate-900">Claims Configuration</h4>
-                <p className="text-sm text-slate-600">Define the claims for this credential</p>
+                <p className="text-xs md:text-sm lg:text-base text-slate-600">Define the claims for this credential</p>
             </div>
         </div>
 
-        <div className="space-y-3">
+        <div className="space-y-1.5 md:space-y-2 lg:space-y-3">
             {claims.map((claim, index) => (
-                <div key={claim.id} className="flex gap-3 items-start p-3 bg-white rounded-lg border border-slate-200">
-                    <div className="flex-1">
-                        <label className="text-xs font-medium text-slate-600 mb-1 block">Claim Name</label>
-                        <input
-                            type="text"
-                            value={claim.name}
-                            disabled
-                            onChange={(e) => onClaimChange(index, "name", e.target.value)}
-                            placeholder="e.g., name, age, location"
-                            className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 bg-white text-slate-900 ${claim.isValid === false
-                                ? 'border-red-300 bg-red-50'
-                                : 'border-slate-300'
-                                }`}
-                            required
-                        />
+                <div key={claim.id} className="flex gap-1.5 md:gap-2 lg:gap-3 items-center p-1.5 md:p-2 lg:p-3 bg-white rounded-lg border border-slate-200">
+                    <div className="flex-shrink-0 w-20 md:w-24 lg:w-28">
+                        <span className="text-xs md:text-sm lg:text-base font-medium text-slate-600 block mb-0.5 md:mb-1">
+                            {claim.name} <span className="text-[9px] md:text-[10px] lg:text-xs opacity-70">({claim.type})</span>
+                        </span>
                     </div>
                     <div className="flex-1">
-                        <label className="text-xs font-medium text-slate-600 mb-1 block">Claim Value</label>
                         <input
                             type={claim.type === 'date' ? 'date' : claim.type === 'number' ? 'number' : 'text'}
                             value={claim.value}
                             onChange={(e) => onClaimChange(index, "value", e.target.value)}
                             placeholder="Enter value"
-                            className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 bg-white text-slate-900 ${claim.isValid === false
+                            className={`w-full px-1.5 py-1 md:px-2 md:py-1.5 lg:px-3 lg:py-2 text-xs md:text-sm lg:text-base border rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 bg-white text-slate-900 ${claim.isValid === false
                                 ? 'border-red-300 bg-red-50'
                                 : 'border-slate-300'
                                 }`}
                             required
                         />
                     </div>
-                    <div className="w-24">
-                        <label className="text-xs font-medium text-slate-600 mb-1 block">Type</label>
-                        <select
-                            disabled
-                            value={claim.type}
-                            onChange={(e) => onClaimChange(index, "type", e.target.value)}
-                            className="w-full px-2 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 bg-white text-slate-900 text-sm"
-                        >
-                            <option value="string">String</option>
-                            <option value="number">Number</option>
-                            <option value="boolean">Boolean</option>
-                            <option value="date">Date</option>
-                        </select>
-                    </div>
-
                 </div>
             ))}
         </div>
 
         {hasInvalidClaims && (
-            <div className="mt-3 p-3 bg-red-50 border border-red-200 rounded-lg">
+            <div className="mt-1.5 md:mt-2 lg:mt-3 p-1.5 md:p-2 lg:p-3 bg-red-50 border border-red-200 rounded-lg">
                 <div className="flex items-center">
-                    <svg className="w-4 h-4 text-red-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-3 h-3 md:w-4 md:h-4 lg:w-5 lg:h-5 text-red-500 mr-1.5 md:mr-2 lg:mr-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
-                    <span className="text-sm text-red-600">
+                    <span className="text-xs md:text-sm lg:text-base text-red-600">
                         Please fill in all claim names and values before submitting.
                     </span>
                 </div>

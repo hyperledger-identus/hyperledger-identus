@@ -2,7 +2,10 @@
 import { Step } from "@/types";
 import React from "react";
 import { useCredentials } from "@trust0/identus-react/hooks";
-import { Credential } from "@/components/Credential";
+import { CompactCredentials } from "@/components/core/CompactCredentials";
+import dynamic from "next/dynamic";
+
+const Flowchart = dynamic(() => import("@/components/core/Flowchart"), { ssr: false });
 
 const step: Step = {
     type: 'holder',
@@ -10,11 +13,12 @@ const step: Step = {
     description: 'Complete the credential issuance flow from the holder perspective. Automatically receive the issued SD-JWT credential, validate its authenticity, and store it securely in the holder\'s digital wallet.',
     content() {
         const { credentials } = useCredentials();
-        return credentials.map((credential, index) => (
-            <div key={index} className="my-2 border-b border-gray-200 dark:border-gray-800 last:border-b-0">
-                <Credential credential={credential} />
+        return (
+            <div>
+                <Flowchart stepType="credentials" />
+                <CompactCredentials credentials={credentials} />
             </div>
-        ))
+        );
     }
 }
 

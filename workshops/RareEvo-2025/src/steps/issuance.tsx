@@ -8,6 +8,9 @@ import { useWorkshop } from "@/pages/_app";
 
 import { Request } from "@/types";
 import { FlowCard } from "@/components/core/FlowCard";
+import dynamic from "next/dynamic";
+
+const Flowchart = dynamic(() => import("@/components/core/Flowchart"), { ssr: false });
 
 const step: Step = {
     type: 'issuer',
@@ -82,7 +85,6 @@ const step: Step = {
             SDK.Domain.DID.fromString(issuanceFlow.issuingDID);
             
             if (issuanceFlow.credentialFormat === SDK.Domain.CredentialType.JWT || issuanceFlow.credentialFormat === SDK.Domain.CredentialType.SDJWT) {
-                debugger;
                 await issueCredential(
                     issuanceFlow.credentialFormat,
                     message,
@@ -106,16 +108,17 @@ const step: Step = {
             return !hasSentIssuance;
         }, [sentMessages]);
 
-        return <div>
-
-            {credentialRequests.length === 0 ? (
-                <div className="text-center py-8">
-                    <p className="text-slate-500">No pending credential requests available</p>
-                </div>
-            ) : (
-                <div className="space-y-4">
-                    {credentialRequests.map((request, index) => (
-                        <div key={index} className="border border-slate-200 rounded-lg p-4 bg-slate-50">
+        return (
+            <div>
+                <Flowchart stepType="issuance" />
+                {credentialRequests.length === 0 ? (
+                    <div className="text-center py-8">
+                        <p className="text-slate-500">No pending credential requests available</p>
+                    </div>
+                ) : (
+                    <div className="space-y-4">
+                        {credentialRequests.map((request, index) => (
+                            <div key={index} className="border border-slate-200 rounded-lg p-4 bg-slate-50">
 
 <FlowCard
                     isSelected={false}
@@ -125,39 +128,40 @@ const step: Step = {
                     busy={true}
                 />
 
-                            <div className="mt-4">
-                            {
-                                isRequestPending(request.message) && <div className="flex space-x-3">
-                                    <button
-                                        disabled={approveBusy || rejectBusy}
-                                        onClick={() => onApprove(request.message)}
-                                        className={`flex-1 font-medium py-2 px-4 rounded-lg transition-all duration-200 ${
-                                            approveBusy || rejectBusy
-                                                ? 'bg-slate-300 text-slate-500 cursor-not-allowed shadow-none'
-                                                : 'bg-emerald-500 hover:bg-emerald-600 text-white focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 shadow-md hover:shadow-lg cursor-pointer'
-                                        }`}
-                                    >
-                                        {approveBusy ? 'Issuing...' : 'Issue Credential'}
-                                    </button>
-                                    <button
-                                        disabled={approveBusy || rejectBusy}
-                                        onClick={() => onReject(request.message)}
-                                        className={`flex-1 font-medium py-2 px-4 rounded-lg transition-all duration-200 ${
-                                            approveBusy || rejectBusy
-                                                ? 'bg-slate-300 text-slate-500 cursor-not-allowed shadow-none'
-                                                : 'bg-red-500 hover:bg-red-600 text-white focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 shadow-md hover:shadow-lg cursor-pointer'
-                                        }`}
-                                    >
-                                        {rejectBusy ? 'Rejecting...' : 'Reject'}
-                                    </button>
+                                <div className="mt-4">
+                                {
+                                    isRequestPending(request.message) && <div className="flex space-x-3">
+                                        <button
+                                            disabled={approveBusy || rejectBusy}
+                                            onClick={() => onApprove(request.message)}
+                                            className={`flex-1 font-medium py-2 px-4 rounded-lg transition-all duration-200 ${
+                                                approveBusy || rejectBusy
+                                                    ? 'bg-slate-300 text-slate-500 cursor-not-allowed shadow-none'
+                                                    : 'bg-emerald-500 hover:bg-emerald-600 text-white focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 shadow-md hover:shadow-lg cursor-pointer'
+                                            }`}
+                                        >
+                                            {approveBusy ? 'Issuing...' : 'Issue Credential'}
+                                        </button>
+                                        <button
+                                            disabled={approveBusy || rejectBusy}
+                                            onClick={() => onReject(request.message)}
+                                            className={`flex-1 font-medium py-2 px-4 rounded-lg transition-all duration-200 ${
+                                                approveBusy || rejectBusy
+                                                    ? 'bg-slate-300 text-slate-500 cursor-not-allowed shadow-none'
+                                                    : 'bg-red-500 hover:bg-red-600 text-white focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 shadow-md hover:shadow-lg cursor-pointer'
+                                            }`}
+                                        >
+                                            {rejectBusy ? 'Rejecting...' : 'Reject'}
+                                        </button>
+                                    </div>
+                                }
                                 </div>
-                            }
                             </div>
-                        </div>
-                    ))}
-                </div>
-            )}
-        </div>
+                        ))}
+                    </div>
+                )}
+            </div>
+        );
     }
 }
 

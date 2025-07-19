@@ -2,7 +2,7 @@
 
 import React, { useCallback, useEffect, useState } from "react";
 import '../app/index.css';
-import { Store } from "@/types";
+import { ContentItem, Store } from "@/types";
 import { AgentProvider } from "@trust0/identus-react";
 import { StepComponent, WithContext } from "@/components/core/StepComponent";
 import dynamic from "next/dynamic";
@@ -16,10 +16,13 @@ import oobHolder from "@/steps/oobHolder";
 import presentationRequest from "@/steps/presentationRequest";
 import present from "@/steps/present";
 import presentationVerify from "@/steps/presentationVerify";
+import Scroll from "@/components/core/Scroll";
 
 const HookConsumer = dynamic(() => import('@/components/core/HookConsumer').then((e) => e.HookConsumer), {
   ssr: false,
 });
+
+
 
 
 
@@ -53,26 +56,84 @@ const Home: React.FC<{}> = (props) => {
     setReady(true)
   }, [])
 
-  return (
-    <div className="w-full p-8 font-sans bg-gray-50 min-h-screen">
-      {
-        ready && <>
-          <AgentProvider>
-            <HookConsumer callback={handleIssuerContextUpdate} />
-          </AgentProvider>
-          <AgentProvider>
-            <HookConsumer callback={handleHolderContextUpdate} />
-          </AgentProvider>
-          <AgentProvider>
-            <HookConsumer callback={handleVerifierContextUpdate} />
-          </AgentProvider>
+  const defaultContent: ContentItem[] = [
+    {
+      name: 'Hyperledger Identus & RareEvo',
+      type: introduction.type,
+      content: <WithContext context={issuerContext}>
+      <StepComponent step={introduction}  />
+    </WithContext>
+    },
+    {
+      name: 'Prism DID Create / Publish',
+      type: did.type,
+      content: <WithContext context={issuerContext}>
+      <StepComponent step={did}  />
+    </WithContext>
+    },
+    {
+      name: 'OOB Issuer',
+      type: oobIssuer.type,
+      content: <WithContext context={issuerContext}>
+      <StepComponent step={oobIssuer}  />
+    </WithContext>
+    },
+    {
+      name: 'OOB Holder',
+      type: oobHolder.type,
+      content: <WithContext context={holderContext}>
+      <StepComponent step={oobHolder}  />
+    </WithContext>
+    },
+    {
+      name: 'Issuance',
+      type: issuance.type,
+      content: <WithContext context={issuerContext}>
+      <StepComponent step={issuance}  />
+    </WithContext>
+    },
+    {
+      name: 'Credentials',
+      type: credentials.type,
+      content: <WithContext context={holderContext}>
+      <StepComponent step={credentials}  />
+    </WithContext>
+    },
+    {
+      name: 'Presentation Request',
+      type: presentationRequest.type,
+      content: <WithContext context={verifierContext}>
+      <StepComponent step={presentationRequest}  />
+    </WithContext>
+    },
+    {
+      name: 'Present',
+      type: present.type,
+      content: <WithContext context={holderContext}>
+      <StepComponent step={present}  />
+    </WithContext>
+    },
+    {
+      name: 'Presentation Verify',
+      type: presentationVerify.type,
+      content: <WithContext context={verifierContext}>
+      <StepComponent step={presentationVerify}  />
+    </WithContext>
+    }
+  ]
+
+  return ready && <>
+          <AgentProvider><HookConsumer callback={handleIssuerContextUpdate} /></AgentProvider>
+          <AgentProvider><HookConsumer callback={handleHolderContextUpdate} /></AgentProvider>
+          <AgentProvider><HookConsumer callback={handleVerifierContextUpdate} /></AgentProvider>
           
-          <WithContext context={issuerContext}>
+          <Scroll content={defaultContent} />
+          {/* <WithContext context={issuerContext}>
             <StepComponent step={introduction}  />
             <StepComponent step={did}  />
             <StepComponent step={oobIssuer}  />
-          </WithContext>
-
+          </WithContext> */}
+{/* 
           <WithContext context={holderContext}>
             <StepComponent step={oobHolder}  />
           </WithContext>
@@ -95,10 +156,7 @@ const Home: React.FC<{}> = (props) => {
 
           <WithContext context={verifierContext}>
             <StepComponent step={presentationVerify}  />
-          </WithContext> 
-        </>
-      }
-    </div>
-  )
+          </WithContext>  */}
+  </>
 }
 export default Home;

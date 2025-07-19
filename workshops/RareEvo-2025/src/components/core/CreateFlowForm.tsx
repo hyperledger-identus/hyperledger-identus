@@ -87,10 +87,8 @@ export const CreateFlowForm = ({
         });
     }, []);
 
-    return <div className="bg-slate-50 border border-slate-200 rounded-xl p-6">
-        <h3 className="text-xl font-semibold text-slate-900 mb-4">Create New Issuance Flow</h3>
-
-        <form onSubmit={handleSubmit} className="space-y-6">
+    return <div className="bg-slate-50 border border-slate-200 rounded-xl p-3 md:p-4 lg:p-5 xl:p-6">
+        <form onSubmit={handleSubmit} className="space-y-3 md:space-y-4 lg:space-y-5">
             <DIDSelector
                 onSelectDID={handleDIDSelect}
                 selectedDID={issuingDID?.toString()}
@@ -103,18 +101,18 @@ export const CreateFlowForm = ({
                 onClaimChange={handleClaimChange}
             />
 
-            <div className="flex justify-between items-center pt-4 border-t border-slate-200">
+            <div className="flex justify-between items-center pt-2 md:pt-3 lg:pt-4 border-t border-slate-200">
                 <button
                     type="button"
                     onClick={onBackToExisting}
-                    className="px-4 py-2 text-slate-600 hover:text-slate-800 transition-colors"
+                    className="px-2 py-1.5 md:px-3 md:py-2 lg:px-4 lg:py-2.5 text-xs md:text-sm lg:text-base text-slate-600 hover:text-slate-800 transition-colors"
                 >
                     ← Back to Existing Flows
                 </button>
                 <button
                     type="submit"
                     disabled={busy || hasInvalidClaims || !issuingDID}
-                    className="px-6 py-3 bg-gradient-to-r from-emerald-500 to-teal-500 text-white rounded-lg font-medium hover:from-emerald-600 hover:to-teal-600 transition-all duration-200 shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="px-3 py-1.5 md:px-4 md:py-2 lg:px-5 lg:py-2.5 bg-gradient-to-r from-emerald-500 to-teal-500 text-white text-xs md:text-sm lg:text-base rounded-lg font-medium hover:from-emerald-600 hover:to-teal-600 transition-all duration-200 shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                     {busy ? 'Creating...' : 'Create Issuance Flow'}
                 </button>

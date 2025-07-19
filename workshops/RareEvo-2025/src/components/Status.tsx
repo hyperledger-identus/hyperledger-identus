@@ -33,30 +33,30 @@ export function Status({ type }: { type: string }) {
     };
     
     return (
-        <div className="flex items-center space-x-4">
+        <div className="flex items-center space-x-2 md:space-x-3 lg:space-x-4">
             {/* Agent Status */}
-            <div className="flex items-center space-x-2">
-                <div className={`w-3 h-3 rounded-full ${getStatusColor()}`}></div>
-                <span className="text-sm font-medium text-slate-700">
-                    {type.charAt(0).toUpperCase() + type.slice(1)} Agent
-                </span>
-                <span className="text-sm text-slate-500">
+            <div className="flex items-center space-x-1 md:space-x-2">
+                <div className={`w-2 h-2 md:w-3 md:h-3 lg:w-4 lg:h-4 rounded-full ${getStatusColor()}`}></div>
+                <span className="text-xs md:text-sm lg:text-base font-medium text-slate-700">
+                    {type.charAt(0).toUpperCase() + type.slice(1)} <span className="text-xs md:text-sm lg:text-base text-slate-500">
                     {getStatusText()}
                 </span>
+                </span>
+               
             </div>
             
             {/* Messages */}
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-2 md:space-x-3 lg:space-x-4">
                 {/* Received Messages */}
                 <div className="flex items-center space-x-1">
-                    <InboxIcon className="w-4 h-4 text-blue-500" />
-                    <span className="text-sm text-slate-600">{receivedMessages.length}</span>
+                    <InboxIcon className="w-3 h-3 md:w-4 md:h-4 lg:w-5 lg:h-5 text-blue-500" />
+                    <span className="text-xs md:text-sm lg:text-base text-slate-600">{receivedMessages.length}</span>
                 </div>
                 
                 {/* Sent Messages */}
                 <div className="flex items-center space-x-1">
-                    <PaperAirplaneIcon className="w-4 h-4 text-green-500" />
-                    <span className="text-sm text-slate-600">{sentMessages.length}</span>
+                    <PaperAirplaneIcon className="w-3 h-3 md:w-4 md:h-4 lg:w-5 lg:h-5 text-green-500" />
+                    <span className="text-xs md:text-sm lg:text-base text-slate-600">{sentMessages.length}</span>
                 </div>
             </div>
         </div>

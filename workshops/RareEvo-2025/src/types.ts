@@ -1,10 +1,14 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import SDK from '@hyperledger/identus-sdk';
 import { Doc } from '@trust0/ridb-core'
 import { schemas } from '@trust0/identus-react/db'
 import { useRIDB } from '@trust0/ridb-react';
 import { useDatabase } from '@trust0/identus-react/hooks';
-
+export interface ContentItem {
+    name: string
+    type: AgentType
+    content: ReactNode
+  }
 export type RequestState<T extends Doc<typeof schemas.issuance>> = 
      {
         issuerRequest: T,

@@ -27,7 +27,7 @@ export function Mnemonics({ onNext }: { onNext: () => void }) {
 
     return <>
     
-    <div className="bg-slate-50 rounded-lg p-4">
+    <div className="bg-slate-50 rounded-lg p-3 md:p-4 lg:p-5 xl:p-6">
                 <Codes
                     codes={{
                         'With React Providers': {
@@ -115,49 +115,38 @@ export function createRandomSeed() {
                         }
                     }} />
             </div>
-            <div className="bg-white/95 backdrop-blur-lg py-8 px-6 shadow-xl rounded-2xl border border-slate-200">
-        <div className="text-center mb-6">
-            <div className="w-12 h-12 bg-gradient-to-br from-emerald-500 to-teal-500 rounded-full flex items-center justify-center mx-auto mb-3">
-                <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                </svg>
-            </div>
-            <h3 className="text-lg font-semibold text-slate-900 mb-2">Recovery Phrase</h3>
-            <p className="text-sm text-slate-600">
-                Your 24-word recovery phrase. Store it safely and never share it with anyone.
-            </p>
-        </div>
+            <div className="bg-white/95 backdrop-blur-lg py-6 px-4 md:py-8 md:px-6 lg:py-10 lg:px-8 xl:py-12 xl:px-10 shadow-xl rounded-2xl border border-slate-200">
         
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-3 mb-8">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-2 md:gap-3 lg:gap-4 mb-6 md:mb-8 lg:mb-10">
             {mnemonics.map((word, i) => (
                 <div
                     key={`mnemonicWord${i}`}
-                    className="flex items-center p-3 rounded-lg bg-slate-50 border border-slate-200 hover:bg-slate-100 transition-colors"
+                    className="flex items-center p-2 md:p-3 lg:p-4 rounded-lg bg-slate-50 border border-slate-200 hover:bg-slate-100 transition-colors"
                 >
-                    <span className="text-emerald-600 mr-2 text-xs font-semibold w-6 text-center bg-emerald-100 rounded px-1 py-0.5">
+                    <span className="text-emerald-600 mr-1 md:mr-2 lg:mr-3 text-xs md:text-sm lg:text-base font-semibold w-4 md:w-5 lg:w-6 text-center bg-emerald-100 rounded px-1 py-0.5">
                         {i + 1}
                     </span>
-                    <span className="text-slate-800 text-sm font-medium">
+                    <span className="text-slate-800 text-xs md:text-sm lg:text-base font-medium">
                         {word}
                     </span>
                 </div>
             ))}
         </div>
         
-        <div className="flex flex-col sm:flex-row gap-4">
+        <div className="flex flex-col sm:flex-row gap-3 md:gap-4 lg:gap-5">
             <button
-                className="group flex-1 inline-flex items-center justify-center gap-2 py-3 px-6 bg-slate-100 backdrop-blur-sm text-slate-700 font-medium rounded-lg hover:bg-slate-200 transition-all duration-300 border border-slate-200"
+                className="group flex-1 inline-flex items-center justify-center gap-2 py-2 px-4 md:py-3 md:px-6 lg:py-4 lg:px-8 bg-slate-100 backdrop-blur-sm text-slate-700 font-medium rounded-lg hover:bg-slate-200 transition-all duration-300 border border-slate-200 text-sm md:text-base lg:text-lg"
                 onClick={regenerateClick}
             >
-                <RefreshCw className="w-4 h-4 group-hover:rotate-180 transition-transform duration-500" />
+                <RefreshCw className="w-3 h-3 md:w-4 md:h-4 lg:w-5 lg:h-5 group-hover:rotate-180 transition-transform duration-500" />
                 Generate New Phrase
             </button>
             <button
-                className="group flex-1 inline-flex items-center justify-center gap-2 py-3 px-6 bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-medium rounded-lg hover:from-emerald-600 hover:to-teal-600 transition-all duration-300 shadow-lg hover:shadow-xl"
+                className="group flex-1 inline-flex items-center justify-center gap-2 py-2 px-4 md:py-3 md:px-6 lg:py-4 lg:px-8 bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-medium rounded-lg hover:from-emerald-600 hover:to-teal-600 transition-all duration-300 shadow-lg hover:shadow-xl text-sm md:text-base lg:text-lg"
                 onClick={onNextClick}
             >
                 Continue
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                <ArrowRight className="w-3 h-3 md:w-4 md:h-4 lg:w-5 lg:h-5 group-hover:translate-x-1 transition-transform" />
             </button>
         </div>
     </div>
