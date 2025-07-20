@@ -32,6 +32,7 @@ export interface EnrichedSelectProps<T> {
     selectedItemId?: string;
     focusColor?: string;
     closeOnSelect?: boolean; // Whether to close dropdown when an item is selected/clicked
+    fontSize?: 'text-xs' | 'text-sm' | 'text-base' | 'text-lg' | 'text-xl'; // Font size for select and options
 }
 
 export function EnrichedSelect<T>({
@@ -48,7 +49,8 @@ export function EnrichedSelect<T>({
     disabled = false,
     selectedItemId,
     focusColor = "emerald",
-    closeOnSelect = true
+    closeOnSelect = true,
+    fontSize = "text-lg"
 }: EnrichedSelectProps<T>) {
     const [isOpen, setIsOpen] = useState(false);
     const dropdownRef = useRef<HTMLDivElement>(null);
@@ -108,7 +110,7 @@ export function EnrichedSelect<T>({
                     <button
                         disabled={disabled}
                         onClick={emptyState.action.onClick}
-                        className="px-4 py-2 bg-gradient-to-r from-emerald-500 to-teal-500 text-white rounded-lg text-sm font-medium hover:from-emerald-600 hover:to-teal-600 transition-all duration-200 shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
+                        className={`px-4 py-2 bg-gradient-to-r from-emerald-500 to-teal-500 text-white rounded-lg font-medium hover:from-emerald-600 hover:to-teal-600 transition-all duration-200 shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed ${fontSize}`}
                     >
                         {emptyState.action.label}
                     </button>
@@ -122,7 +124,7 @@ export function EnrichedSelect<T>({
             <button
                 disabled={disabled}
                 onClick={() => setIsOpen(!isOpen)}
-                className={`w-full bg-white border border-slate-300 rounded-lg px-4 py-3 text-left ${getFocusClasses()} transition-all duration-200 hover:border-slate-400 disabled:opacity-50 disabled:cursor-not-allowed`}
+                className={`w-full bg-white border border-slate-300 rounded-lg px-4 py-3 text-left ${getFocusClasses()} transition-all duration-200 hover:border-slate-400 disabled:opacity-50 disabled:cursor-not-allowed ${fontSize}`}
             >
                 <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-2">
@@ -131,7 +133,7 @@ export function EnrichedSelect<T>({
                             return selectedItem && renderSelectedItem ? (
                                 renderSelectedItem(selectedItem)
                             ) : (
-                                <span className="text-sm text-slate-900">
+                                <span className="text-slate-900">
                                     {placeholder}
                                 </span>
                             );
@@ -149,7 +151,7 @@ export function EnrichedSelect<T>({
             </button>
 
             {isOpen && (
-                <div className={`enriched-select-dropdown absolute top-full left-0 right-0 mt-1 bg-white border border-slate-300 rounded-lg shadow-lg ${zIndex} ${maxHeight} overflow-y-auto ${dropdownClassName}`}>
+                <div className={`enriched-select-dropdown absolute top-full left-0 right-0 mt-1 bg-white border border-slate-300 rounded-lg shadow-lg ${zIndex} ${maxHeight} overflow-y-auto ${dropdownClassName} ${fontSize}`}>
                     {items.map((item, index) => (
                         <div 
                             key={item.id}

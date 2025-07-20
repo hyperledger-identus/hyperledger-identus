@@ -22,20 +22,20 @@ const CredentialItemRenderer = ({
                 </div>
                 <div className="min-w-0 flex-1">
                     <div className="flex items-center space-x-2 mb-1">
-                        <span className="text-sm font-medium text-slate-900 truncate">
+                        <span className="text-base font-medium text-slate-900 truncate">
                             {credentialType}
                         </span>
                         <span className="inline-block px-2 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800">
                             Active
                         </span>
                     </div>
-                    <div className="text-xs text-slate-500 mb-1 truncate">
+                    <div className="text-sm text-slate-500 mb-1 truncate">
                         <strong>Issuer:</strong> {credential.issuer}
                     </div>
-                    <div className="text-xs text-slate-500 truncate">
+                    <div className="text-sm text-slate-500 truncate">
                         <strong>Claims:</strong> {claimsPreview || 'No preview available'}
                     </div>
-                    <div className="text-xs text-slate-400 mt-1">
+                    <div className="text-sm text-slate-400 mt-1">
                         ID: {credential.id.slice(0, 12)}...
                     </div>
                 </div>
@@ -69,6 +69,7 @@ export const CompactCredentials = ({
             renderItem={renderCredentialItem}
             placeholder="View Stored Credentials"
             focusColor="emerald"
+            fontSize="text-lg"
             emptyState={{
                 icon: (
                     <svg className="w-6 h-6 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">

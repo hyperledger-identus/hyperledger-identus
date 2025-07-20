@@ -62,7 +62,7 @@ const PresentationItemRenderer = ({
                     </div>
                     <div className="min-w-0 flex-1">
                         <div className="flex items-center space-x-2 mb-1">
-                            <span className="text-sm font-medium text-slate-900 truncate">
+                            <span className="text-base font-medium text-slate-900 truncate">
                                 #{index + 1} - credential(s)
                             </span>
                             <span className={`inline-block px-2 py-0.5 rounded-full text-xs font-medium ${
@@ -77,10 +77,10 @@ const PresentationItemRenderer = ({
                                 {status === 'verifying' ? 'Verifying...' : status}
                             </span>
                         </div>
-                        <div className="text-xs text-slate-500 truncate">
+                        <div className="text-sm text-slate-500 truncate">
                             From: {info.from.slice(0, 30)}...
                         </div>
-                        <div className="text-xs text-slate-400 truncate">
+                        <div className="text-sm text-slate-400 truncate">
                             ID: {info.thid.slice(0, 20)}...
                         </div>
                     </div>
@@ -90,7 +90,7 @@ const PresentationItemRenderer = ({
                         <button
                             disabled={disabled}
                             onClick={() => onVerify(presentation)}
-                            className={`px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
+                            className={`px-4 py-2 rounded-md text-base font-medium transition-all duration-200 ${
                                 disabled
                                     ? 'bg-slate-200 text-slate-500 cursor-not-allowed'
                                     : 'bg-gradient-to-r from-blue-500 to-indigo-500 text-white hover:from-blue-600 hover:to-indigo-600 shadow-sm hover:shadow-md'
@@ -104,7 +104,7 @@ const PresentationItemRenderer = ({
                             <svg className="w-4 h-4 text-emerald-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                             </svg>
-                            <span className="text-sm font-medium text-emerald-800">Valid</span>
+                            <span className="text-base font-medium text-emerald-800">Valid</span>
                         </div>
                     )}
                     {status === 'invalid' && (
@@ -112,7 +112,7 @@ const PresentationItemRenderer = ({
                             <svg className="w-4 h-4 text-red-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
                             </svg>
-                            <span className="text-sm font-medium text-red-800">Invalid</span>
+                            <span className="text-base font-medium text-red-800">Invalid</span>
                         </div>
                     )}
                 </div>
@@ -212,6 +212,7 @@ export const ExistingPresentations = ({
             placeholder={placeholder}
             focusColor="blue"
             closeOnSelect={false} // Keep dropdown open for multiple verifications
+            fontSize="text-lg"
             emptyState={{
                 icon: (
                     <svg className="w-6 h-6 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">

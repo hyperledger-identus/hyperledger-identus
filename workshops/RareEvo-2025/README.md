@@ -44,3 +44,10 @@ yarn dev
 ```
 
 http://localhost:3000 will contain the workshop, continue the instructions on screen once ready.
+
+
+### One click nodejs demo
+```bash
+yarn
+yarn oneclick
+```

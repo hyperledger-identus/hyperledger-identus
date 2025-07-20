@@ -507,30 +507,30 @@ __metadata:
   linkType: hard
 
 "@emnapi/core@npm:^1.4.3":
-  version: 1.4.4
-  resolution: "@emnapi/core@npm:1.4.4"
+  version: 1.4.5
+  resolution: "@emnapi/core@npm:1.4.5"
   dependencies:
-    "@emnapi/wasi-threads": "npm:1.0.3"
+    "@emnapi/wasi-threads": "npm:1.0.4"
     tslib: "npm:^2.4.0"
-  checksum: 10c0/a3a87b384de7c87edc8d64dfbd0c695fb8e9c8547d2d53f284b15415cfea29150f933cb21017dc4d0fa9dbfb2b544d23c77da7cde8c82f21e68323db50a829dd
+  checksum: 10c0/da4a57f65f325d720d0e0d1a9c6618b90c4c43a5027834a110476984e1d47c95ebaed4d316b5dddb9c0ed9a493ffeb97d1934f9677035f336d8a36c1f3b2818f
   languageName: node
   linkType: hard
 
 "@emnapi/runtime@npm:^1.4.3, @emnapi/runtime@npm:^1.4.4":
-  version: 1.4.4
-  resolution: "@emnapi/runtime@npm:1.4.4"
+  version: 1.4.5
+  resolution: "@emnapi/runtime@npm:1.4.5"
   dependencies:
     tslib: "npm:^2.4.0"
-  checksum: 10c0/ec91747af3104ac34d4767fab922c8fe78ddc8ec83af3e3fb0edbf63cdb683fb8582be36afda7d48249fe729d4a31c34752c6e051770a762a68bce67a7408189
+  checksum: 10c0/37a0278be5ac81e918efe36f1449875cbafba947039c53c65a1f8fc238001b866446fc66041513b286baaff5d6f9bec667f5164b3ca481373a8d9cb65bfc984b
   languageName: node
   linkType: hard
 
-"@emnapi/wasi-threads@npm:1.0.3":
-  version: 1.0.3
-  resolution: "@emnapi/wasi-threads@npm:1.0.3"
+"@emnapi/wasi-threads@npm:1.0.4":
+  version: 1.0.4
+  resolution: "@emnapi/wasi-threads@npm:1.0.4"
   dependencies:
     tslib: "npm:^2.4.0"
-  checksum: 10c0/00cae4dd64143cca21a3aedbf64a7a5528a5991b69bcc0b7306812ff31a3fdc4aaf5bc9413a29fbd5d577c78aae49db4fc4e736d013aec5d416b5a64d403f391
+  checksum: 10c0/2c91a53e62f875800baf035c4d42c9c0d18e5afd9a31ca2aac8b435aeaeaeaac386b5b3d0d0e70aa7a5a9852bbe05106b1f680cd82cce03145c703b423d41313
   languageName: node
   linkType: hard
 
@@ -1551,11 +1551,11 @@ __metadata:
   linkType: hard
 
 "@noble/curves@npm:^1.0.0":
-  version: 1.9.2
-  resolution: "@noble/curves@npm:1.9.2"
+  version: 1.9.4
+  resolution: "@noble/curves@npm:1.9.4"
   dependencies:
     "@noble/hashes": "npm:1.8.0"
-  checksum: 10c0/21d049ae4558beedbf5da0004407b72db84360fa29d64822d82dc9e80251e1ecb46023590cc4b20e70eed697d1b87279b4911dc39f8694c51c874289cfc8e9a7
+  checksum: 10c0/c5ac42bf0c4ac822ee7c107f7b5647140a4209bce6929cdf21a38bc575be8aa91c130c4d4bea5a8a3100c53728fc0c6757382f005779cd14b10ea9a00f1a4592
   languageName: node
   linkType: hard
 
@@ -1846,13 +1846,13 @@ __metadata:
   linkType: hard
 
 "@peculiar/asn1-schema@npm:^2.3.13, @peculiar/asn1-schema@npm:^2.3.8":
-  version: 2.3.15
-  resolution: "@peculiar/asn1-schema@npm:2.3.15"
+  version: 2.4.0
+  resolution: "@peculiar/asn1-schema@npm:2.4.0"
   dependencies:
-    asn1js: "npm:^3.0.5"
+    asn1js: "npm:^3.0.6"
     pvtsutils: "npm:^1.3.6"
     tslib: "npm:^2.8.1"
-  checksum: 10c0/0e73e292a17d00a8770825a9504ceaf0994481a39126317ca0ca5d3dc742087f2b71a4d086bb5613bf19ac57f001d42f594683797d43137702db3ee2b42736a0
+  checksum: 10c0/07a825348bd6be668793fc7bfec54628883d8dcf7c447facdba9bc9c2518f1cc9de37b9f907977ed927895505490868adcb2c1a5b0a19c5a1bc01e3cc5dc2e65
   languageName: node
   linkType: hard
 
@@ -2911,11 +2911,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@trust0/identus-react@npm:^0.0.129":
-  version: 0.0.129
-  resolution: "@trust0/identus-react@npm:0.0.129"
+"@trust0/identus-react@npm:^0.0.133":
+  version: 0.0.133
+  resolution: "@trust0/identus-react@npm:0.0.133"
   dependencies:
-    "@trust0/identus-store": "npm:^1.0.17"
+    "@trust0/identus-store": "npm:^1.0.21"
     "@trust0/ridb": "npm:^1.5.31"
     "@trust0/ridb-core": "npm:^1.7.26"
     "@trust0/ridb-react": "npm:^1.4.10"
@@ -2927,20 +2927,20 @@ __metadata:
     "@hyperledger/identus-sdk": ^7.0.0-rc.12
     react: ^18
     react-dom: ^18
-  checksum: 10c0/31512e1ca3973f8b018216f5e6d1baf90c31443e91b957d681c8ed3338bcc3b3c807bf875cb6585c587a87033b58362d810799392a7e3001731f290f6a33eb3e
+  checksum: 10c0/355fbf23f8c96a1b8270d7856a4fec8b08aa38e0b22435ba767c6b3c7848d60b04e8a52d114def47839ba520e59651efb00e61da18389a16a2faa1bb80f53e5d
   languageName: node
   linkType: hard
 
-"@trust0/identus-store@npm:^1.0.17":
-  version: 1.0.17
-  resolution: "@trust0/identus-store@npm:1.0.17"
+"@trust0/identus-store@npm:^1.0.21":
+  version: 1.0.21
+  resolution: "@trust0/identus-store@npm:1.0.21"
   dependencies:
     uuid: "npm:^11.1.0"
   peerDependencies:
     "@hyperledger/identus-sdk": ^7.0.0-rc.12
     "@trust0/ridb": ^1.5.31
     "@trust0/ridb-core": ^1.7.26
-  checksum: 10c0/2c8096138c70c210c40c02cca1515c57e6191e75cef4dd29c77de0a181e82a4cf7f4dd51280a43882c0731cc4ba73eee86451fb4d7863ed4fafe526968cd92d6
+  checksum: 10c0/f2663681fec447405188a888e81a1ff74f1208896b5780b5722f717a13f31f32f2aea466524f8153216a4275f54fe9d357c22bfc5e979fbf3c2c4f3ded98b0ad
   languageName: node
   linkType: hard
 
@@ -2948,6 +2948,13 @@ __metadata:
   version: 1.7.27
   resolution: "@trust0/ridb-core@npm:1.7.27"
   checksum: 10c0/3d349b414986ca1e069267b2c3bda9712c20c992be28f78bd0595a68b69cac7929e1664cbb291b6a3c210330e53f88cd507b199ff659c3ae0f031f787fa2f53e
+  languageName: node
+  linkType: hard
+
+"@trust0/ridb-core@npm:^1.7.28":
+  version: 1.7.28
+  resolution: "@trust0/ridb-core@npm:1.7.28"
+  checksum: 10c0/2e0f74cf2978e985fb8706ea1a9323f396a5bc94dfe9a406a147fe151c5ee1e731869d13cf459bba6961b4175e92eebc4f52a6fbe18268c7faf20eb1944fc732
   languageName: node
   linkType: hard
 
@@ -2962,12 +2969,32 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@trust0/ridb@npm:^1.5.31, @trust0/ridb@npm:^1.5.32":
+"@trust0/ridb-react@npm:^1.4.12":
+  version: 1.4.12
+  resolution: "@trust0/ridb-react@npm:1.4.12"
+  peerDependencies:
+    "@trust0/ridb": ^1
+    react: ^18
+    react-dom: ^18
+  checksum: 10c0/eaea4ef13b3c3cff8eae66e1d13f50029a1453ddd4c31c3d80b51fae6a131c09e09c944954cdb85b9419b25703b597004b7819f53e7bddc9acc31028fd7b1cb9
+  languageName: node
+  linkType: hard
+
+"@trust0/ridb@npm:^1.5.31":
   version: 1.5.32
   resolution: "@trust0/ridb@npm:1.5.32"
   dependencies:
     "@trust0/ridb-core": "npm:^1.7.27"
   checksum: 10c0/81a0797558d67b9c7d0a2dd5fe9b9855ec1272f2e0812bcb5eb80268c8c278ab1cff56174f93c9693bca61db4cb82ffaaee7fed4604e6644b4264cbdbeb70e48
+  languageName: node
+  linkType: hard
+
+"@trust0/ridb@npm:^1.5.33":
+  version: 1.5.33
+  resolution: "@trust0/ridb@npm:1.5.33"
+  dependencies:
+    "@trust0/ridb-core": "npm:^1.7.28"
+  checksum: 10c0/4657fc4b51f43ad31c567fe76a805f723a925606dc11bdd95ef8facd4191731f2f825c47a970ddc88b72b58e1e38fb17e5a89f177a8e7157a55e9921d3a63a6d
   languageName: node
   linkType: hard
 
@@ -3357,20 +3384,20 @@ __metadata:
   linkType: hard
 
 "@types/node@npm:*":
-  version: 24.0.13
-  resolution: "@types/node@npm:24.0.13"
+  version: 24.0.15
+  resolution: "@types/node@npm:24.0.15"
   dependencies:
     undici-types: "npm:~7.8.0"
-  checksum: 10c0/e1f3d4ea8973b1f2f987814ac5343d05ad8b56bf7fa41755295dee0ce0f7b4e2de4f3daef5296429180228970cef0d70f2ad873c61dbafc6f5eeca9d023aba76
+  checksum: 10c0/39ead0c0ff25dde29357630b5eaa7dd73cf3af796dbd0f01ed439a8af01cbddfa6b68aa9d67fb3243962836170a4463ff856c47fa822250c585987f707eb42b3
   languageName: node
   linkType: hard
 
 "@types/node@npm:^20":
-  version: 20.19.7
-  resolution: "@types/node@npm:20.19.7"
+  version: 20.19.9
+  resolution: "@types/node@npm:20.19.9"
   dependencies:
     undici-types: "npm:~6.21.0"
-  checksum: 10c0/bd97ed8db9eaab0f66ff066944923bae3baf51c98b603be9f30ea53f2ceeb6ae6fb4bc5bda3d3cd54c90c2ddc146f2117287f42e64fdcac493790c28dd759763
+  checksum: 10c0/c6738131f1698258a5ac1e0185e4fc56977f7f566cd0ee11167f93f2339478470257bd82c5e1908a936a204e0ad7996d741356a1a07c04997a236161ea23a874
   languageName: node
   linkType: hard
 
@@ -4067,7 +4094,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"asn1js@npm:^3.0.5":
+"asn1js@npm:^3.0.5, asn1js@npm:^3.0.6":
   version: 3.0.6
   resolution: "asn1js@npm:3.0.6"
   dependencies:
@@ -4118,10 +4145,10 @@ __metadata:
     "@react-three/drei": "npm:^10.5.1"
     "@react-three/fiber": "npm:^9.2.0"
     "@stablelib/uuid": "npm:^2.0.1"
-    "@trust0/identus-react": "npm:^0.0.129"
-    "@trust0/identus-store": "npm:^1.0.17"
-    "@trust0/ridb": "npm:^1.5.32"
-    "@trust0/ridb-react": "npm:^1.4.10"
+    "@trust0/identus-react": "npm:^0.0.133"
+    "@trust0/identus-store": "npm:^1.0.21"
+    "@trust0/ridb": "npm:^1.5.33"
+    "@trust0/ridb-react": "npm:^1.4.12"
     "@types/lodash": "npm:^4.17.20"
     "@types/node": "npm:^20"
     "@types/react": "npm:^18"
@@ -6219,9 +6246,9 @@ __metadata:
   linkType: hard
 
 "electron-to-chromium@npm:^1.5.173":
-  version: 1.5.182
-  resolution: "electron-to-chromium@npm:1.5.182"
-  checksum: 10c0/45d45a2d5d304547818574ca083e739e5099bab650b655329a1a39ff2aaa2bf8ba2114c8fc13b5d96014233181d87ec8f84a48d976c5b91140036ceb587bb8e5
+  version: 1.5.187
+  resolution: "electron-to-chromium@npm:1.5.187"
+  checksum: 10c0/c83153010b786deac926fb128e0e0a68202312a25b4896892bcf166acb2ccb6357ec918ba38d44e16294cd85bf7e345198e1809e1848295221a8753beb658241
   languageName: node
   linkType: hard
 
@@ -6984,15 +7011,15 @@ __metadata:
   linkType: hard
 
 "form-data@npm:^4.0.0":
-  version: 4.0.3
-  resolution: "form-data@npm:4.0.3"
+  version: 4.0.4
+  resolution: "form-data@npm:4.0.4"
   dependencies:
     asynckit: "npm:^0.4.0"
     combined-stream: "npm:^1.0.8"
     es-set-tostringtag: "npm:^2.1.0"
     hasown: "npm:^2.0.2"
     mime-types: "npm:^2.1.12"
-  checksum: 10c0/f0cf45873d600110b5fadf5804478377694f73a1ed97aaa370a74c90cebd7fe6e845a081171668a5476477d0d55a73a4e03d6682968fa8661eac2a81d651fcdb
+  checksum: 10c0/373525a9a034b9d57073e55eab79e501a714ffac02e7a9b01be1c820780652b16e4101819785e1e18f8d98f0aee866cc654d660a435c378e16a72f2e7cac9695
   languageName: node
   linkType: hard
 
@@ -9642,11 +9669,11 @@ __metadata:
   linkType: hard
 
 "napi-postinstall@npm:^0.3.0":
-  version: 0.3.0
-  resolution: "napi-postinstall@npm:0.3.0"
+  version: 0.3.2
+  resolution: "napi-postinstall@npm:0.3.2"
   bin:
     napi-postinstall: lib/cli.js
-  checksum: 10c0/dd5b295a0c7e669dda81a553b5defcdbe56805beb4279cd0df973454f072c083f574d399c4c825eece128113159658b031b4ac4b9dcb5735c5e34ddaefd3a3ca
+  checksum: 10c0/77c67eb9871d24afe7bad30e6115c441d099d6a0e42dc1c49c4a722ff682425e08dc6dd2b03eca10db9b547e724c38fb51325c35039e7ac10dcb714bb88d7326
   languageName: node
   linkType: hard
 
@@ -10556,9 +10583,9 @@ __metadata:
   linkType: hard
 
 "picomatch@npm:^4.0.2":
-  version: 4.0.2
-  resolution: "picomatch@npm:4.0.2"
-  checksum: 10c0/7c51f3ad2bb42c776f49ebf964c644958158be30d0a510efd5a395e8d49cb5acfed5b82c0c5b365523ce18e6ab85013c9ebe574f60305892ec3fa8eee8304ccc
+  version: 4.0.3
+  resolution: "picomatch@npm:4.0.3"
+  checksum: 10c0/9582c951e95eebee5434f59e426cddd228a7b97a0161a375aed4be244bd3fe8e3a31b846808ea14ef2c8a2527a6eeab7b3946a67d5979e81694654f939473ae2
   languageName: node
   linkType: hard
 

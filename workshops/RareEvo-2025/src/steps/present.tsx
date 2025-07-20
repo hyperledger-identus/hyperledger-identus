@@ -63,17 +63,17 @@ const CredentialItemRenderer = ({
                 </div>
                 <div className="min-w-0 flex-1">
                     <div className="flex items-center space-x-2 mb-1">
-                        <span className="text-sm font-medium text-slate-900 truncate">
+                        <span className="text-base font-medium text-slate-900 truncate">
                             {credentialType}
                         </span>
                     </div>
-                    <div className="text-xs text-slate-500 mb-1 truncate">
+                    <div className="text-sm text-slate-500 mb-1 truncate">
                         <strong>Issuer:</strong> {credential.issuer.substring(0, 40)}...
                     </div>
-                    <div className="text-xs text-slate-500 truncate">
+                    <div className="text-sm text-slate-500 truncate">
                         <strong>Matching Claims:</strong> {relevantClaims}
                     </div>
-                    <div className="text-xs text-slate-400 mt-1">
+                    <div className="text-sm text-slate-400 mt-1">
                         ID: {credential.id.slice(0, 12)}...
                     </div>
                 </div>
@@ -189,10 +189,10 @@ function CredentialSelector({ request }: { request: SDK.RequestPresentation }) {
                                     <div className="w-5 h-5 bg-gradient-to-br from-green-500 to-emerald-500 rounded-full flex items-center justify-center text-white text-xs font-bold">
                                         ✓
                                     </div>
-                                    <span className="text-sm font-medium text-slate-900 truncate">
+                                    <span className="text-base font-medium text-slate-900 truncate">
                                         {item.data.credentialType} - {getClaimsPreview(item.data)}
                                     </span>
-                                    <span className="text-xs text-slate-500 bg-green-100 px-2 py-0.5 rounded-full">
+                                    <span className="text-sm text-slate-500 bg-green-100 px-2 py-0.5 rounded-full">
                                         Selected
                                     </span>
                                 </div>
@@ -201,6 +201,7 @@ function CredentialSelector({ request }: { request: SDK.RequestPresentation }) {
                             placeholder="Choose a credential to present"
                             selectedItemId={selectedCredential?.id}
                             focusColor="emerald"
+                            fontSize="text-lg"
                             className="mb-4"
                         />
 

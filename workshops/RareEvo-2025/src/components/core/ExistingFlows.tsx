@@ -41,7 +41,7 @@ const FlowItemRenderer = ({
                 </div>
                 <div className="min-w-0 flex-1">
                     <div className="flex items-center space-x-2 mb-1">
-                        <span className="text-sm font-medium text-slate-900 truncate">
+                        <span className="text-base font-medium text-slate-900 truncate">
                             #{index + 1} ({flow.credentialFormat})
                         </span>
                         <span className={`inline-block px-2 py-0.5 rounded-full text-xs font-medium ${
@@ -54,7 +54,7 @@ const FlowItemRenderer = ({
                             {status}
                         </span>
                     </div>
-                    <div className="text-xs text-slate-500 truncate">
+                    <div className="text-sm text-slate-500 truncate">
                         {flow.claims && flow.claims.length > 0 
                             ? flow.claims.map(claim => `${claim.name}: ${claim.value}`).join(', ')
                             : 'No claims'}
@@ -67,7 +67,7 @@ const FlowItemRenderer = ({
                     e.stopPropagation();
                     onSelect(flow);
                 }}
-                className={`px-3 py-1.5 rounded-md text-xs font-medium transition-all duration-200 flex-shrink-0 ml-2 ${
+                className={`px-3 py-1.5 rounded-md text-sm font-medium transition-all duration-200 flex-shrink-0 ml-2 ${
                     disabled
                         ? 'bg-slate-200 text-slate-500 cursor-not-allowed'
                         : 'bg-gradient-to-r from-emerald-500 to-teal-500 text-white hover:from-emerald-600 hover:to-teal-600 shadow-sm hover:shadow-md'
@@ -121,6 +121,7 @@ export const ExistingFlows = ({
             selectedItemId={selectedFlowId}
             disabled={busy}
             focusColor="emerald"
+            fontSize="text-lg"
             emptyState={{
                 icon: (
                     <svg className="w-6 h-6 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
