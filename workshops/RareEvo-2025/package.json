@@ -17,7 +17,7 @@
     "@noble/hashes": "^1.3.3",
     "@react-three/drei": "^10.5.1",
     "@react-three/fiber": "^9.2.0",
-    "@trust0/identus-react": "^0.0.133",
+    "@trust0/identus-react": "^0.0.134",
     "@trust0/identus-store": "^1.0.21",
     "@trust0/ridb": "^1.5.33",
     "@trust0/ridb-react": "^1.4.12",
