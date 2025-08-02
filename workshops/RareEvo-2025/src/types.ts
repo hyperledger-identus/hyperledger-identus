@@ -55,7 +55,7 @@ export type CodeBlock = {
     code: string,
     showCopyButton?: boolean
 }
-export type Content = React.FC<NextFnProps & {type: AgentType}>;
+export type Content = React.FC<NextFnProps & {type: AgentType, setIsPopupOpen?: (isOpen: boolean) => void}>;
 export type DisableConditionFunction = (store: Store) => boolean;
 export type DisableRenderFunction =  (hooks: Partial<Hooks>) => Promise<boolean>;
 
@@ -65,6 +65,8 @@ export type Step = {
     content: Content,
     type: AgentType,
     disableCondition?: DisableConditionFunction,
+    codeSample?: CodeBlock,
+    setIsPopupOpen?: (isOpen: boolean) => void,
 }
 
 export type AgentFnProps = {

@@ -11,6 +11,22 @@ interface FlowchartProps {
   stepType: StepType;
 }
 
+// Styling variables for diagrams
+const DIAGRAM_STYLES = {
+  colors: {
+    primary: '#FFD700',     // light blue for active elements
+    success: '#90EE90',     // light green for completed elements
+    default: '#ccc',        // default gray for inactive elements
+    text: '#000'            // text color
+  },
+  strokeWidths: {
+    active: '8px',
+    activeLink: '8px',
+    highlight: '8px', 
+    default: '8px'
+  }
+};
+
 const Flowchart = ({ stepType }: FlowchartProps) => {
   const mermaidRef = useRef<HTMLDivElement>(null);
 
@@ -20,9 +36,9 @@ const Flowchart = ({ stepType }: FlowchartProps) => {
       theme: "default",
       securityLevel: 'loose',
       themeVariables: {
-        primaryColor: "#ADD8E6", // light blue
+        primaryColor: DIAGRAM_STYLES.colors.primary,
         secondaryColor: "#9370DB", // purple
-        tertiaryColor: "#90EE90", // light green
+        tertiaryColor: DIAGRAM_STYLES.colors.success,
         success: "#228B22", // green
       },
       // Add configuration for full width rendering
@@ -35,6 +51,172 @@ const Flowchart = ({ stepType }: FlowchartProps) => {
 
   // Re-render diagram when stepType changes
   useEffect(() => {
+    // Define different diagrams based on stepType
+    const getDiagram = (step: StepType) => {
+      switch (step) {
+        case 'introduction':
+          return `
+          graph LR
+            Issuer[<img src="/identus-logo.svg" height="20" style="vertical-align:middle" alt="Issuer"/> Issuer] -- "<b>Issuer PrismDID</b><br>Create DID<br>Publish onChain" --> Blockchain[<img src="/cardano-ada-logo.webp" height="20" style="vertical-align:middle" alt="Blockchain"/> Cardano Blockchain]
+            Issuer -- "<b>Credential Offer</b><br>Create Offer<br>Share OOB/QRCode" --> Holder[<img src="/lace.svg" height="20" style="vertical-align:middle" alt="Holder"/> Holder]
+            Holder -- "<b>Credential Request</b><br>Review Offer<br>Send Request" --> Issuer
+            Issuer -- "<b>Creential Issuance</b><br>Approve Request<br>Issue Credential" --> Holder
+            Verifier[<img src="/identus-logo.svg" height="20" style="vertical-align:middle" alt="Verifier"/> Verifier] -- "<b>Presentation Request</b><br>Create Request<br>Share OOB/QRCode" --> Holder
+            Holder -- "<b>Verifiable Presentation</b><br>Choose credential<br>Send Presentation" --> Verifier
+            Verifier -- "<b>Verify credential</b><br>Resolve Issuer DID<br>Verify signatures + proofs" --> Blockchain
+
+            style Issuer fill:none,stroke:${DIAGRAM_STYLES.colors.default},stroke-width:${DIAGRAM_STYLES.strokeWidths.highlight}
+            style Blockchain fill:none,stroke:${DIAGRAM_STYLES.colors.default},stroke-width:${DIAGRAM_STYLES.strokeWidths.highlight},color:${DIAGRAM_STYLES.colors.text}
+            style Holder fill:none,stroke:${DIAGRAM_STYLES.colors.default},stroke-width:${DIAGRAM_STYLES.strokeWidths.highlight}
+            style Verifier fill:none,stroke:${DIAGRAM_STYLES.colors.default},stroke-width:${DIAGRAM_STYLES.strokeWidths.highlight},color:${DIAGRAM_STYLES.colors.text}
+            
+
+            linkStyle 0 stroke:${DIAGRAM_STYLES.colors.default},stroke-width:${DIAGRAM_STYLES.strokeWidths.highlight},stroke-dasharray:0 !important;
+            linkStyle 1 stroke:${DIAGRAM_STYLES.colors.default},stroke-width:${DIAGRAM_STYLES.strokeWidths.highlight},stroke-dasharray:0 !important;
+            linkStyle 2 stroke:${DIAGRAM_STYLES.colors.default},stroke-width:${DIAGRAM_STYLES.strokeWidths.highlight},stroke-dasharray:0 !important;
+            linkStyle 3 stroke:${DIAGRAM_STYLES.colors.default},stroke-width:${DIAGRAM_STYLES.strokeWidths.highlight},stroke-dasharray:0 !important;
+            linkStyle 4 stroke:${DIAGRAM_STYLES.colors.default},stroke-width:${DIAGRAM_STYLES.strokeWidths.highlight},stroke-dasharray:0 !important;
+            linkStyle 5 stroke:${DIAGRAM_STYLES.colors.default},stroke-width:${DIAGRAM_STYLES.strokeWidths.highlight},stroke-dasharray:0 !important;
+            linkStyle 6 stroke:${DIAGRAM_STYLES.colors.default},stroke-width:${DIAGRAM_STYLES.strokeWidths.highlight},stroke-dasharray:0 !important;
+            `;
+        case 'did':
+          return `
+          graph LR
+            Issuer[<img src="/identus-logo.svg" height="20" style="vertical-align:middle" alt="Issuer"/> Issuer] -- "<b>Issuer PrismDID</b><br>Create DID<br>Publish onChain" --> Blockchain[<img src="/cardano-ada-logo.webp" height="20" style="vertical-align:middle" alt="Blockchain"/> Cardano Blockchain]
+            Issuer -- "<b>Credential Offer</b><br>Create Offer<br>Share OOB/QRCode" --> Holder[<img src="/lace.svg" height="20" style="vertical-align:middle" alt="Holder"/> Holder]
+            Holder -- "<b>Credential Request</b><br>Review Offer<br>Send Request" --> Issuer
+            Issuer -- "<b>Creential Issuance</b><br>Approve Request<br>Issue Credential" --> Holder
+
+            style Issuer fill:none,stroke:${DIAGRAM_STYLES.colors.primary},stroke-width:${DIAGRAM_STYLES.strokeWidths.active}
+            style Blockchain fill:none,stroke:${DIAGRAM_STYLES.colors.primary},stroke-width:${DIAGRAM_STYLES.strokeWidths.active},color:${DIAGRAM_STYLES.colors.text}
+            style Holder fill:none,stroke:${DIAGRAM_STYLES.colors.default},stroke-width:${DIAGRAM_STYLES.strokeWidths.default}
+            linkStyle 0 stroke:${DIAGRAM_STYLES.colors.primary},stroke-width:${DIAGRAM_STYLES.strokeWidths.highlight}
+            linkStyle 1 stroke:${DIAGRAM_STYLES.colors.default},stroke-width:${DIAGRAM_STYLES.strokeWidths.highlight},stroke-dasharray:0 !important;
+            linkStyle 2 stroke:${DIAGRAM_STYLES.colors.default},stroke-width:${DIAGRAM_STYLES.strokeWidths.highlight},stroke-dasharray:0 !important;
+            linkStyle 3 stroke:${DIAGRAM_STYLES.colors.default},stroke-width:${DIAGRAM_STYLES.strokeWidths.highlight},stroke-dasharray:0 !important;
+          `;
+        case 'oobIssuer':
+          return `
+          graph LR
+            Issuer[<img src="/identus-logo.svg" height="20" style="vertical-align:middle" alt="Issuer"/> Issuer] -- "<b>Issuer PrismDID</b><br>Create DID<br>Publish onChain" --> Blockchain[<img src="/cardano-ada-logo.webp" height="20" style="vertical-align:middle" alt="Blockchain"/> Cardano Blockchain]
+            Issuer -- "<b>Credential Offer</b><br>Create Offer<br>Share OOB/QRCode" --> Holder[<img src="/lace.svg" height="20" style="vertical-align:middle" alt="Holder"/> Holder]
+            Holder -- "<b>Credential Request</b><br>Review Offer<br>Send Request" --> Issuer
+            Issuer -- "<b>Creential Issuance</b><br>Approve Request<br>Issue Credential" --> Holder
+
+            style Issuer fill:none,stroke:${DIAGRAM_STYLES.colors.primary},stroke-width:${DIAGRAM_STYLES.strokeWidths.active}
+            style Blockchain fill:none,stroke:${DIAGRAM_STYLES.colors.success},stroke-width:${DIAGRAM_STYLES.strokeWidths.active}
+            style Holder fill:none,stroke:${DIAGRAM_STYLES.colors.primary},stroke-width:${DIAGRAM_STYLES.strokeWidths.active}
+
+            linkStyle 0 stroke:${DIAGRAM_STYLES.colors.success},stroke-width:${DIAGRAM_STYLES.strokeWidths.highlight},stroke-dasharray:0 !important;
+            linkStyle 1 stroke:${DIAGRAM_STYLES.colors.primary},stroke-width:${DIAGRAM_STYLES.strokeWidths.activeLink}
+            linkStyle 2 stroke:${DIAGRAM_STYLES.colors.default},stroke-width:${DIAGRAM_STYLES.strokeWidths.highlight},stroke-dasharray:0 !important;
+            linkStyle 3 stroke:${DIAGRAM_STYLES.colors.default},stroke-width:${DIAGRAM_STYLES.strokeWidths.highlight},stroke-dasharray:0 !important;
+          `;
+        case 'oobHolder':
+          return `
+          graph LR
+            Issuer[<img src="/identus-logo.svg" height="20" style="vertical-align:middle" alt="Issuer"/> Issuer] -- "<b>Issuer PrismDID</b><br>Create DID<br>Publish onChain" --> Blockchain[<img src="/cardano-ada-logo.webp" height="20" style="vertical-align:middle" alt="Blockchain"/> Cardano Blockchain]
+            Issuer -- "<b>Credential Offer</b><br>Create Offer<br>Share OOB/QRCode" --> Holder[<img src="/lace.svg" height="20" style="vertical-align:middle" alt="Holder"/> Holder]
+            Holder -- "<b>Credential Request</b><br>Review Offer<br>Send Request" --> Issuer
+            Issuer -- "<b>Creential Issuance</b><br>Approve Request<br>Issue Credential" --> Holder
+
+            style Issuer fill:none,stroke:${DIAGRAM_STYLES.colors.primary},stroke-width:${DIAGRAM_STYLES.strokeWidths.active}
+            style Blockchain fill:none,stroke:${DIAGRAM_STYLES.colors.success},stroke-width:${DIAGRAM_STYLES.strokeWidths.active}
+            style Holder fill:none,stroke:${DIAGRAM_STYLES.colors.primary},stroke-width:${DIAGRAM_STYLES.strokeWidths.active}
+            
+            linkStyle 0 stroke:${DIAGRAM_STYLES.colors.success},stroke-width:${DIAGRAM_STYLES.strokeWidths.highlight},stroke-dasharray:0 !important;
+            linkStyle 1 stroke:${DIAGRAM_STYLES.colors.success},stroke-width:${DIAGRAM_STYLES.strokeWidths.highlight},stroke-dasharray:0 !important;
+            linkStyle 2 stroke:${DIAGRAM_STYLES.colors.primary},stroke-width:${DIAGRAM_STYLES.strokeWidths.activeLink}
+            linkStyle 3 stroke:${DIAGRAM_STYLES.colors.default},stroke-width:${DIAGRAM_STYLES.strokeWidths.highlight},stroke-dasharray:0 !important;
+
+          `;
+        case 'issuance':
+          return `
+          graph LR
+            Issuer[<img src="/identus-logo.svg" height="20" style="vertical-align:middle" alt="Issuer"/> Issuer] -- "<b>Issuer PrismDID</b><br>Create DID<br>Publish onChain" --> Blockchain[<img src="/cardano-ada-logo.webp" height="20" style="vertical-align:middle" alt="Blockchain"/> Cardano Blockchain]
+            Issuer -- "<b>Credential Offer</b><br>Create Offer<br>Share OOB/QRCode" --> Holder[<img src="/lace.svg" height="20" style="vertical-align:middle" alt="Holder"/> Holder]
+            Holder -- "<b>Credential Request</b><br>Review Offer<br>Send Request" --> Issuer
+            Issuer -- "<b>Creential Issuance</b><br>Approve Request<br>Issue Credential" --> Holder
+
+            style Issuer fill:none,stroke:${DIAGRAM_STYLES.colors.primary},stroke-width:${DIAGRAM_STYLES.strokeWidths.active}
+            style Blockchain fill:none,stroke:${DIAGRAM_STYLES.colors.success},stroke-width:${DIAGRAM_STYLES.strokeWidths.active}
+            style Holder fill:none,stroke:${DIAGRAM_STYLES.colors.primary},stroke-width:${DIAGRAM_STYLES.strokeWidths.active}
+            
+            linkStyle 0 stroke:${DIAGRAM_STYLES.colors.success},stroke-width:${DIAGRAM_STYLES.strokeWidths.highlight},stroke-dasharray:0 !important;
+            linkStyle 1 stroke:${DIAGRAM_STYLES.colors.success},stroke-width:${DIAGRAM_STYLES.strokeWidths.highlight},stroke-dasharray:0 !important;
+            linkStyle 2 stroke:${DIAGRAM_STYLES.colors.success},stroke-width:${DIAGRAM_STYLES.strokeWidths.highlight},stroke-dasharray:0 !important;
+            linkStyle 3 stroke:${DIAGRAM_STYLES.colors.primary},stroke-width:${DIAGRAM_STYLES.strokeWidths.highlight}
+
+            
+          `;
+        case 'credentials':
+          return `
+          graph LR
+            Issuer[<img src="/identus-logo.svg" height="20" style="vertical-align:middle" alt="Issuer"/> Issuer] -- "<b>Issuer PrismDID</b><br>Create DID<br>Publish onChain" --> Blockchain[<img src="/cardano-ada-logo.webp" height="20" style="vertical-align:middle" alt="Blockchain"/> Cardano Blockchain]
+            Issuer -- "<b>Credential Offer</b><br>Create Offer<br>Share OOB/QRCode" --> Holder[<img src="/lace.svg" height="20" style="vertical-align:middle" alt="Holder"/> Holder]
+            Holder -- "<b>Credential Request</b><br>Review Offer<br>Send Request" --> Issuer
+            Issuer -- "<b>Creential Issuance</b><br>Approve Request<br>Issue Credential" --> Holder
+
+            style Issuer fill:none,stroke:${DIAGRAM_STYLES.colors.success},stroke-width:${DIAGRAM_STYLES.strokeWidths.active}
+            style Blockchain fill:none,stroke:${DIAGRAM_STYLES.colors.success},stroke-width:${DIAGRAM_STYLES.strokeWidths.active}
+            style Holder fill:none,stroke:${DIAGRAM_STYLES.colors.success},stroke-width:${DIAGRAM_STYLES.strokeWidths.active}
+
+
+            linkStyle 0 stroke:${DIAGRAM_STYLES.colors.success},stroke-width:${DIAGRAM_STYLES.strokeWidths.highlight},stroke-dasharray:0 !important;
+            linkStyle 1 stroke:${DIAGRAM_STYLES.colors.success},stroke-width:${DIAGRAM_STYLES.strokeWidths.highlight},stroke-dasharray:0 !important;
+            linkStyle 2 stroke:${DIAGRAM_STYLES.colors.success},stroke-width:${DIAGRAM_STYLES.strokeWidths.highlight},stroke-dasharray:0 !important;
+            linkStyle 3 stroke:${DIAGRAM_STYLES.colors.success},stroke-width:${DIAGRAM_STYLES.strokeWidths.highlight},stroke-dasharray:0 !important;
+          `;
+        case 'presentationRequest':
+          return `
+          graph LR
+            Verifier[<img src="/identus-logo.svg" height="20" style="vertical-align:middle" alt="Verifier"/> Verifier] -- "<b>Presentation Request</b><br>Create Request<br>Share OOB/QRCode" --> Holder[<img src="/lace.svg" height="20" style="vertical-align:middle" alt="Holder"/> Holder]
+            Holder -- "<b>Verifiable Presentation</b><br>Choose credential<br>Send Presentation" --> Verifier
+            Verifier -- "<b>Verify credential</b><br>Resolve Issuer DID<br>Verify signatures + proofs" --> Blockchain[<img src="/cardano-ada-logo.webp" height="20" style="vertical-align:middle" alt="Blockchain"/> Cardano Blockchain]
+
+            style Verifier fill:none,stroke:${DIAGRAM_STYLES.colors.primary},stroke-width:${DIAGRAM_STYLES.strokeWidths.active},color:${DIAGRAM_STYLES.colors.text}
+            style Holder fill:none,stroke:${DIAGRAM_STYLES.colors.primary},stroke-width:${DIAGRAM_STYLES.strokeWidths.active}
+            style Blockchain fill:none,stroke:${DIAGRAM_STYLES.colors.default},stroke-width:${DIAGRAM_STYLES.strokeWidths.default},color:${DIAGRAM_STYLES.colors.text}
+            
+            linkStyle 0 stroke:${DIAGRAM_STYLES.colors.primary},stroke-width:${DIAGRAM_STYLES.strokeWidths.activeLink}
+            linkStyle 1 stroke:${DIAGRAM_STYLES.colors.default},stroke-width:${DIAGRAM_STYLES.strokeWidths.default},stroke-dasharray:0 !important;
+            linkStyle 2 stroke:${DIAGRAM_STYLES.colors.default},stroke-width:${DIAGRAM_STYLES.strokeWidths.default},stroke-dasharray:0 !important;
+          `;
+        case 'present':
+          return `
+          graph LR
+            Verifier[<img src="/identus-logo.svg" height="20" style="vertical-align:middle" alt="Verifier"/> Verifier] -- "<b>Presentation Request</b><br>Create Request<br>Share OOB/QRCode" --> Holder[<img src="/lace.svg" height="20" style="vertical-align:middle" alt="Holder"/> Holder]
+            Holder -- "<b>Verifiable Presentation</b><br>Choose credential<br>Send Presentation" --> Verifier
+            Verifier -- "<b>Verify credential</b><br>Resolve Issuer DID<br>Verify signatures + proofs" --> Blockchain[<img src="/cardano-ada-logo.webp" height="20" style="vertical-align:middle" alt="Blockchain"/> Cardano Blockchain]
+
+            style Verifier fill:none,stroke:${DIAGRAM_STYLES.colors.primary},stroke-width:${DIAGRAM_STYLES.strokeWidths.active},color:${DIAGRAM_STYLES.colors.text}
+            style Holder fill:none,stroke:${DIAGRAM_STYLES.colors.primary},stroke-width:${DIAGRAM_STYLES.strokeWidths.active}
+            style Blockchain fill:none,stroke:${DIAGRAM_STYLES.colors.default},stroke-width:${DIAGRAM_STYLES.strokeWidths.default},color:${DIAGRAM_STYLES.colors.text}
+            
+            linkStyle 0 stroke:${DIAGRAM_STYLES.colors.success},stroke-width:${DIAGRAM_STYLES.strokeWidths.highlight},stroke-dasharray:0 !important;
+            linkStyle 1 stroke:${DIAGRAM_STYLES.colors.primary},stroke-width:${DIAGRAM_STYLES.strokeWidths.activeLink}
+            linkStyle 2 stroke:${DIAGRAM_STYLES.colors.default},stroke-width:${DIAGRAM_STYLES.strokeWidths.default},stroke-dasharray:0 !important;
+          `;
+        case 'presentationVerify':
+          return `
+          graph LR
+            Verifier[<img src="/identus-logo.svg" height="20" style="vertical-align:middle" alt="Verifier"/> Verifier] -- "<b>Presentation Request</b><br>Create Request<br>Share OOB/QRCode" --> Holder[<img src="/lace.svg" height="20" style="vertical-align:middle" alt="Holder"/> Holder]
+            Holder -- "<b>Verifiable Presentation</b><br>Choose credential<br>Send Presentation" --> Verifier
+            Verifier -- "<b>Verify credential</b><br>Resolve Issuer DID<br>Verify signatures + proofs" --> Blockchain[<img src="/cardano-ada-logo.webp" height="20" style="vertical-align:middle" alt="Blockchain"/> Cardano Blockchain]
+
+            style Verifier fill:none,stroke:${DIAGRAM_STYLES.colors.primary},stroke-width:${DIAGRAM_STYLES.strokeWidths.active},color:${DIAGRAM_STYLES.colors.text}
+            style Holder fill:none,stroke:${DIAGRAM_STYLES.colors.success},stroke-width:${DIAGRAM_STYLES.strokeWidths.active}
+            style Blockchain fill:none,stroke:${DIAGRAM_STYLES.colors.primary},stroke-width:${DIAGRAM_STYLES.strokeWidths.active},color:${DIAGRAM_STYLES.colors.text}
+            
+            linkStyle 0 stroke:${DIAGRAM_STYLES.colors.success},stroke-width:${DIAGRAM_STYLES.strokeWidths.highlight},stroke-dasharray:0 !important;
+            linkStyle 1 stroke:${DIAGRAM_STYLES.colors.success},stroke-width:${DIAGRAM_STYLES.strokeWidths.highlight},stroke-dasharray:0 !important;
+            linkStyle 2 stroke:${DIAGRAM_STYLES.colors.primary},stroke-width:${DIAGRAM_STYLES.strokeWidths.activeLink}
+          `;
+        default:
+          return '';
+      }
+    };
+
     if (mermaidRef.current) {
       const renderDiagram = async () => {
         const diagram = getDiagram(stepType);
@@ -81,99 +263,6 @@ const Flowchart = ({ stepType }: FlowchartProps) => {
       renderDiagram();
     }
   }, [stepType]);
-
-  // Define different diagrams based on stepType
-  const getDiagram = (step: StepType) => {
-    switch (step) {
-      case 'introduction':
-        return `
-        graph LR
-          Issuer[<img src="/identus-logo.svg" height="20" style="vertical-align:middle" alt="Issuer"/> Issuer] -- "Publish Prism DID (DID document to chain via Lace Wallet)" --> Blockchain[<img src="/cardano-ada-logo.webp" height="20" style="vertical-align:middle" alt="Blockchain"/> Cardano Blockchain]
-          Issuer -- "Send OOB Credential Offer (QR/URL for SD-JWT)" --> Holder[<img src="/lace.svg" height="20" style="vertical-align:middle" alt="Holder"/> Holder]
-          Holder -- "Send Credential Request" --> Issuer
-          Issuer -- "Approve and Issue Credential" --> Holder
-          Verifier[<img src="/identus-logo.svg" height="20" style="vertical-align:middle" alt="Verifier"/> Verifier] -- "Send Presentation Request (QR/URL for SD-JWT)" --> Holder
-          Holder -- "Present Verifiable Presentation (select and send credential)" --> Verifier
-          Verifier -- "Resolve Issuer's Prism DID and Verify (DID resolution on Cardano)" --> Blockchain
-
-          style Issuer fill:none,stroke:#ccc,stroke-width:2px
-          style Blockchain fill:none,stroke:#ccc,stroke-width:2px,color:#000
-          style Holder fill:none,stroke:#ccc,stroke-width:2px
-          style Verifier fill:none,stroke:#ccc,stroke-width:2px,color:#000
-        `;
-      case 'did':
-        return `
-        graph LR
-          Issuer[<img src="/identus-logo.svg" height="20" style="vertical-align:middle" alt="Issuer"/> Issuer] -- "Create and Publish Prism DID (DID document to chain via Lace Wallet)" --> Blockchain[<img src="/cardano-ada-logo.webp" height="20" style="vertical-align:middle" alt="Blockchain"/> Cardano Blockchain]
-
-          style Issuer fill:none,stroke:#ccc,stroke-width:2px
-          style Blockchain fill:none,stroke:#ccc,stroke-width:2px,color:#000
-        `;
-      case 'oobIssuer':
-        return `
-        graph LR
-          Issuer[<img src="/identus-logo.svg" height="20" style="vertical-align:middle" alt="Issuer"/> Issuer] -- "Send OOB Credential Offer (QR/URL for SD-JWT)" --> Holder[<img src="/lace.svg" height="20" style="vertical-align:middle" alt="Holder"/> Holder]
-
-          style Issuer fill:none,stroke:#ccc,stroke-width:2px
-          style Holder fill:none,stroke:#ccc,stroke-width:2px
-        `;
-      case 'oobHolder':
-        return `
-        graph LR
-          Issuer[<img src="/identus-logo.svg" height="20" style="vertical-align:middle" alt="Issuer"/> Issuer] -- "Send OOB Credential Offer (QR/URL for SD-JWT)" --> Holder[<img src="/lace.svg" height="20" style="vertical-align:middle" alt="Holder"/> Holder]
-          Holder -- "Send Credential Request" --> Issuer
-
-          style Issuer fill:none,stroke:#ccc,stroke-width:2px
-          style Holder fill:none,stroke:#ccc,stroke-width:2px
-        `;
-      case 'issuance':
-        return `
-        graph LR
-          Holder[<img src="/lace.svg" height="20" style="vertical-align:middle" alt="Holder"/> Holder] -- "Send Credential Request" --> Issuer[<img src="/identus-logo.svg" height="20" style="vertical-align:middle" alt="Issuer"/> Issuer]
-          Issuer -- "Approve and Issue Credential" --> Holder
-
-          style Issuer fill:none,stroke:#ccc,stroke-width:2px
-          style Holder fill:none,stroke:#ccc,stroke-width:2px
-        `;
-      case 'credentials':
-        return `
-        graph LR
-          Issuer[<img src="/identus-logo.svg" height="20" style="vertical-align:middle" alt="Issuer"/> Issuer] -- "Approve and Issue Credential" --> Holder[<img src="/lace.svg" height="20" style="vertical-align:middle" alt="Holder"/> Holder]
-
-          style Issuer fill:none,stroke:#ccc,stroke-width:2px
-          style Holder fill:none,stroke:#ccc,stroke-width:2px
-        `;
-      case 'presentationRequest':
-        return `
-        graph LR
-          Verifier[<img src="/identus-logo.svg" height="20" style="vertical-align:middle" alt="Verifier"/> Verifier] -- "Send Presentation Request (QR/URL for SD-JWT)" --> Holder[<img src="/lace.svg" height="20" style="vertical-align:middle" alt="Holder"/> Holder]
-
-          style Verifier fill:none,stroke:#ccc,stroke-width:2px,color:#000
-          style Holder fill:none,stroke:#ccc,stroke-width:2px
-        `;
-      case 'present':
-        return `
-        graph LR
-          Verifier[<img src="/identus-logo.svg" height="20" style="vertical-align:middle" alt="Verifier"/> Verifier] -- "Send Presentation Request (QR/URL for SD-JWT)" --> Holder[<img src="/lace.svg" height="20" style="vertical-align:middle" alt="Holder"/> Holder]
-          Holder -- "Present Verifiable Presentation (select and send credential)" --> Verifier
-
-          style Verifier fill:none,stroke:#ccc,stroke-width:2px,color:#000
-          style Holder fill:none,stroke:#ccc,stroke-width:2px
-        `;
-      case 'presentationVerify':
-        return `
-        graph LR
-          Holder[<img src="/lace.svg" height="20" style="vertical-align:middle" alt="Holder"/> Holder] -- "Present Verifiable Presentation (select and send credential)" --> Verifier[<img src="/identus-logo.svg" height="20" style="vertical-align:middle" alt="Verifier"/> Verifier]
-          Verifier -- "Resolve Issuer's Prism DID and Verify (DID resolution on Cardano)" --> Blockchain[<img src="/cardano-ada-logo.webp" height="20" style="vertical-align:middle" alt="Blockchain"/> Cardano Blockchain]
-
-          style Holder fill:none,stroke:#ccc,stroke-width:2px
-          style Verifier fill:none,stroke:#ccc,stroke-width:2px,color:#000
-          style Blockchain fill:none,stroke:#ccc,stroke-width:2px,color:#000
-        `;
-      default:
-        return '';
-    }
-  };
 
   return (
     <div className="bg-white rounded-2xl shadow-lg p-8 mb-12 w-full">

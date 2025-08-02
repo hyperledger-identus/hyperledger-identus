@@ -17,6 +17,45 @@ const step: Step = {
     disableCondition: (store) => !store.issuerAccepted,
     title: 'Review & Issue Credentials',
     description: 'Return to the issuer perspective to review incoming credential requests from holders. Approve or reject requests and issue SD-JWT credentials with the configured claims to complete the issuance process.',
+    codeSample: {
+        language: 'typescript',
+        code: `// Step 4: Credential Issuance Process (Issuer Side)
+
+const issueCredential = async (agent, message, claims, issuerDID, holderDID) => {
+    const protocol = new SDK.Tasks.RunProtocol({
+        type: 'credential-request',
+        pid: SDK.ProtocolType.DidcommRequestCredential,
+        data: {
+            issuerDID,
+            holderDID,
+            message,
+            format: SDK.Domain.CredentialType.JWT,
+            claims,
+        }
+    });
+    
+    const issued = await agent.runTask(protocol);
+    
+    await agent.send(issued.makeMessage());
+};
+
+// Usage in the complete flow:
+// 1. Wait for credential request from holder
+const credentialRequestPromise = waitForMessage(issuer, SDK.ProtocolType.DidcommRequestCredential);
+
+// 2. Accept the credential offer from holder side (from previous step)
+await acceptCredentialOffer(holder, oobOfferJson);
+
+// 3. Process the credential request and issue the credential
+const credentialRequestMessage = await credentialRequestPromise;
+await issueCredential(
+    issuer, 
+    credentialRequestMessage, 
+    issuanceRequest.claims, 
+    issuerDID, 
+    holderDID
+);`
+    },
     content() {
         const {
             setStore, ...store
@@ -118,7 +157,7 @@ const step: Step = {
                 ) : (
                     <div className="space-y-4">
                         {credentialRequests.map((request, index) => (
-                            <div key={index} className="border border-slate-200 rounded-lg p-4 bg-slate-50">
+                            <div key={request.request.id} className="border border-slate-200 rounded-lg p-4 bg-slate-50">
 
 <FlowCard
                     isSelected={false}
@@ -132,6 +171,7 @@ const step: Step = {
                                 {
                                     isRequestPending(request.message) && <div className="flex space-x-3">
                                         <button
+                                            type="button"
                                             disabled={approveBusy || rejectBusy}
                                             onClick={() => onApprove(request.message)}
                                             className={`flex-1 font-medium py-2 px-4 rounded-lg transition-all duration-200 ${
@@ -143,6 +183,7 @@ const step: Step = {
                                             {approveBusy ? 'Issuing...' : 'Issue Credential'}
                                         </button>
                                         <button
+                                            type="button"
                                             disabled={approveBusy || rejectBusy}
                                             onClick={() => onReject(request.message)}
                                             className={`flex-1 font-medium py-2 px-4 rounded-lg transition-all duration-200 ${

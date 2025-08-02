@@ -6,20 +6,18 @@ body,
 html {
   margin: 0;
   padding: 0;
-  background-color: #000;
-  color: #fff;
+  /* Removed conflicting dark theme colors - let Tailwind handle styling */
 }
 
 
 .flowchart-link {
-  stroke-dasharray: 4, 4 !important;
+  stroke-dasharray: 4,4 !important;
   animation: flow 1s linear infinite;
-  stroke-width: 2px !important;
 }
 
 @keyframes flow {
   from {
-    stroke-dashoffset: 8;
+    stroke-dashoffset: 16;
   }
   to {
     stroke-dashoffset: 0;

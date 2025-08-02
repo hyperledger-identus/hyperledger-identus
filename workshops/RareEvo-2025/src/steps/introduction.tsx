@@ -18,6 +18,24 @@ const step: Step = {
     disableCondition: (store) => !store.issuerStarted,
     title: '',
     description: '',
+    codeSample: {
+        language: 'typescript',
+        code: `// Hyperledger Identus SDK Workshop - Complete Workflow Setup
+import SDK from "@hyperledger/identus-sdk";
+import { StorageType } from "@trust0/ridb";
+import { createStore } from "@trust0/identus-store";
+import { v4 as uuidv4 } from 'uuid';
+import { base64 } from 'multiformats/bases/base64';
+
+// Mediator DID for agent communication
+const mediatorDID = 'did:peer:2.Ez6LSr75gLoSwaVHS7MTzcKLXjt9onJMXY9aVEBGWY8ahWPdn.Vz6Mkw5SdxCCxRTfHx1LaGvh2e5JWPWJs7Ek6mjiPXRxqnYHT.SeyJ0IjoiZG0iLCJzIjp7InVyaSI6Imh0dHBzOi8vbWVkaWF0b3IudHJ1c3QwLmlkIiwiYSI6WyJkaWRjb21tL3YyIl19fQ.SeyJ0IjoiZG0iLCJzIjp7InVyaSI6IndzOi8vbWVkaWF0b3IudHJ1c3QwLmlkL3dzIiwiYSI6WyJkaWRjb21tL3YyIl19fQ';
+
+// This workshop demonstrates the complete flow of:
+// 1. Setting up Agents (Issuer, Holder, Verifier)
+// 2. Creating DIDs
+// 3. Issuing Credentials
+// 4. Requesting & Verifying Presentations`
+    },
     content() {
         return (
             <div className="min-h-screen">

@@ -313,18 +313,6 @@ const log = {
         log.separator();
         log.success('🎉 Complete credential issuance and presentation workflow finished successfully!');
         log.data('Final verification result', verify);
-        
-        console.log(`
-🏁 Workshop Summary:
-   ✅ Created 3 agents (Issuer, Holder, Verifier)
-   ✅ Generated DIDs for Issuer and Holder
-   ✅ Issued credential: { name: "John Doe" }
-   ✅ Requested presentation of the credential
-   ✅ Successfully verified the presentation
-   
-   🔗 This demonstrates a complete Self-Sovereign Identity flow!
-`);
-
     } catch (err) {
         console.error('\n❌ ERROR:', err.message);
         console.error(err);

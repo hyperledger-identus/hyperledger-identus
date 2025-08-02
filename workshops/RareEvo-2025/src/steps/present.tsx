@@ -162,6 +162,7 @@ function CredentialSelector({ request }: { request: SDK.RequestPresentation }) {
                     <>
                         <p>You have no credentials that match the request</p>
                         <button
+                            type="button"
                             className="mt-4 mx-2 bg-red-500 text-white px-4 py-2 rounded-md disabled:opacity-50 disabled:cursor-not-allowed"
                             onClick={onHandleReject}
                             disabled={dbState !== 'loaded' || isRejecting}
@@ -206,6 +207,7 @@ function CredentialSelector({ request }: { request: SDK.RequestPresentation }) {
                         />
 
                         <button
+                            type="button"
                             className="mt-4 bg-blue-500 text-white px-4 py-2 rounded-md disabled:opacity-50 disabled:cursor-not-allowed"
                             onClick={onHandleAccept}
                             disabled={!agent || agentState !== SDK.Domain.Startable.State.RUNNING || !selectedCredential || isAccepting || isRejecting}
@@ -213,6 +215,7 @@ function CredentialSelector({ request }: { request: SDK.RequestPresentation }) {
                             {isAccepting ? 'Accepting...' : 'Accept'}
                         </button>
                         <button
+                            type="button"
                             className="mt-4 mx-2 bg-red-500 text-white px-4 py-2 rounded-md disabled:opacity-50 disabled:cursor-not-allowed"
                             onClick={onHandleReject}
                             disabled={dbState !== 'loaded' || isAccepting || isRejecting}
@@ -270,7 +273,7 @@ function PresentCredential() {
                 })
             }
         }
-    }, [agentState, store, parseOOB, setLastLink,setPresentationRequests, agent, loadMessages, pluto, lastLink])
+    }, [agentState, store.verifierRequestOOB, parseOOB, agent, lastLink])
 
     return (
         <div>
@@ -294,6 +297,33 @@ const step: Step = {
     type: "holder",
     title: "Present Credential",
     description: "",
+    codeSample: {
+        language: 'typescript',
+        code: `// Step 7: Handling Presentation Requests (Holder Side)
+
+const handlePresentationRequest = async (agent, message, credential) => {
+    const request = SDK.RequestPresentation.fromMessage(message);
+    
+    const task = new SDK.Tasks.CreatePresentation({ request, credential });
+    const presentation = await agent.runTask(task);
+    const presentationMessage = presentation.makeMessage();
+    
+    await agent.send(presentationMessage);
+};
+
+// Continuing from the previous step:
+// The holder has received the presentation request message
+const presentationRequestMessage = await presentationRequestPromise;
+
+// Set up promise to wait for the verifier to receive the presentation
+const verifierPresentation = waitForMessage(verifier, SDK.ProtocolType.DidcommPresentation);
+
+// Holder processes the request and sends the presentation
+await handlePresentationRequest(holder, presentationRequestMessage, credential);
+
+// Wait for the verifier to receive the presentation
+const presentationMessage = await verifierPresentation;`
+    },
     content: PresentCredential
 }
 

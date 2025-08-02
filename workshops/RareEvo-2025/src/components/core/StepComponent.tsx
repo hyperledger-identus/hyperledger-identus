@@ -5,8 +5,10 @@ import { Hooks, NextFnProps, Step } from "@/types";
 import { AgentWorkFlow } from "../AgentWorkFlow";
 import { DatabaseContext, AgentContext, ConnectionsContext, CredentialsContext, HolderContext, IssuerContext, MessagesContext, PeerDIDContext, PrismDIDContext, VerifierContext } from "@trust0/identus-react/context";
 import { Status } from "../Status";
+import dynamic from "next/dynamic";
 
-
+const CodeComponent = dynamic(() => import("@/components/core/Codes").then(mod => mod.Codes), { ssr: false });
+    
 export function WithContext({ context, children }: { context: Partial<Hooks>, children?: React.ReactNode }) {
     if (!context) return null;
     const {
@@ -62,12 +64,19 @@ export function StepComponent(props: { step: Step } & NextFnProps) {
                     <Status type={agentType}/>
                 </div>
             }
+           
             {
                 step.description && <p className="text-left text-gray-600 leading-relaxed mb-4 md:mb-6 lg:mb-8 text-sm md:text-base lg:text-lg">
                     {step.description}
                 </p>
             }
-                <Content type={agentType} />
+                <Content type={agentType} setIsPopupOpen={step.setIsPopupOpen} />
+
+                {
+                step.codeSample && <CodeComponent codes={{
+                    ['Show code example']: step.codeSample
+                }} setIsPopupOpen={step.setIsPopupOpen} />
+            }
         </div>
     </AgentWorkFlow>
 

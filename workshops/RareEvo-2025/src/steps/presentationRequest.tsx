@@ -46,7 +46,7 @@ const PresentationRequest = () => {
         } finally {
             setIsProcessing(false)
         }
-    }, [setIsProcessing, presentationClaims, agent, issueOOBPresentationRequest, setStore, trustIssuers, agent?.state])
+    }, [presentationClaims, agent, issueOOBPresentationRequest, setStore, trustIssuers])
 
     const addClaim = () => {
         const newClaim: Claim = {
@@ -78,7 +78,7 @@ const PresentationRequest = () => {
             return all
         }, {})
         setPresentationClaims({ claims: claimsObject })
-    }, [claims, setPresentationClaims])
+    }, [claims])
     
     return (
         <div className=" p-6 bg-white rounded-lg shadow-md">
@@ -96,6 +96,7 @@ const PresentationRequest = () => {
                                 className="inline-flex items-center px-3 py-2 text-sm font-medium text-white bg-green-600 rounded-lg hover:bg-green-700 focus:ring-4 focus:ring-green-300 dark:focus:ring-green-900"
                             >
                                 <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <title>Plus icon</title>
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
                                 </svg>
                                 Add Claim
@@ -140,6 +141,7 @@ const PresentationRequest = () => {
                                     title="Remove claim"
                                 >
                                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <title>Delete icon</title>
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                                     </svg>
                                 </button>
@@ -172,6 +174,7 @@ const PresentationRequest = () => {
                         {isProcessing ? (
                             <>
                                 <svg className="w-5 h-5 mr-2 animate-spin" fill="none" viewBox="0 0 24 24">
+                                    <title>Loading spinner</title>
                                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                                     <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                                 </svg>
@@ -180,6 +183,7 @@ const PresentationRequest = () => {
                         ) : (
                             <>
                                 <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <title>Send icon</title>
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
                                 </svg>
                                 Create Presentation Request
@@ -208,6 +212,39 @@ const step: Step = {
     type: "verifier",
     title: "Create OOB Presentation Request",
     description: "",
+    codeSample: {
+        language: 'typescript',
+        code: `// Step 6: Creating Presentation Requests (Verifier Side)
+
+const issuePresentationRequest = async (agent, type, toDID, claims) => {
+    const task = new SDK.Tasks.CreatePresentationRequest({ type, toDID, claims });
+    const requestPresentation = await agent.runTask(task);
+    const requestPresentationMessage = requestPresentation.makeMessage();
+    
+    await agent.send(requestPresentationMessage);
+};
+
+// Usage in the complete flow:
+// Set up promise to wait for presentation request on holder side
+const presentationRequestPromise = waitForMessage(holder, SDK.ProtocolType.DidcommRequestPresentation);
+
+// Verifier creates and sends presentation request
+await issuePresentationRequest(
+    verifier,
+    SDK.Domain.CredentialType.JWT,
+    credentialMessage.to, // Holder's DID from previous credential exchange
+    {
+        issuerDID: issuerDID.toString(),
+        holderDID: holderDID.toString(),
+        claims: {
+            name: { type: 'string', pattern: 'John Doe' }
+        }
+    }
+);
+
+// The holder will receive this request in the next step...
+const presentationRequestMessage = await presentationRequestPromise;`
+    },
     content: PresentationRequest
 }
 

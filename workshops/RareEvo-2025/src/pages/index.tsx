@@ -2,7 +2,7 @@
 
 import React, { useCallback, useEffect, useState } from "react";
 import '../app/index.css';
-import { ContentItem, Store } from "@/types";
+import { ContentItem, Store, Step } from "@/types";
 import { AgentProvider } from "@trust0/identus-react";
 import { StepComponent, WithContext } from "@/components/core/StepComponent";
 import dynamic from "next/dynamic";
@@ -32,6 +32,7 @@ const Home: React.FC<{}> = (props) => {
   const [issuerContext, setIssuerContext] = useState<any>(null)
   const [holderContext, setHolderContext] = useState<any>(null)
   const [verifierContext, setVerifierContext] = useState<any>(null)
+  const [isPopupOpen, setIsPopupOpen] = useState(false)
   
   // Memoize the callback functions to prevent infinite re-renders
   const handleIssuerContextUpdate = useCallback((ctx: any) => {
@@ -56,68 +57,74 @@ const Home: React.FC<{}> = (props) => {
     setReady(true)
   }, [])
 
+  // Helper function to create steps with setIsPopupOpen
+  const createStepWithPopup = (step: Step) => ({
+    ...step,
+    setIsPopupOpen
+  });
+
   const defaultContent: ContentItem[] = [
     {
       name: 'Hyperledger Identus & RareEvo',
       type: introduction.type,
       content: <WithContext context={issuerContext}>
-      <StepComponent step={introduction}  />
+      <StepComponent step={createStepWithPopup(introduction)}  />
     </WithContext>
     },
     {
       name: 'Prism DID Create / Publish',
       type: did.type,
       content: <WithContext context={issuerContext}>
-      <StepComponent step={did}  />
+      <StepComponent step={createStepWithPopup(did)}  />
     </WithContext>
     },
     {
       name: 'OOB Issuer',
       type: oobIssuer.type,
       content: <WithContext context={issuerContext}>
-      <StepComponent step={oobIssuer}  />
+      <StepComponent step={createStepWithPopup(oobIssuer)}  />
     </WithContext>
     },
     {
       name: 'OOB Holder',
       type: oobHolder.type,
       content: <WithContext context={holderContext}>
-      <StepComponent step={oobHolder}  />
+      <StepComponent step={createStepWithPopup(oobHolder)}  />
     </WithContext>
     },
     {
       name: 'Issuance',
       type: issuance.type,
       content: <WithContext context={issuerContext}>
-      <StepComponent step={issuance}  />
+      <StepComponent step={createStepWithPopup(issuance)}  />
     </WithContext>
     },
     {
       name: 'Credentials',
       type: credentials.type,
       content: <WithContext context={holderContext}>
-      <StepComponent step={credentials}  />
+      <StepComponent step={createStepWithPopup(credentials)}  />
     </WithContext>
     },
     {
       name: 'Presentation Request',
       type: presentationRequest.type,
       content: <WithContext context={verifierContext}>
-      <StepComponent step={presentationRequest}  />
+      <StepComponent step={createStepWithPopup(presentationRequest)}  />
     </WithContext>
     },
     {
       name: 'Present',
       type: present.type,
       content: <WithContext context={holderContext}>
-      <StepComponent step={present}  />
+      <StepComponent step={createStepWithPopup(present)}  />
     </WithContext>
     },
     {
       name: 'Presentation Verify',
       type: presentationVerify.type,
       content: <WithContext context={verifierContext}>
-      <StepComponent step={presentationVerify}  />
+      <StepComponent step={createStepWithPopup(presentationVerify)}  />
     </WithContext>
     }
   ]
@@ -127,36 +134,7 @@ const Home: React.FC<{}> = (props) => {
           <AgentProvider><HookConsumer callback={handleHolderContextUpdate} /></AgentProvider>
           <AgentProvider><HookConsumer callback={handleVerifierContextUpdate} /></AgentProvider>
           
-          <Scroll content={defaultContent} />
-          {/* <WithContext context={issuerContext}>
-            <StepComponent step={introduction}  />
-            <StepComponent step={did}  />
-            <StepComponent step={oobIssuer}  />
-          </WithContext> */}
-{/* 
-          <WithContext context={holderContext}>
-            <StepComponent step={oobHolder}  />
-          </WithContext>
-
-          <WithContext context={issuerContext}>
-            <StepComponent step={issuance}  />
-          </WithContext>
-
-          <WithContext context={holderContext}>
-            <StepComponent step={credentials}  />
-          </WithContext>
-          
-          <WithContext context={verifierContext}>
-            <StepComponent step={presentationRequest}  />
-          </WithContext> 
-
-          <WithContext context={holderContext}>
-            <StepComponent step={present}  />
-          </WithContext>
-
-          <WithContext context={verifierContext}>
-            <StepComponent step={presentationVerify}  />
-          </WithContext>  */}
+          <Scroll content={defaultContent} isPopupOpen={isPopupOpen} />
   </>
 }
 export default Home;

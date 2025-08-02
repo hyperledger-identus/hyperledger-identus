@@ -6,7 +6,7 @@ import { ShieldCheckIcon } from "@heroicons/react/24/outline"
 import { Award, Wallet } from "lucide-react"
 import type { ContentItem } from "@/types"
 
-function Scroll({ content }: { content: ContentItem[] }) {
+function Scroll({ content, isPopupOpen }: { content: ContentItem[], isPopupOpen?: boolean }) {
   const router = useRouter()
   const scrollContainerRef = useRef<HTMLDivElement>(null)
   
@@ -121,6 +121,11 @@ function Scroll({ content }: { content: ContentItem[] }) {
 
   useEffect(() => {
     const handleWheel = (e: WheelEvent) => {
+      // If a popup is open, don't prevent default and don't handle step navigation
+      if (isPopupOpen) {
+        return;
+      }
+      
       e.preventDefault();
       
       if (isAnimating.current) return;
@@ -163,7 +168,7 @@ function Scroll({ content }: { content: ContentItem[] }) {
         container.removeEventListener('wheel', handleWheel);
       }
     };
-  }, [currentIndex, length, angle, animateToIndex]);
+  }, [currentIndex, length, angle, animateToIndex, isPopupOpen]);
 
   const getBackgroundColor = (type: string) => {
     switch (type) {

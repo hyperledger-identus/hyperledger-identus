@@ -15,6 +15,34 @@ const step: Step = {
     disableCondition: (store) =>  !store.holderAccepted,
     title: 'Credential Offer',
     description: 'Switch to the holder perspective to process the Out-of-Band credential offer. Parse the OOB invitation, review the credential details, and accept the offer to initiate the credential request process.',
+    codeSample: {
+        language: 'typescript',
+        code: `// Step 3: Parsing and Accepting OOB Credential Offers (Holder Side)
+
+const parseOOBOffer = (oobOfferJson, peerDID) => {
+    const message = SDK.Domain.Message.fromJson(oobOfferJson);
+    const attachment = message.attachments.at(0)?.payload;
+    return SDK.Domain.Message.fromJson({
+        ...attachment,
+        from: message.from,
+        to: peerDID,
+    });
+};
+
+const acceptCredentialOffer = async (agent, oobOfferJson) => {
+    const peerDID = await agent.createNewPeerDID();
+    const credentialOffer = parseOOBOffer(oobOfferJson, peerDID);
+    const credentialOfferMessage = SDK.OfferCredential.fromMessage(credentialOffer);
+    
+    const requestCredential = await agent.handle(credentialOfferMessage.makeMessage());
+    const requestMessage = requestCredential.makeMessage();
+    
+    await agent.send(requestMessage);
+};
+
+// Usage:
+await acceptCredentialOffer(holder, oobOfferJson);`
+    },
     content() {
         const {
             setStore,
@@ -62,10 +90,11 @@ const step: Step = {
                     setLastLink(oob);
                     parseOOBOffer(store.issuerRequestOOB).then((message) => {
                         setCredentialOffers((prev) => [...prev, message]);
+                        setStore({ issuerRequestOOB: undefined })
                     })
                 } 
             }
-        }, [agentState, store, parseOOBOffer, agent, lastLink, setLastLink, setCredentialOffers])
+        }, [agentState, store, parseOOBOffer, agent, lastLink, setLastLink, setCredentialOffers, setStore])
 
         if (credentialOffers.length === 0) {
             return <div>
@@ -73,11 +102,19 @@ const step: Step = {
             <div className="mt-6 p-4 bg-slate-50 rounded-lg border border-slate-200">
                 <div className="flex items-center space-x-2 mb-2">
                     <div className="w-2 h-2 bg-yellow-500 rounded-full"></div>
-                    <span className="text-sm font-medium text-slate-700">Waiting to scan OOB Link</span>
+                    <span className="text-sm font-medium text-slate-700">Waiting for the Issuer to share the OOB Link</span>
                 </div>
-                <p className="text-sm text-slate-600">
-                    TIP: Choose the OOB link from the previous step.
-                </p>
+                {
+                     store.issuerRequestOOB ? 
+                        <p className="text-sm text-slate-600">
+                            Processing the OOB Link...
+                        </p>
+                     : 
+                        <p className="text-sm text-slate-600">
+                            TIP: Choose the OOB link from the previous step.
+                        </p>
+                    
+                }
             </div>
         </div>;
         }
