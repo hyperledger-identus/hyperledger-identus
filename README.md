@@ -29,6 +29,9 @@ Identus consists of several core components, each hosted in its own repository:
   - [Kotlin Multiplatform](https://github.com/hyperledger/identus-edge-agent-sdk-kmp)
   - [Swift](https://github.com/hyperledger/identus-edge-agent-sdk-swift)
 - [Apollo cryptographic library](https://github.com/hyperledger/identus-apollo)
+- Verifiable Data Registry (VDR):
+  - [VDR system API](https://github.com/hyperledger-identus/vdr) 
+  - [PRISM VDR](https://github.com/hyperledger-identus/prism-vdr-driver)
 - [Documentation source](https://github.com/hyperledger/identus-docs)
 
 For the latest roadmap and planned features see the [Identus project board](https://github.com/orgs/hyperledger-identus/projects/2).
