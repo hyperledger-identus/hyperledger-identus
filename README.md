@@ -10,6 +10,7 @@ This repository aggregates assets and information used across the Identus projec
 
 - **identus-docker** – Docker Compose configuration for running the Cloud Agent, Mediator and their dependencies. See [dockerize-identus.md](identus-docker/dockerize-identus.md).
 - **resources** – Logos and documents such as the Identus Technical Charter.
+- **docs** – Project-related documentation, including [`did:prism` compliance status](docs/did-prism-compliance.md).
 - **workshops** – Example applications demonstrating how to build with the Identus SDKs.
 
 Project policies are documented in [`CODE_OF_CONDUCT.md`](CODE_OF_CONDUCT.md), [`CONTRIBUTING.md`](CONTRIBUTING.md), [`DCO.md`](DCO.md) and [`SECURITY.md`](SECURITY.md).
