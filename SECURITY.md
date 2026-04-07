@@ -54,7 +54,6 @@ The current Hyperledger Identus security team is:
 
 | Name             | Email ID           | Discord ID | Area/Specialty  |
 | ---------------- | ------------------ | ---------- | --------------- |
-| Dale Peek        | dale.peek@iohk.io  | Dale-iohk  | Everything      |
 | Javier Labrador  | javier.ribo@iohk.io| elribonazo | Everything      |
 | Yurii Shynbuiev  | shynbuiev@iohk.io  | yshyn-iohk | Everything      |
 
