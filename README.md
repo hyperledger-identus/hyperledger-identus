@@ -36,6 +36,10 @@ Identus consists of several core components, each hosted in its own repository:
 
 For the latest roadmap and planned features see the [Identus project board](https://github.com/orgs/hyperledger-identus/projects/2).
 
+## Adopters
+
+See [ADOPTERS.md](ADOPTERS.md) for a list of organizations and projects using Identus in production or active development.
+
 ## Getting help and contributing
 
 We welcome community contributions and participation. Issues and pull requests are tracked in the respective repositories. For chat, join the Identus Discord server, and feel free to subscribe to the [mailing list](https://lists.hyperledger.org/g/identus) or join [community calls](https://lists.hyperledger.org/g/identus/calendar). See [CONTRIBUTING.md](CONTRIBUTING.md) for more details on how to get involved.
