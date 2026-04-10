@@ -1,0 +1,3 @@
+# style: auto-fix and manually resolve all lint errors across the repo
+# Mass formatting — markdownlint, yamllint. No logic changes.
+051c503869dc03a1c58fdec49b26343b8bec1ee1
