@@ -2,24 +2,28 @@
 
 > **Note:** This is an initial set of use-case examples designed to help you quickly understand the real-world value of Hyperledger Identus. More examples will be added over time. For exhaustive technical details, please refer to the [Identus Documentation Portal](https://hyperledger-identus.github.io/docs/).
 
-This document provides simple, concrete use-cases illustrating how Hyperledger Identus can be deployed in real-world scenarios. 
+This document provides simple, concrete use-cases illustrating how Hyperledger Identus can be deployed in real-world scenarios.
 
 ## 1. Online Certification Website
 
 ### Problem Statement
+
 An educational platform needs a secure, verifiable, and tamper-proof way to issue graduation certificates to students, moving away from easily forged PDF documents.
 
 ### High-Level Architecture
+
 1. **Issuer (University/Platform)**: Represents the certification authority running an instance of the **Hyperledger Identus Cloud Agent**.
 2. **Holder (Student)**: Uses a digital wallet (built with the **Identus Edge Agent SDK**) to securely receive and hold the certificate.
 3. **Verifier (Employer)**: An entity that queries the Verifiable Data Registry (**VDR**) via their own Identus Cloud Agent to verify the credential's authenticity and revocation status.
 
 ### Components Involved
+
 * **Frontend LMS**: The school's Learning Management System.
 * **Identus Cloud Agent**: Receives REST API calls from the LMS, manages DID interactions, and issues credentials to the student's edge wallet.
 * **Digital Wallet**: The student's mobile application to store the Verifiable Credential.
 
 ### Step-by-Step Flow
+
 1. **Examination**: The student completes the certification track and passes the final exam on the LMS.
 2. **Evaluation**: The LMS marks the student as "Graduated".
 3. **DID Connection**: The student scans an LMS-generated QR code to establish a secure DIDComm connection with the university's Cloud Agent.
@@ -51,6 +55,7 @@ curl -X POST "http://localhost:8085/issue-credentials/credential-offers" \
 ---
 
 ## Future Potential Use-Cases
+
 * **KYC / Identity Verification**: Banks or fintech platforms issuing reusable KYC credentials.
 * **Healthcare Data Access**: Securely storing and presenting medical records or prescription access.
 * **Physical & Logical Access Control**: Employee badges and single-sign-on (SSO) credentials using enterprise DIDs.
