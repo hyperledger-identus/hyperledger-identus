@@ -39,14 +39,14 @@ The name `cloud-agent` is also the hostname of the Cloud Agent's Docker instance
 
 We use that hostname for Out-of-Band (OOB) invitations and other tasks by configuring environment variables as follows:
 
-```
+```text
 DIDCOMM_SERVICE_URL: http://cloud-agent:8090
 REST_SERVICE_URL: http://cloud-agent:8085
 ```
 
 The same applies to the Identus Mediator, using the following environment variable:
 
-```
+```text
 SERVICE_ENDPOINTS=http://identus-mediator:8080;ws://identus-mediator:8080/ws
 ```
 
@@ -56,8 +56,8 @@ SERVICE_ENDPOINTS=http://identus-mediator:8080;ws://identus-mediator:8080/ws
 
 To use the OOB invitation, the names must be resolvable. If you are running or developing an application on the host machine, it's necessary to define those names. The easiest way to achieve this is by adding entries to the `/etc/hosts` file, like so:
 
-```
-127.0.0.1	localhost cloud-agent identus-mediator
+```text
+127.0.0.1 localhost cloud-agent identus-mediator
 ```
 
 ### Ports
@@ -88,12 +88,15 @@ So on your docker compose file [docker-compose.yaml](identus-docker/docker-compo
 By changing the following:
 
 - From
-  ```
+
+  ```yaml
     image: docker.io/hyperledgeridentus/identus-cloud-agent:2.0.0
     # build: ./cloud-agent-M4-workaround
   ```
+
 - To
-  ```
+
+  ```yaml
     # image: docker.io/hyperledgeridentus/identus-cloud-agent:2.0.0
     build: ./cloud-agent-M4-workaround
   ```
