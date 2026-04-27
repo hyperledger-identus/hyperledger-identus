@@ -18,6 +18,10 @@ Project policies are documented in [`CODE_OF_CONDUCT.md`](CODE_OF_CONDUCT.md), [
 
 If you want to try Identus locally the easiest way is to use Docker Compose. Follow the steps in [`identus-docker/dockerize-identus.md`](identus-docker/dockerize-identus.md) and then explore the [Quick Start Guide](https://hyperledger-identus.github.io/docs/home/quick-start/) on the documentation site.
 
+## Use Cases
+
+To see concrete examples of how Hyperledger Identus is used in the real world, check out our [Use-Cases Documentation](docs/use-cases.md).
+
 ## Other Identus repositories
 
 Identus consists of several core components, each hosted in its own repository:
