@@ -12,41 +12,41 @@ Maintainers are assigned the following scopes in this repository:
 
 <!-- Please keep this sorted alphabetically by github -->
 
-| Name | GitHub ID | Scope | LFID | Discord ID | Email | Company Affiliation |
-|----- | --------- | ----- | ---- | ---------- | ----- | ------------------- |
-| Allain Magyar      | amagyar-iohk  | Maintainer |      | _                  | allain.magyar@iohk.io | IOG |
-| Javier Labrador    | elribonazo | Maintainer |         | elribonazo         | javier.ribo@iohk.io | IOG |
-| Yurii Shynbuiev    | yshyn-iohk | Maintainer |         | yuriishynbuiev     | yurii.shynbuiev@iohk.io | IOG |
-| Fabio Pinheiro     | FabioPinheiro | Maintainer |      | fmgp               | fabio.pinheiro@iohk.io | IOG |
-| Benjamin Voiturier | bvoiturier | Maintainer |         | bvoiturier         | benjamin.voiturier@iohk.io | IOG |
-| Curtis Harding     | curtis-h | Maintainer |           | _                  | curtis.harding@iohk.io | IOG |
-| Goncalo Frade      | goncalo-frade-iohk | Maintainer | | goncalofrade_20576 | goncalo.frade@iohk.io | IOG |
-| Shailesh Patil     | mineme0110 | Maintainer |         | mineme110          | shailesh.patil@iohk.io | IOG |
-| Björn Sandmann     | bsandmann | Maintainer |          | bjoernsandmann     | sandmann@codedata.solutions | Blocktrust |
-| Mix Irvin          | mixmix | Maintainer | | mixmix | | Ahau |
+| Name | GitHub ID | Scope | LFID | Discord ID | Email | Company Affiliation | Area of Expertise |
+|----- | --------- | ----- | ---- | ---------- | ----- | ------------------- | ----------------- |
+| Allain Magyar      | amagyar-iohk  | Maintainer |      | _                  | allain.magyar@iohk.io | IOG | Architecture |
+| Javier Labrador    | elribonazo | Maintainer |         | elribonazo         | javier.ribo@iohk.io | IOG | SDKs / Workshops |
+| Yurii Shynbuiev    | yshyn-iohk | Maintainer |         | yuriishynbuiev     | yurii.shynbuiev@iohk.io | IOG | Community / Docs |
+| Fabio Pinheiro     | FabioPinheiro | Maintainer |      | fmgp               | fabio.pinheiro@iohk.io | IOG | Cloud Agent / DevOps |
+| Benjamin Voiturier | bvoiturier | Maintainer |         | bvoiturier         | benjamin.voiturier@iohk.io | IOG | Cloud Agent / Security |
+| Curtis Harding     | curtis-h | Maintainer |           | _                  | curtis.harding@iohk.io | IOG | Architecture |
+| Goncalo Frade      | goncalo-frade-iohk | Maintainer | | goncalofrade_20576 | goncalo.frade@iohk.io | IOG | Cryptography / Protocols |
+| Shailesh Patil     | mineme0110 | Maintainer |         | mineme110          | shailesh.patil@iohk.io | IOG | Cloud Agent / Core |
+| Björn Sandmann     | bsandmann | Maintainer |          | bjoernsandmann     | sandmann@codedata.solutions | Blocktrust | Ecosystem / Wallets |
+| Mix Irvin          | mixmix | Maintainer | | mixmix | | Ahau | P2P / SSI |
 
 ## Emeritus Maintainers
 
-| Name | GitHub ID | Scope | LFID | Discord ID | Email | Company Affiliation |
-|----- | --------- | ----- | ---- | ---------- | ----- | ------------------- |
-| Anton Baliasnikov | antonbaliasnikov | Maintainer | | | | |
-| Ahmed Moussa      | hamada147        | Maintainer | | | | |   
-| Timothy Wells      | blockchaintimothy | Maintainer |  | timw_01400 |  |  | 
-| Cristian Gonzalez  | cristianIOHK | Maintainer |       | chet_to            |  |  |
-| Dale Peek          | Dale-iohk | Maintainer |          | dale.doe           |  |  |
-| Bassam Riman       | CryptoKnightIOG | Maintainer |    | _                  |  |  |
-| David Poltorak     | davepoltorak | Maintainer |       | davidpoltorak_io   |  |  |
-| Esteban Garcia     | essbante-io | Maintainer |        | essbante           |  |  |
-| Ezequiel Postan    | EzequielPostan | Maintainer |     | _                  |  |  |
-| Fayyaadh Adams     | FayyaadhAdams | Maintainer |      | .fayyaadh          |  |  |
-| Lohan Spies        | lohanspies | Maintainer |         | _                  |  |  |
-| Milos Backonja     | milosbackonja | Maintainer |      | _                  |  |  |
-| Miloš Džepina      | milosh86 | Maintainer |           | milosdz_60141      |  |  |
-| Michael Breuninger | mkbreuningIOHK | Maintainer |     | mkbreuning_45483   |  |  |
-| Pat Losoponkul     | patlo-iog | Maintainer |          | _pat_pat           |  |  |
-| Peter Vielhaber    | petevielhaber | Maintainer |      | petev_iog          |  |  |
-| Shota Jolbordi     | shotexa | Maintainer |            | xesus1337          |  |  |
-| Kranium Mendoza    | womfoo  | Maintainer |            | kraniumau          |  |  |
+| Name | GitHub ID | Scope | LFID | Discord ID | Email | Company Affiliation | Area of Expertise |
+|----- | --------- | ----- | ---- | ---------- | ----- | ------------------- | ----------------- |
+| Anton Baliasnikov | antonbaliasnikov | Maintainer | | | | | Identus Core |
+| Ahmed Moussa      | hamada147        | Maintainer | | | | | Identus Core |   
+| Timothy Wells      | blockchaintimothy | Maintainer |  | timw_01400 |  |  | Identus Core | 
+| Cristian Gonzalez  | cristianIOHK | Maintainer |       | chet_to            |  |  | Identus Core |
+| Dale Peek          | Dale-iohk | Maintainer |          | dale.doe           |  |  | Identus Core |
+| Bassam Riman       | CryptoKnightIOG | Maintainer |    | _                  |  |  | Identus Core |
+| David Poltorak     | davepoltorak | Maintainer |       | davidpoltorak_io   |  |  | Identus Core |
+| Esteban Garcia     | essbante-io | Maintainer |        | essbante           |  |  | Infrastructure / DevOps |
+| Ezequiel Postan    | EzequielPostan | Maintainer |     | _                  |  |  | Identus Core |
+| Fayyaadh Adams     | FayyaadhAdams | Maintainer |      | .fayyaadh          |  |  | Identus Core |
+| Lohan Spies        | lohanspies | Maintainer |         | _                  |  |  | Identus Core |
+| Milos Backonja     | milosbackonja | Maintainer |      | _                  |  |  | Identus Core |
+| Miloš Džepina      | milosh86 | Maintainer |           | milosdz_60141      |  |  | Identus Core |
+| Michael Breuninger | mkbreuningIOHK | Maintainer |     | mkbreuning_45483   |  |  | Release Engineering |
+| Pat Losoponkul     | patlo-iog | Maintainer |          | _pat_pat           |  |  | Identus Core |
+| Peter Vielhaber    | petevielhaber | Maintainer |      | petev_iog          |  |  | Identus Core |
+| Shota Jolbordi     | shotexa | Maintainer |            | xesus1337          |  |  | Identus Core |
+| Kranium Mendoza    | womfoo  | Maintainer |            | kraniumau          |  |  | Identus Core |
 
 
 ## The Duties of a Maintainer
