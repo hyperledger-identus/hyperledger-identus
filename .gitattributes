@@ -1,0 +1,26 @@
+# Set default behavior to LF for the whole repository
+* text=auto eol=lf
+
+# Shell scripts must always use LF
+*.sh text eol=lf
+
+# SQL scripts must always use LF
+*.sql text eol=lf
+
+# YAML files
+*.yaml text eol=lf
+*.yml text eol=lf
+
+# Markdown files
+*.md text eol=lf
+
+# JavaScript / JSON files
+*.js text eol=lf
+*.json text eol=lf
+
+# Binary files – do not modify
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
