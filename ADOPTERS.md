@@ -5,7 +5,7 @@ The following organizations and projects are using Identus in production or acti
 > **Note:** Listing here does not constitute an endorsement by Hyperledger or its members.
 
 | Organization | Description |
-|---|---|
+| --- | --- |
 | [CSIGN](https://www.csign.io) | Privacy-preserving digital signing and certification platform that anchors signed agreements to a public ledger for verifiable proof. |
 | [Blocktrust](https://blocktrust.dev) | Developer tools for decentralized identity, including a browser wallet, credential builder, analytics platform, and DIDComm mediator. |
 | [Socious](https://socious.io) | AI-powered sustainability platform using verifiable credentials to create tamper-proof, independently verifiable audit trails for compliance reporting. |
