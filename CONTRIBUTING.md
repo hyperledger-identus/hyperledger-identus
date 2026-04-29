@@ -351,7 +351,7 @@ The triage labels that are defined and additional process details are precised i
 After an issue is resolved and verified and the issue is closed on GitHub.
 
 > [!NOTE]  
-> The outcome of the triage may be shared on Discord annoucement channel (or a dedicated triage channel), highlighting: 
+> The outcome of the triage may be shared on Discord announcement channel (or a dedicated triage channel), highlighting: 
 >   - Critical issues
 >   - Outstanding actions
  
@@ -403,7 +403,7 @@ The SDKs e2e are the system level testing, which are the most important for the 
 *This will be added in a later iteration of this process*
 
 **Quick Start Guide execution:**
-With the support of QA, one maintainer (*TBC until now, it was the QA enginner but it would be good that it is rolling assignment among maintainers team TBC*) will execute the Quick Start Guide manually following the steps with the versions of the components indicated by the release candidate. The outcome is the Quick Start Guide execution is succesfull and the document is updated with the new versioning.
+With the support of QA, one maintainer (*TBC until now, it was the QA engineer but it would be good that it is rolling assignment among maintainers team TBC*) will execute the Quick Start Guide manually following the steps with the versions of the components indicated by the release candidate. The outcome is the Quick Start Guide execution is successful and the document is updated with the new versioning.
 *TBC: potentially a compatibility table is updated.*
 
 ## Step3 - Create the ecosystem release note and get it approved
