@@ -165,8 +165,7 @@ PGP (Pretty Good Privacy) is a method for encrypting and signing data. By signin
 
 ### Troubleshooting
 
-In case commiting a change fails with the message
-
+In case committing a change fails with the message
 ```bash
 error: gpg failed to sign the data
 fatal: failed to write commit object
