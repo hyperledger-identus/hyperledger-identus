@@ -153,9 +153,9 @@ PGP (Pretty Good Privacy) is a method for encrypting and signing data. By signin
   
       *NOTE:* Make sure to add your email address into [your github account emails](https://github.com/settings/emails) and confirm it. Github will allow you to add public keys associated with any email, but if this email is not added into your emails, it assumes that you are not the owner of this email address, and even if commits are signed with a proper private key, they will not be verified.
 
-### Troubleshooting
+### Troubleshooting 
 
-In case commiting a change fails with the message
+In case committing a change fails with the message
 ```bash
 error: gpg failed to sign the data
 fatal: failed to write commit object
