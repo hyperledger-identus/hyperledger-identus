@@ -101,7 +101,7 @@ services:
 
   identus-mediator:
     # https://hub.docker.com/repository/docker/hyperledgeridentus/identus-mediator/general
-    image: docker.io/hyperledgeridentus/identus-mediator:1.1.0
+    image: docker.io/hyperledgeridentus/identus-mediator:1.2.0
     ports:
       - "8080:8080"
     environment:
