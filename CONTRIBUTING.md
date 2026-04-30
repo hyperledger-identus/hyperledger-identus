@@ -33,7 +33,7 @@ If you would like to *implement* a new feature, please consider the size of the 
 - For a **Major Feature**, first open an issue and outline your proposal so that it can be discussed.
   This process allows us to better coordinate our efforts, prevent duplication of work, and help you to craft the change so that it is successfully accepted into the project.
 
-  **Note**: Adding a new topic to the documentation, or significantly re-writing a topic, counts as a major feature.
+  **Note**: Adding a new topic to the documentation, or significantly rewriting a topic, counts as a major feature.
 
 - **Small Features** can be crafted and directly [submitted as a Pull Request](#submit-pr).
 
@@ -396,7 +396,7 @@ The triage labels that are defined and additional process details are precised i
 After an issue is resolved and verified and the issue is closed on GitHub.
 
 > [!NOTE]  
-> The outcome of the triage may be shared on Discord annoucement channel (or a dedicated triage channel), highlighting:
+> The outcome of the triage may be shared on Discord announcement channel (or a dedicated triage channel), highlighting:
 >
 > - Critical issues
 > - Outstanding actions
@@ -454,7 +454,7 @@ The SDKs e2e are the system level testing, which are the most important for the 
 *This will be added in a later iteration of this process*
 
 **Quick Start Guide execution:**
-With the support of QA, one maintainer (*TBC until now, it was the QA enginner but it would be good that it is rolling assignment among maintainers team TBC*) will execute the Quick Start Guide manually following the steps with the versions of the components indicated by the release candidate. The outcome is the Quick Start Guide execution is succesfull and the document is updated with the new versioning.
+With the support of QA, one maintainer (*TBC until now, it was the QA engineer but it would be good that it is rolling assignment among maintainers team TBC*) will execute the Quick Start Guide manually following the steps with the versions of the components indicated by the release candidate. The outcome is the Quick Start Guide execution is successful and the document is updated with the new versioning.
 *TBC: potentially a compatibility table is updated.*
 
 ## Step3 - Create the ecosystem release note and get it approved
