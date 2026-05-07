@@ -53,7 +53,7 @@ Before you submit your Pull Request (PR) consider the following guidelines:
    You don't want to duplicate existing efforts.
 
 2. Be sure that an issue describes the problem you're fixing, or documents the design for the feature you'd like to add.
-   Discussing the design upfront helps to ensure that we're ready to accept your work.
+   Discussing the design up front helps to ensure that we're ready to accept your work.
 
 3. Make sure all your commits have DCO sign-off line with an email address that matches the commit author and the name on your GitHub account.
 
