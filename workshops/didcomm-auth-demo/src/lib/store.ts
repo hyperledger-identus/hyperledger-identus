@@ -36,9 +36,9 @@ export function updateSession(id: string, updates: Partial<SessionState>): void 
 
 export function clearExpiredSessions(): void {
   const now = Date.now();
-  for (const [id, session] of sessions.entries()) {
+  sessions.forEach((session, id) => {
     if (session.expiresAt < now) {
       sessions.delete(id);
     }
-  }
+  });
 }
