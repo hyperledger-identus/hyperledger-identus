@@ -1,7 +1,16 @@
 import { SessionState } from "@/types";
 
 // In-memory store for demo purposes
-const sessions = new Map<string, SessionState>();
+// Use globalThis to persist the store across HMR reloads in development
+const globalForSessions = globalThis as unknown as {
+  sessions: Map<string, SessionState> | undefined;
+};
+
+const sessions = globalForSessions.sessions ?? new Map<string, SessionState>();
+
+if (process.env.NODE_ENV !== "production") {
+  globalForSessions.sessions = sessions;
+}
 
 export function createSession(id: string, challenge: string): SessionState {
   const session: SessionState = {

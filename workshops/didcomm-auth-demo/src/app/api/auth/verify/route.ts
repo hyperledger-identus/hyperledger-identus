@@ -9,6 +9,7 @@ export async function POST(request: Request) {
     const session = getSession(authResponse.thid);
     
     if (!session) {
+      console.warn(`[Auth Verify] Session not found: ${authResponse.thid}`);
       return NextResponse.json({ error: "Session not found" }, { status: 404 });
     }
 
@@ -18,6 +19,7 @@ export async function POST(request: Request) {
 
     // Verify the challenge matches
     if (authResponse.body.challenge !== session.challenge) {
+      console.warn(`[Auth Verify] Challenge mismatch for session ${authResponse.thid}`);
       return NextResponse.json({ error: "Challenge mismatch" }, { status: 400 });
     }
 
@@ -31,6 +33,7 @@ export async function POST(request: Request) {
     const isValidSignature = verifyMockSignature(authResponse.body.signature, authResponse.body.challenge);
 
     if (!isValidSignature) {
+      console.warn(`[Auth Verify] Invalid signature for session ${authResponse.thid}`);
       updateSession(authResponse.thid, { status: "error" });
       return NextResponse.json({ error: "Invalid signature" }, { status: 401 });
     }

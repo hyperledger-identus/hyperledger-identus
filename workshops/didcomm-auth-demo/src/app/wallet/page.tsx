@@ -70,7 +70,8 @@ export default function MockWallet() {
       if (res.ok) {
         setStatus("success");
       } else {
-        setError("Failed to send response to server");
+        const errorData = await res.json().catch(() => ({}));
+        setError(errorData.error || "Failed to send response to server");
         setStatus("error");
       }
     } catch (err) {

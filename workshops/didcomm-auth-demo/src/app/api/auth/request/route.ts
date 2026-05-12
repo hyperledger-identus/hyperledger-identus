@@ -3,7 +3,8 @@ import { v4 as uuidv4 } from "uuid";
 import { createSession } from "@/lib/store";
 import { AuthRequest } from "@/types";
 
-export async function GET() {
+export async function GET(request: Request) {
+  const { origin } = new URL(request.url);
   const sessionId = uuidv4();
   const challenge = uuidv4(); // In reality, this should be a cryptographically secure random value
   
@@ -14,7 +15,7 @@ export async function GET() {
     type: "https://lace.io/auth/1.0/request",
     body: {
       challenge,
-      callback_url: `${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/api/auth/verify`,
+      callback_url: `${origin}/api/auth/verify`,
       scope: ["did:read", "profile:read"],
     },
     from: "did:web:identus.io:auth-server", // Mock server DID
