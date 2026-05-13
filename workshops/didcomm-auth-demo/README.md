@@ -36,4 +36,5 @@ This workshop demonstrates a modern, secure authentication flow using DIDComm v2
    ```bash
    npm run dev
    ```
+
 3. Open [http://localhost:3000](http://localhost:3000) in your browser.
