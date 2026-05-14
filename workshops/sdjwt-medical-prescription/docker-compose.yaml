@@ -89,7 +89,7 @@ services:
       - ./dbs/mongo-initdb.js:/docker-entrypoint-initdb.d/initdb.js
 
   identus-mediator:
-    image: identus/identus-mediator:1.0.0
+    image: docker.io/hyperledgeridentus/identus-mediator:1.2.0
     network_mode: "host"
     ports:
       - "8080:8080"
