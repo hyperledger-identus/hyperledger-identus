@@ -85,7 +85,7 @@ git config user.email "MY_NAME@example.com"
 
 ### How to amend a sign-off
 
-If you have authored a commit that is missing the signed-off-by line, you can amend your commits and push them to GitHub
+If you have authored a commit that is missing the signed-off-by line, you can amend your commits and push them to GitHub.
 
 ```bash
 git commit --amend --signoff
@@ -165,7 +165,7 @@ PGP (Pretty Good Privacy) is a method for encrypting and signing data. By signin
 
 ### Troubleshooting
 
-In case commiting a change fails with the message
+In case committing a change fails with the message
 
 ```bash
 error: gpg failed to sign the data
