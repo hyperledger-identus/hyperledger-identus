@@ -33,9 +33,6 @@ services:
   cloud-agent:
     image: hyperledgeridentus/identus-cloud-agent:2.0.0
     network_mode: "host"
-    ports:
-      - "8085:8085" # API endpoint
-      - "8090:8090" # DIDComm endpoint
     environment:
       POLLUX_DB_HOST: localhost
       POLLUX_DB_PORT: 5432
@@ -66,7 +63,7 @@ services:
       prism-node:
         condition: service_started
     healthcheck:
-      test: [ "CMD", "curl", "-f", "http://cloud-agent:8085/_system/health" ]
+      test: [ "CMD", "curl", "-f", "http://localhost:8085/_system/health" ]
       interval: 30s
       timeout: 10s
       retries: 5
@@ -78,8 +75,6 @@ services:
   mongo:
     image: mongo:6.0
     network_mode: "host"
-    ports:
-      - "27017:27017"
     command: [ "--auth" ]
     environment:
       - MONGO_INITDB_ROOT_USERNAME=admin
@@ -91,8 +86,6 @@ services:
   identus-mediator:
     image: docker.io/hyperledgeridentus/identus-mediator:1.2.0
     network_mode: "host"
-    ports:
-      - "8080:8080"
     environment:
       # Creates the identity:
       # These keys are for demo purpose only for production deployments generate keys
