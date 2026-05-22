@@ -11,16 +11,16 @@ export const getClaimsPreview = (credential: SDK.Domain.Credential): string => {
     }
 
     const previewItems: string[] = [];
-    
+
     // Process first claim object
     const firstClaim = credential.claims[0];
     const claimEntries = Object.entries(firstClaim)
         .filter(([key]) => key !== 'id' && key !== 'jti' && key !== 'iat') // Filter out id field
-    
+
     claimEntries.forEach(([key, value]) => {
         const displayKey = key.replace(/_/g, ' ');
         let displayValue = '';
-        
+
         if (typeof value === 'string') {
             displayValue = value.length > 15 ? value.substring(0, 15) + '...' : value;
         } else if (typeof value === 'number') {
@@ -31,7 +31,7 @@ export const getClaimsPreview = (credential: SDK.Domain.Credential): string => {
             } else {
                 // Try to extract meaningful data from object
                 const obj = value as any;
-                
+
                 // Common patterns in credential claims
                 if (obj.value !== undefined) {
                     displayValue = String(obj.value).length > 15 ? String(obj.value).substring(0, 15) + '...' : String(obj.value);
@@ -59,9 +59,9 @@ export const getClaimsPreview = (credential: SDK.Domain.Credential): string => {
         } else {
             displayValue = String(value);
         }
-        
+
         previewItems.push(`${displayKey}: ${displayValue}`);
     });
 
     return previewItems.join(', ');
-}; 
+};

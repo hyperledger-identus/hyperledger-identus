@@ -33,9 +33,9 @@ const issueCredential = async (agent, message, claims, issuerDID, holderDID) => 
             claims,
         }
     });
-    
+
     const issued = await agent.runTask(protocol);
-    
+
     await agent.send(issued.makeMessage());
 };
 
@@ -49,17 +49,17 @@ await acceptCredentialOffer(holder, oobOfferJson);
 // 3. Process the credential request and issue the credential
 const credentialRequestMessage = await credentialRequestPromise;
 await issueCredential(
-    issuer, 
-    credentialRequestMessage, 
-    issuanceRequest.claims, 
-    issuerDID, 
+    issuer,
+    credentialRequestMessage,
+    issuanceRequest.claims,
+    issuerDID,
     holderDID
 );`
     },
     content() {
         const {
             setStore, ...store
-        } = useWorkshop();     
+        } = useWorkshop();
         const { issueCredential } = useIssuer();
         const { getIssuanceFlow, updateDIDStatus } = useDatabase();
         const { receivedMessages,sentMessages, deleteMessage } = useMessages();
@@ -74,7 +74,7 @@ await issueCredential(
             .filter(m => m.piuri === SDK.ProtocolType.DidcommRequestCredential)
             .filter(( message ) => {
                 const issuedCredential = sentMessages.find(({ thid, piuri }) => piuri === SDK.ProtocolType.DidcommIssueCredential && thid === message.thid);
-                return !issuedCredential; 
+                return !issuedCredential;
             });
             for (const message of newCredentialRequests) {
                 const flow = await getIssuanceFlow(message.thid!);
@@ -119,10 +119,10 @@ await issueCredential(
             if (!issuanceFlow) {
                 throw new Error("No issuance flow found");
             }
-            const issuerDID = await isPublishedPrismDID(SDK.Domain.DID.fromString(issuanceFlow.issuingDID)) ? 
-            SDK.Domain.DID.fromString(issuanceFlow.issuingDID.slice(0,74)) : 
+            const issuerDID = await isPublishedPrismDID(SDK.Domain.DID.fromString(issuanceFlow.issuingDID)) ?
+            SDK.Domain.DID.fromString(issuanceFlow.issuingDID.slice(0,74)) :
             SDK.Domain.DID.fromString(issuanceFlow.issuingDID);
-            
+
             if (issuanceFlow.credentialFormat === SDK.Domain.CredentialType.JWT || issuanceFlow.credentialFormat === SDK.Domain.CredentialType.SDJWT) {
                 await issueCredential(
                     issuanceFlow.credentialFormat,

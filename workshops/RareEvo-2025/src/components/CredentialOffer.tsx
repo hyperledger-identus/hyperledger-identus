@@ -36,7 +36,7 @@ export function CredentialOffer(props: { credentialOffer: SDK.Domain.Message  } 
         await loadMessages();
         setRejectBusy(false);
     }, [dbState, deleteMessage, loadMessages]);
-    
+
     return <div className="mt-3 md:mt-4 lg:mt-5 space-y-3 md:space-y-4 lg:space-y-5">
     <div className="border border-slate-200 rounded-lg p-3 md:p-4 lg:p-5 xl:p-6 bg-slate-50">
         <div className="flex justify-between items-start mb-2 md:mb-3 lg:mb-4">
@@ -45,7 +45,7 @@ export function CredentialOffer(props: { credentialOffer: SDK.Domain.Message  } 
                     Credential Offer
                 </h4>
                 {
-    hasAnswered ?    
+    hasAnswered ?
     <p className="text-sm md:text-base lg:text-lg">You already accepted this credential offer.</p>
 :     <p className="text-sm md:text-base lg:text-lg">Issuer of offering you a Credential with the following claims:</p>
 

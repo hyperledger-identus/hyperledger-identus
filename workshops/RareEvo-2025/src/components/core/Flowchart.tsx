@@ -22,7 +22,7 @@ const DIAGRAM_STYLES = {
   strokeWidths: {
     active: '8px',
     activeLink: '8px',
-    highlight: '8px', 
+    highlight: '8px',
     default: '8px'
   }
 };
@@ -69,7 +69,7 @@ const Flowchart = ({ stepType }: FlowchartProps) => {
             style Blockchain fill:none,stroke:${DIAGRAM_STYLES.colors.default},stroke-width:${DIAGRAM_STYLES.strokeWidths.highlight},color:${DIAGRAM_STYLES.colors.text}
             style Holder fill:none,stroke:${DIAGRAM_STYLES.colors.default},stroke-width:${DIAGRAM_STYLES.strokeWidths.highlight}
             style Verifier fill:none,stroke:${DIAGRAM_STYLES.colors.default},stroke-width:${DIAGRAM_STYLES.strokeWidths.highlight},color:${DIAGRAM_STYLES.colors.text}
-            
+
 
             linkStyle 0 stroke:${DIAGRAM_STYLES.colors.default},stroke-width:${DIAGRAM_STYLES.strokeWidths.highlight},stroke-dasharray:0 !important;
             linkStyle 1 stroke:${DIAGRAM_STYLES.colors.default},stroke-width:${DIAGRAM_STYLES.strokeWidths.highlight},stroke-dasharray:0 !important;
@@ -123,7 +123,7 @@ const Flowchart = ({ stepType }: FlowchartProps) => {
             style Issuer fill:none,stroke:${DIAGRAM_STYLES.colors.primary},stroke-width:${DIAGRAM_STYLES.strokeWidths.active}
             style Blockchain fill:none,stroke:${DIAGRAM_STYLES.colors.success},stroke-width:${DIAGRAM_STYLES.strokeWidths.active}
             style Holder fill:none,stroke:${DIAGRAM_STYLES.colors.primary},stroke-width:${DIAGRAM_STYLES.strokeWidths.active}
-            
+
             linkStyle 0 stroke:${DIAGRAM_STYLES.colors.success},stroke-width:${DIAGRAM_STYLES.strokeWidths.highlight},stroke-dasharray:0 !important;
             linkStyle 1 stroke:${DIAGRAM_STYLES.colors.success},stroke-width:${DIAGRAM_STYLES.strokeWidths.highlight},stroke-dasharray:0 !important;
             linkStyle 2 stroke:${DIAGRAM_STYLES.colors.primary},stroke-width:${DIAGRAM_STYLES.strokeWidths.activeLink}
@@ -141,13 +141,13 @@ const Flowchart = ({ stepType }: FlowchartProps) => {
             style Issuer fill:none,stroke:${DIAGRAM_STYLES.colors.primary},stroke-width:${DIAGRAM_STYLES.strokeWidths.active}
             style Blockchain fill:none,stroke:${DIAGRAM_STYLES.colors.success},stroke-width:${DIAGRAM_STYLES.strokeWidths.active}
             style Holder fill:none,stroke:${DIAGRAM_STYLES.colors.primary},stroke-width:${DIAGRAM_STYLES.strokeWidths.active}
-            
+
             linkStyle 0 stroke:${DIAGRAM_STYLES.colors.success},stroke-width:${DIAGRAM_STYLES.strokeWidths.highlight},stroke-dasharray:0 !important;
             linkStyle 1 stroke:${DIAGRAM_STYLES.colors.success},stroke-width:${DIAGRAM_STYLES.strokeWidths.highlight},stroke-dasharray:0 !important;
             linkStyle 2 stroke:${DIAGRAM_STYLES.colors.success},stroke-width:${DIAGRAM_STYLES.strokeWidths.highlight},stroke-dasharray:0 !important;
             linkStyle 3 stroke:${DIAGRAM_STYLES.colors.primary},stroke-width:${DIAGRAM_STYLES.strokeWidths.highlight}
 
-            
+
           `;
         case 'credentials':
           return `
@@ -177,7 +177,7 @@ const Flowchart = ({ stepType }: FlowchartProps) => {
             style Verifier fill:none,stroke:${DIAGRAM_STYLES.colors.primary},stroke-width:${DIAGRAM_STYLES.strokeWidths.active},color:${DIAGRAM_STYLES.colors.text}
             style Holder fill:none,stroke:${DIAGRAM_STYLES.colors.primary},stroke-width:${DIAGRAM_STYLES.strokeWidths.active}
             style Blockchain fill:none,stroke:${DIAGRAM_STYLES.colors.default},stroke-width:${DIAGRAM_STYLES.strokeWidths.default},color:${DIAGRAM_STYLES.colors.text}
-            
+
             linkStyle 0 stroke:${DIAGRAM_STYLES.colors.primary},stroke-width:${DIAGRAM_STYLES.strokeWidths.activeLink}
             linkStyle 1 stroke:${DIAGRAM_STYLES.colors.default},stroke-width:${DIAGRAM_STYLES.strokeWidths.default},stroke-dasharray:0 !important;
             linkStyle 2 stroke:${DIAGRAM_STYLES.colors.default},stroke-width:${DIAGRAM_STYLES.strokeWidths.default},stroke-dasharray:0 !important;
@@ -192,7 +192,7 @@ const Flowchart = ({ stepType }: FlowchartProps) => {
             style Verifier fill:none,stroke:${DIAGRAM_STYLES.colors.primary},stroke-width:${DIAGRAM_STYLES.strokeWidths.active},color:${DIAGRAM_STYLES.colors.text}
             style Holder fill:none,stroke:${DIAGRAM_STYLES.colors.primary},stroke-width:${DIAGRAM_STYLES.strokeWidths.active}
             style Blockchain fill:none,stroke:${DIAGRAM_STYLES.colors.default},stroke-width:${DIAGRAM_STYLES.strokeWidths.default},color:${DIAGRAM_STYLES.colors.text}
-            
+
             linkStyle 0 stroke:${DIAGRAM_STYLES.colors.success},stroke-width:${DIAGRAM_STYLES.strokeWidths.highlight},stroke-dasharray:0 !important;
             linkStyle 1 stroke:${DIAGRAM_STYLES.colors.primary},stroke-width:${DIAGRAM_STYLES.strokeWidths.activeLink}
             linkStyle 2 stroke:${DIAGRAM_STYLES.colors.default},stroke-width:${DIAGRAM_STYLES.strokeWidths.default},stroke-dasharray:0 !important;
@@ -207,7 +207,7 @@ const Flowchart = ({ stepType }: FlowchartProps) => {
             style Verifier fill:none,stroke:${DIAGRAM_STYLES.colors.primary},stroke-width:${DIAGRAM_STYLES.strokeWidths.active},color:${DIAGRAM_STYLES.colors.text}
             style Holder fill:none,stroke:${DIAGRAM_STYLES.colors.success},stroke-width:${DIAGRAM_STYLES.strokeWidths.active}
             style Blockchain fill:none,stroke:${DIAGRAM_STYLES.colors.primary},stroke-width:${DIAGRAM_STYLES.strokeWidths.active},color:${DIAGRAM_STYLES.colors.text}
-            
+
             linkStyle 0 stroke:${DIAGRAM_STYLES.colors.success},stroke-width:${DIAGRAM_STYLES.strokeWidths.highlight},stroke-dasharray:0 !important;
             linkStyle 1 stroke:${DIAGRAM_STYLES.colors.success},stroke-width:${DIAGRAM_STYLES.strokeWidths.highlight},stroke-dasharray:0 !important;
             linkStyle 2 stroke:${DIAGRAM_STYLES.colors.primary},stroke-width:${DIAGRAM_STYLES.strokeWidths.activeLink}
@@ -223,15 +223,15 @@ const Flowchart = ({ stepType }: FlowchartProps) => {
         if (diagram) {
           // Clear existing content
           mermaidRef.current!.innerHTML = '';
-          
+
           // Generate unique ID for this diagram
           const diagramId = `mermaid-${stepType}-${Date.now()}`;
-          
+
           try {
             // Render the new diagram
             const { svg } = await mermaid.render(diagramId, diagram);
             mermaidRef.current!.innerHTML = svg;
-            
+
             // Ensure SVG fills the container width
             const svgElement = mermaidRef.current!.querySelector('svg');
             if (svgElement) {
@@ -245,7 +245,7 @@ const Flowchart = ({ stepType }: FlowchartProps) => {
             // Fallback: set innerHTML directly and let mermaid process it
             mermaidRef.current!.innerHTML = diagram;
             mermaid.contentLoaded();
-            
+
             // Apply the same SVG styling for fallback
             setTimeout(() => {
               const svgElement = mermaidRef.current!.querySelector('svg');
@@ -266,10 +266,10 @@ const Flowchart = ({ stepType }: FlowchartProps) => {
 
   return (
     <div className="bg-white rounded-2xl shadow-lg p-8 mb-12 w-full">
-      <div 
-        className="mermaid w-full mb-8" 
+      <div
+        className="mermaid w-full mb-8"
         ref={mermaidRef}
-        style={{ 
+        style={{
           width: '100%',
           overflow: 'hidden'
         }}
@@ -279,4 +279,4 @@ const Flowchart = ({ stepType }: FlowchartProps) => {
   );
 };
 
-export default Flowchart; 
+export default Flowchart;

@@ -11,45 +11,45 @@ import { EnrichedSelect, EnrichedSelectItem } from "@/components/core/EnrichedSe
 const Flowchart = dynamic(() => import("@/components/core/Flowchart"), { ssr: false });
 
 // Credential Item Renderer for Presentation Selection
-const CredentialItemRenderer = ({ 
+const CredentialItemRenderer = ({
     credential,
     index,
     fields
-}: { 
+}: {
     credential: SDK.Domain.Credential;
     index: number;
     fields: any[];
 }) => {
     const credentialType = credential.credentialType || "Digital Credential";
-    
+
     // Get relevant claims based on the request fields
     const getRelevantClaims = () => {
         const relevantClaims: string[] = [];
-        
+
         credential.claims.forEach(claim => {
             fields.forEach(field => {
                 const keys = Object.keys(claim);
                 if (keys.includes(field.name)) {
                     const value = claim[field.name];
                     let displayValue = '';
-                    
+
                     if (typeof value === 'object' && value !== null && 'value' in value) {
                         displayValue = String(value.value);
                     } else {
                         displayValue = String(value);
                     }
-                    
+
                     displayValue = displayValue.length > 20 ? displayValue.substring(0, 20) + '...' : displayValue;
                     relevantClaims.push(`${field.name}: ${displayValue}`);
                 }
             });
         });
-        
+
         // If no matching claims found, fall back to general claims preview
         if (relevantClaims.length === 0) {
             return getClaimsPreview(credential);
         }
-        
+
         return relevantClaims.join(', ');
     };
 
@@ -303,11 +303,11 @@ const step: Step = {
 
 const handlePresentationRequest = async (agent, message, credential) => {
     const request = SDK.RequestPresentation.fromMessage(message);
-    
+
     const task = new SDK.Tasks.CreatePresentation({ request, credential });
     const presentation = await agent.runTask(task);
     const presentationMessage = presentation.makeMessage();
-    
+
     await agent.send(presentationMessage);
 };
 

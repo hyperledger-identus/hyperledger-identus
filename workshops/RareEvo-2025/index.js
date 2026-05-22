@@ -25,7 +25,7 @@ function printIntroduction() {
     │ 3. Issuing Credentials                              │
     │ 4. Requesting & Verifying Presentations            │
     └─────────────────────────────────────────────────────┘
-    
+
 `);
 }
 
@@ -40,20 +40,20 @@ const log = {
 
 (async () => {
     printIntroduction();
-    
+
     const createInstance = async (name) => {
         log.info(`Creating ${name} agent instance...`);
         const store = createStore({ dbName: name, storageType: StorageType.InMemory });
         const apollo = new SDK.Apollo();
         const pluto = new SDK.Pluto(store, apollo);
         const castor = new SDK.Castor(apollo, []);
-        
+
         log.info(`Initializing ${name} agent with mediator DID...`);
         const agent = await SDK.Agent.initialize({ apollo, castor, mediatorDID, pluto, seed: apollo.createRandomSeed().seed });
-        
+
         log.info(`Starting ${name} agent...`);
         await agent.start();
-        
+
         log.success(`${name.charAt(0).toUpperCase() + name.slice(1)} agent is ready!`);
         return { agent };
     };
@@ -61,8 +61,8 @@ const log = {
     const createPrismDID = async (agent, role) => {
         log.info(`Creating Prism DID for ${role}...`);
         const issuerDIDTask = new SDK.Tasks.CreatePrismDID({
-            authenticationKeyCurve: SDK.Domain.Curve.SECP256K1, 
-            services: [], 
+            authenticationKeyCurve: SDK.Domain.Curve.SECP256K1,
+            services: [],
             alias: `${role}-did`
         });
         const issuerDID = await agent.runTask(issuerDIDTask);
@@ -73,10 +73,10 @@ const log = {
     const createOOBJSONOffer = async (agent, request) => {
         log.info('Creating Out-of-Band (OOB) credential offer...');
         const { id, credentialFormat: format, claims } = request;
-        
+
         log.info('Creating new peer DID for the offer...');
         const peerDID = await agent.createNewPeerDID();
-        
+
         log.info('Building credential offer message...');
         const oobTask = new SDK.Tasks.CreateOOBOffer({
             from: peerDID,
@@ -112,14 +112,14 @@ const log = {
                 id
             )
         });
-        
+
         const oob = await agent.runTask(oobTask);
         const oobDecoded = base64.baseDecode(oob);
         const oobJson = Buffer.from(oobDecoded).toString();
-        
+
         log.success('OOB credential offer created successfully!');
         log.data('Offer Claims', claims);
-        
+
         return oobJson;
     };
 
@@ -139,11 +139,11 @@ const log = {
         const peerDID = await agent.createNewPeerDID();
         const credentialOffer = parseOOBOffer(oobOfferJson, peerDID);
         const credentialOfferMessage = SDK.OfferCredential.fromMessage(credentialOffer);
-        
+
         log.info('Creating credential request message...');
         const requestCredential = await agent.handle(credentialOfferMessage.makeMessage());
         const requestMessage = requestCredential.makeMessage();
-        
+
         log.info('Sending credential request to issuer...');
         await agent.send(requestMessage);
         log.success('Credential request sent!');
@@ -186,7 +186,7 @@ const log = {
     const issueCredential = async (agent, message, claims, issuerDID, holderDID) => {
         log.info('Issuer processing credential request...');
         log.data('Claims to be issued', claims);
-        
+
         const protocol = new SDK.Tasks.RunProtocol({
             type: 'credential-request',
             pid: SDK.ProtocolType.DidcommRequestCredential,
@@ -198,10 +198,10 @@ const log = {
                 claims,
             }
         });
-        
+
         log.info('Running credential issuance protocol...');
         const issued = await agent.runTask(protocol);
-        
+
         log.info('Sending issued credential to holder...');
         await agent.send(issued.makeMessage());
         log.success('Credential issued and sent to holder!');
@@ -210,11 +210,11 @@ const log = {
     const issuePresentationRequest = async (agent, type, toDID, claims) => {
         log.info('Verifier creating presentation request...');
         log.data('Requested claims', claims);
-        
+
         const task = new SDK.Tasks.CreatePresentationRequest({ type, toDID, claims });
         const requestPresentation = await agent.runTask(task);
         const requestPresentationMessage = requestPresentation.makeMessage();
-        
+
         log.info('Sending presentation request to holder...');
         await agent.send(requestPresentationMessage);
         log.success('Presentation request sent!');
@@ -223,12 +223,12 @@ const log = {
     const handlePresentationRequest = async (agent, message, credential) => {
         log.info('Holder processing presentation request...');
         const request = SDK.RequestPresentation.fromMessage(message);
-        
+
         log.info('Creating presentation using stored credential...');
         const task = new SDK.Tasks.CreatePresentation({ request, credential });
         const presentation = await agent.runTask(task);
         const presentationMessage = presentation.makeMessage();
-        
+
         log.info('Sending presentation to verifier...');
         await agent.send(presentationMessage);
         log.success('Presentation sent to verifier!');
@@ -249,20 +249,20 @@ const log = {
     try {
         log.step(1, "AGENT SETUP");
         log.separator();
-        
+
         const { agent: issuer } = await createInstance('issuer');
         const { agent: holder } = await createInstance('holder');
         const { agent: verifier } = await createInstance('verifier');
 
         log.step(2, "DID CREATION");
         log.separator();
-        
+
         const issuerDID = await createPrismDID(issuer, 'issuer');
         const holderDID = await createPrismDID(holder, 'holder');
 
         log.step(3, "CREDENTIAL OFFER CREATION");
         log.separator();
-        
+
         const issuanceRequest = {
             id: '12345',
             claims: [
@@ -275,10 +275,10 @@ const log = {
 
         log.step(4, "CREDENTIAL ISSUANCE FLOW");
         log.separator();
-        
+
         const credentialRequestPromise = waitForMessage(issuer, SDK.ProtocolType.DidcommRequestCredential);
         const credentialIssuedPromise = waitForMessage(holder, SDK.ProtocolType.DidcommIssueCredential);
-        
+
         await acceptCredentialOffer(holder, oobOfferJson);
         const credentialRequestMessage = await credentialRequestPromise;
         await issueCredential(issuer, credentialRequestMessage, issuanceRequest.claims, issuerDID, holderDID);
@@ -305,10 +305,10 @@ const log = {
         const verifierPresentation = waitForMessage(verifier, SDK.ProtocolType.DidcommPresentation);
         await handlePresentationRequest(holder, presentationRequestMessage, credential);
         const presentationMessage = await verifierPresentation;
-        
+
         log.info('Verifier validating received presentation...');
         const verify = await verifier.handle(presentationMessage);
-        
+
         log.step(6, "WORKFLOW COMPLETED");
         log.separator();
         log.success('🎉 Complete credential issuance and presentation workflow finished successfully!');

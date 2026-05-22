@@ -5,19 +5,19 @@ import { useMessages } from "@trust0/identus-react/hooks";
 import { EnrichedSelect, EnrichedSelectItem } from "./EnrichedSelect";
 
 // Compact Flow Item Component
-const FlowItemRenderer = ({ 
-    flow, 
-    index, 
-    onSelect, 
-    busy 
-}: { 
-    flow: Request; 
-    index: number; 
+const FlowItemRenderer = ({
+    flow,
+    index,
+    onSelect,
+    busy
+}: {
+    flow: Request;
+    index: number;
     onSelect: (flow: Request) => void;
     busy: boolean;
 }) => {
     const { receivedMessages, sentMessages } = useMessages();
-    
+
     const getIssuanceStatus = (request: Request) => {
         const received = receivedMessages.filter((message) => message.thid === request.id);
         const sent = sentMessages.filter((message) => message.thid === request.id);
@@ -55,7 +55,7 @@ const FlowItemRenderer = ({
                         </span>
                     </div>
                     <div className="text-sm text-slate-500 truncate">
-                        {flow.claims && flow.claims.length > 0 
+                        {flow.claims && flow.claims.length > 0
                             ? flow.claims.map(claim => `${claim.name}: ${claim.value}`).join(', ')
                             : 'No claims'}
                     </div>

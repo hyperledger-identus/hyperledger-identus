@@ -9,12 +9,12 @@ export interface ContentItem {
     type: AgentType
     content: ReactNode
   }
-export type RequestState<T extends Doc<typeof schemas.issuance>> = 
-     {
+export type RequestState<T extends Doc<typeof schemas.issuance>> =
+    {
         issuerRequest: T,
         issuerRequestOOB: T extends undefined | null ? never : string
       }
-    
+
 
 export type Store = {
     issuerStarted?: boolean,

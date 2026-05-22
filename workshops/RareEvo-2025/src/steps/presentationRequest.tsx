@@ -24,7 +24,7 @@ const PresentationRequest = () => {
     const [trustIssuers, setTrustIssuers] = useState<string>("did:prism:a0209ebd691c5ec20636f206b3e101c726fdc1c22b9b850b4b811ac4a82e28d8")
     const [code, setCode] = useState<string>("")
     const [isProcessing, setIsProcessing] = useState<boolean>(false)
-    
+
     const onHandleInitiate = useCallback(async ()=> {
         if (!agent || agent.state !== SDK.Domain.Startable.State.RUNNING) {
             throw new Error("Start agent first")
@@ -39,7 +39,7 @@ const PresentationRequest = () => {
                 }
             )
             setCode(`${window.location.origin}/?oob=${code}`)
-            setStore({ verifierRequestOOB: `${window.location.origin}/?oob=${code}` })  
+            setStore({ verifierRequestOOB: `${window.location.origin}/?oob=${code}` })
         } catch (error) {
             console.error("Error creating presentation request:", error)
             throw error
@@ -62,7 +62,7 @@ const PresentationRequest = () => {
     };
 
     const updateClaim = (id: string, field: 'name' | 'value', value: string) => {
-        setClaims(claims.map(claim => 
+        setClaims(claims.map(claim =>
             claim.id === id ? { ...claim, [field]: value } : claim
         ));
     };
@@ -79,7 +79,7 @@ const PresentationRequest = () => {
         }, {})
         setPresentationClaims({ claims: claimsObject })
     }, [claims])
-    
+
     return (
         <div className=" p-6 bg-white rounded-lg shadow-md">
             <Flowchart stepType="presentationRequest" />
@@ -103,7 +103,7 @@ const PresentationRequest = () => {
                             </button>
                         )}
                     </div>
-                    
+
                     <div className="space-y-3">
                         {claims.map((claim, index) => (
                             <div key={claim.id} className="flex items-center space-x-3 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
@@ -190,7 +190,7 @@ const PresentationRequest = () => {
                             </>
                         )}
                     </button>
-                    
+
                     {claims.length > 0 && (
                         <div className="text-sm text-gray-500 dark:text-gray-400">
                             {claims.filter(claim => claim.name && claim.value).length} of {claims.length} claims configured
@@ -220,7 +220,7 @@ const issuePresentationRequest = async (agent, type, toDID, claims) => {
     const task = new SDK.Tasks.CreatePresentationRequest({ type, toDID, claims });
     const requestPresentation = await agent.runTask(task);
     const requestPresentationMessage = requestPresentation.makeMessage();
-    
+
     await agent.send(requestPresentationMessage);
 };
 

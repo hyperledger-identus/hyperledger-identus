@@ -11,18 +11,18 @@ export default function OOBCode({code, type}: {code: string, type: "offer" | "pr
         </div>
         <h3 className="text-xl font-semibold text-emerald-900">
             {
-                type === "offer" ? 
-                    "OOB Offer" : 
+                type === "offer" ?
+                    "OOB Offer" :
                     "OOB Presentation Request"
             }
         </h3>
     </div>
-    
+
         <div className="space-y-3">
         <p className="text-base text-emerald-800">
             {
-            type === "offer" ? 
-                    "This out of band offer will be then shared with the Holder, scroll down to discover more" : 
+            type === "offer" ?
+                    "This out of band offer will be then shared with the Holder, scroll down to discover more" :
                     "Share the following URL with the verifier to initiate the credential presentation process:"
             }
         </p>
@@ -39,6 +39,6 @@ export default function OOBCode({code, type}: {code: string, type: "offer" | "pr
             </div>
         </div>
     </div>
-   
+
 </div>
 }

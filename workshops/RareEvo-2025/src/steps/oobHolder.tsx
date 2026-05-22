@@ -33,10 +33,10 @@ const acceptCredentialOffer = async (agent, oobOfferJson) => {
     const peerDID = await agent.createNewPeerDID();
     const credentialOffer = parseOOBOffer(oobOfferJson, peerDID);
     const credentialOfferMessage = SDK.OfferCredential.fromMessage(credentialOffer);
-    
+
     const requestCredential = await agent.handle(credentialOfferMessage.makeMessage());
     const requestMessage = requestCredential.makeMessage();
-    
+
     await agent.send(requestMessage);
 };
 
@@ -47,8 +47,8 @@ await acceptCredentialOffer(holder, oobOfferJson);`
         const {
             setStore,
             ...store
-        } = useWorkshop();   
-        
+        } = useWorkshop();
+
         const  { sentMessages, receivedMessages } = useMessages();
         const { parseOOBOffer, state:agentState, agent } = useHolder();
         const [credentialOffers, setCredentialOffers] = useState<SDK.Domain.Message[]>([]);
@@ -58,12 +58,12 @@ await acceptCredentialOffer(holder, oobOfferJson);`
             const offers = receivedMessages.filter(({ piuri }) => piuri === SDK.ProtocolType.DidcommOfferCredential);
             const requests = sentMessages.filter(({ piuri }) => piuri === SDK.ProtocolType.DidcommRequestCredential);
             const pendingOffers = offers;
-            
+
             const newCredentialOffers = [
                 ...offers.filter(({ id:prevId }) => !pendingOffers.some(({ id:offerId }) => prevId === offerId)),
                 ...pendingOffers,
             ].filter(({ thid:offerThid }) => !requests.some(({ thid:requestThid }) => offerThid === requestThid));
-            
+
             // Only update state if the offers have actually changed
             setCredentialOffers(prev => {
                 if (prev.length !== newCredentialOffers.length) {
@@ -84,15 +84,15 @@ await acceptCredentialOffer(holder, oobOfferJson);`
                 const url = new URL(store.issuerRequestOOB ?? window.location);
                 const oob = url.searchParams.get('oob');
                 if (
-                    oob !== null && 
+                    oob !== null &&
                     lastLink !== oob
-                ) { 
+                ) {
                     setLastLink(oob);
                     parseOOBOffer(store.issuerRequestOOB).then((message) => {
                         setCredentialOffers((prev) => [...prev, message]);
                         setStore({ issuerRequestOOB: undefined })
                     })
-                } 
+                }
             }
         }, [agentState, store, parseOOBOffer, agent, lastLink, setLastLink, setCredentialOffers, setStore])
 
@@ -105,15 +105,15 @@ await acceptCredentialOffer(holder, oobOfferJson);`
                     <span className="text-sm font-medium text-slate-700">Waiting for the Issuer to share the OOB Link</span>
                 </div>
                 {
-                     store.issuerRequestOOB ? 
+                    store.issuerRequestOOB ?
                         <p className="text-sm text-slate-600">
                             Processing the OOB Link...
                         </p>
-                     : 
+                    :
                         <p className="text-sm text-slate-600">
                             TIP: Choose the OOB link from the previous step.
                         </p>
-                    
+
                 }
             </div>
         </div>;

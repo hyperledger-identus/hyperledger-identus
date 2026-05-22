@@ -3,24 +3,24 @@ import SDK from "@hyperledger/identus-sdk";
 import { EnrichedSelect, EnrichedSelectItem } from "./EnrichedSelect";
 
 // Compact Presentation Item Component
-const PresentationItemRenderer = ({ 
-    presentation, 
-    index, 
+const PresentationItemRenderer = ({
+    presentation,
+    index,
     onVerify,
     busy,
     verified,
     verifying,
     errors
-}: { 
-    presentation: SDK.Domain.Message; 
-    index: number; 
+}: {
+    presentation: SDK.Domain.Message;
+    index: number;
     onVerify: (presentation: SDK.Domain.Message) => void;
     busy: boolean;
     verified: { [key: string]: boolean | null };
     verifying: { [key: string]: boolean };
     errors: { [key: string]: Error | null };
 }) => {
-    
+
     const getVerificationStatus = (presentation: SDK.Domain.Message) => {
         const verificationResult = verified[presentation.uuid];
         if (verifying[presentation.uuid]) return 'verifying';
@@ -117,7 +117,7 @@ const PresentationItemRenderer = ({
                     )}
                 </div>
             </div>
-            
+
             {/* Show error inline if there is one */}
             {error && (
                 <div className="mt-3 p-3 bg-red-50 border border-red-200 rounded-lg">
@@ -194,14 +194,14 @@ export const ExistingPresentations = ({
 
     const stats = getVerificationStats();
     const pluralLabel = stats.total !== 1 ? 'Presentations' : 'Presentation';
-    
+
     // Build status parts for the placeholder
     const statusParts: string[] = [];
     if (stats.verifiedCount > 0) statusParts.push(`${stats.verifiedCount} verified`);
     if (stats.invalidCount > 0) statusParts.push(`${stats.invalidCount} invalid`);
     if (stats.verifyingCount > 0) statusParts.push(`${stats.verifyingCount} verifying`);
     if (stats.pendingCount > 0) statusParts.push(`${stats.pendingCount} pending`);
-    
+
     const statusText = statusParts.length > 0 ? ` (${statusParts.join(', ')})` : '';
     const placeholder = `${stats.total} ${pluralLabel}${statusText}`;
 
@@ -224,4 +224,4 @@ export const ExistingPresentations = ({
             }}
         />
     );
-}; 
+};

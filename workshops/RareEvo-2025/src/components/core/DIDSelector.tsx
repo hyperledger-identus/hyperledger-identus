@@ -79,7 +79,7 @@ export const DIDSelector = React.memo(function DIDSelector({
     const optionGroups = useMemo(() => {
         return Object.entries(groupedDIDs).map(([method, dids]) => {
             if (dids.length === 0) return null;
-            
+
             return (
                 <optgroup key={`${method}-group`} label={`${method.toUpperCase()} DIDs`}>
                     {dids.map((didItem) => (
@@ -87,7 +87,7 @@ export const DIDSelector = React.memo(function DIDSelector({
                             key={didItem.did.toString()}
                             value={didItem.did.toString()}
                         >
-                            [{didItem.status}] {didItem.alias || didItem.did.toString().substring(0, 16) + '...'} 
+                            [{didItem.status}] {didItem.alias || didItem.did.toString().substring(0, 16) + '...'}
                         </option>
                     ))}
                 </optgroup>
@@ -136,7 +136,7 @@ export const DIDSelector = React.memo(function DIDSelector({
                             </svg>
                             <span className="text-sm text-slate-600">No DIDs available</span>
                         </div>
-                        <button 
+                        <button
                             className="px-2 py-1 text-xs bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-white rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-opacity-50 shadow-sm"
                             onClick={handleCreateDID}
                         >
@@ -156,4 +156,4 @@ export const DIDSelector = React.memo(function DIDSelector({
             )}
         </div>
     );
-}); 
+});

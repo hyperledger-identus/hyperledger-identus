@@ -35,7 +35,7 @@ export const CodeComponent: React.FC<{ content: CodeBlock }> = ({ content }) => 
                     border: '1px solid #334155',
                     textDecoration: 'none !important',
                 }}
-                lineNumberStyle={{ 
+                lineNumberStyle={{
                     backgroundColor: 'transparent',
                     color: '#64748b',
                     paddingRight: '1rem',
@@ -54,12 +54,12 @@ export const CodeComponent: React.FC<{ content: CodeBlock }> = ({ content }) => 
                 >
                     {copied ? (
                         <>
-                            <CheckIcon className="w-4 h-4 mr-2" /> 
+                            <CheckIcon className="w-4 h-4 mr-2" />
                             <span className="text-sm">Copied!</span>
                         </>
                     ) : (
                         <>
-                            <ClipboardDocumentIcon className="w-4 h-4 mr-2" /> 
+                            <ClipboardDocumentIcon className="w-4 h-4 mr-2" />
                             <span className="text-sm">Copy</span>
                         </>
                     )}

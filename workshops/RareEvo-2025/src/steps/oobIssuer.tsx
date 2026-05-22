@@ -26,9 +26,9 @@ import { base64 } from 'multiformats/bases/base64';
 
 const createOOBJSONOffer = async (agent, request) => {
     const { id, credentialFormat: format, claims } = request;
-    
+
     const peerDID = await agent.createNewPeerDID();
-    
+
     const oobTask = new SDK.Tasks.CreateOOBOffer({
         from: peerDID,
         offer: new SDK.OfferCredential(
@@ -36,11 +36,11 @@ const createOOBJSONOffer = async (agent, request) => {
                 goal_code: "Offer Credential",
                 credential_preview: {
                     type: SDK.ProtocolType.DidcommCredentialPreview,
-                    body: { 
-                        attributes: claims.map((claim) => ({ 
-                            name: claim.name, 
-                            value: claim.value 
-                        })) 
+                    body: {
+                        attributes: claims.map((claim) => ({
+                            name: claim.name,
+                            value: claim.value
+                        }))
                     },
                 },
             },
@@ -68,11 +68,11 @@ const createOOBJSONOffer = async (agent, request) => {
             id
         )
     });
-    
+
     const oob = await agent.runTask(oobTask);
     const oobDecoded = base64.baseDecode(oob);
     const oobJson = Buffer.from(oobDecoded).toString();
-    
+
     return oobJson;
 };
 

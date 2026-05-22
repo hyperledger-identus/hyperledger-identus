@@ -9,7 +9,7 @@ import { StorageType } from "@trust0/ridb";
 
 export function AgentWorkFlow({children, type: agentType}: {children: React.ReactNode, type: AgentType} & NextFnProps) {
     const [step, setStep] = useState<'disconnected'|'seed' | 'ready' | 'busy'>('disconnected')
-    const { 
+    const {
         state: dbState,
         getSeed,
         getMediator,
@@ -44,7 +44,7 @@ export function AgentWorkFlow({children, type: agentType}: {children: React.Reac
         if (dbState === "loaded") {
             const seed = await getSeed();
             if (!seed) {
-                return setStep('seed');     
+                return setStep('seed');
             }
             setStep('ready');
             await configure()
@@ -54,7 +54,7 @@ export function AgentWorkFlow({children, type: agentType}: {children: React.Reac
 
     useEffect(() => {
         let internal: NodeJS.Timeout;
-         function check() {
+        function check() {
             internal = setTimeout(() => {
                 if (dbState === "loaded") {
                     getSeed().then((seed) => {
@@ -83,7 +83,7 @@ export function AgentWorkFlow({children, type: agentType}: {children: React.Reac
                 setStep('busy');
                 const seed = await getSeed();
                 if (!seed) {
-                    return setStep('seed');     
+                    return setStep('seed');
                 }
                 await configure()
                 await startAgent();
@@ -134,8 +134,8 @@ export function AgentWorkFlow({children, type: agentType}: {children: React.Reac
     if (step === 'seed') {
         return <div className="py-4 px-3 md:py-6 md:px-4 lg:py-8 lg:px-6 rounded-xl space-y-4 md:space-y-6 lg:space-y-8">
             <Mnemonics onNext={onHandleMnemonicsNext} />
-        </div>       
+        </div>
     }
-    
+
     return children;
-} 
+}

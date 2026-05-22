@@ -73,7 +73,7 @@ export const CreateFlowForm = ({
             setBusy(false);
         } catch (err) {
             console.error("Error creating issuance request:", err);
-           
+
         } finally {
             setBusy(false);
         }

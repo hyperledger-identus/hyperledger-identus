@@ -13,7 +13,7 @@ const VerifyPresentation = () => {
     const [verifying, setVerifying] = useState<{ [key: string]: boolean }>({});
     const [errors, setErrors] = useState<{ [key: string]: Error | null }>({});
     const [busy, setBusy] = useState(false);
-    
+
     const { receivedMessages } = useMessages();
     const { verifyPresentation, agent, state: agentState } = useVerifier();
 
@@ -26,11 +26,11 @@ const VerifyPresentation = () => {
         if (!agent || agentState !== SDK.Domain.Startable.State.RUNNING) {
             throw new Error("Agent not running");
         }
-        
+
         try {
             setVerifying(prev => ({ ...prev, [presentation.uuid]: true }));
             setErrors(prev => ({ ...prev, [presentation.uuid]: null }));
-            
+
             const verify = await verifyPresentation(presentation);
             setVerified(prev => ({ ...prev, [presentation.uuid]: verify }));
         } catch (error) {
@@ -44,7 +44,7 @@ const VerifyPresentation = () => {
     return (
         <div className="space-y-6">
             <Flowchart stepType="presentationVerify" />
-            
+
             <div className="bg-white rounded-lg border border-slate-200 p-6">
                 <h2 className="text-xl font-semibold text-slate-900 mb-2">Verify Presentations</h2>
                 <p className="text-slate-600 text-sm mb-6">
@@ -80,7 +80,7 @@ const mediatorDID = 'did:peer:2.Ez6LSr75gLoSwaVHS7MTzcKLXjt9onJMXY9aVEBGWY8ahWPd
 
 
 (async () => {
-    
+
     const createInstance = async (name) => {
         const store = createStore({ dbName: name, storageType: StorageType.InMemory });
         const apollo = new SDK.Apollo();
@@ -93,8 +93,8 @@ const mediatorDID = 'did:peer:2.Ez6LSr75gLoSwaVHS7MTzcKLXjt9onJMXY9aVEBGWY8ahWPd
 
     const createPrismDID = async (agent, role) => {
         const issuerDIDTask = new SDK.Tasks.CreatePrismDID({
-            authenticationKeyCurve: SDK.Domain.Curve.SECP256K1, 
-            services: [], 
+            authenticationKeyCurve: SDK.Domain.Curve.SECP256K1,
+            services: [],
             alias: \`\${role}-did\`
         });
         const issuerDID = await agent.runTask(issuerDIDTask);
@@ -138,7 +138,7 @@ const mediatorDID = 'did:peer:2.Ez6LSr75gLoSwaVHS7MTzcKLXjt9onJMXY9aVEBGWY8ahWPd
                 id
             )
         });
-        
+
         const oob = await agent.runTask(oobTask);
         const oobDecoded = base64.baseDecode(oob);
         const oobJson = Buffer.from(oobDecoded).toString();
@@ -253,7 +253,7 @@ const mediatorDID = 'did:peer:2.Ez6LSr75gLoSwaVHS7MTzcKLXjt9onJMXY9aVEBGWY8ahWPd
         const oobOfferJson = await createOOBJSONOffer(issuer, issuanceRequest);
         const credentialRequestPromise = waitForMessage(issuer, SDK.ProtocolType.DidcommRequestCredential);
         const credentialIssuedPromise = waitForMessage(holder, SDK.ProtocolType.DidcommIssueCredential);
-        
+
         await acceptCredentialOffer(holder, oobOfferJson);
         const credentialRequestMessage = await credentialRequestPromise;
         await issueCredential(issuer, credentialRequestMessage, issuanceRequest.claims, issuerDID, holderDID);

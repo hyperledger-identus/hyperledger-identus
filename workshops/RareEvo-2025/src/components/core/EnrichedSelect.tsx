@@ -139,10 +139,10 @@ export function EnrichedSelect<T>({
                             );
                         })()}
                     </div>
-                    <svg 
-                        className={`w-5 h-5 text-slate-500 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} 
-                        fill="none" 
-                        stroke="currentColor" 
+                    <svg
+                        className={`w-5 h-5 text-slate-500 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}
+                        fill="none"
+                        stroke="currentColor"
                         viewBox="0 0 24 24"
                     >
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
@@ -153,7 +153,7 @@ export function EnrichedSelect<T>({
             {isOpen && (
                 <div className={`enriched-select-dropdown absolute top-full left-0 right-0 mt-1 bg-white border border-slate-300 rounded-lg shadow-lg ${zIndex} ${maxHeight} overflow-y-auto ${dropdownClassName} ${fontSize}`}>
                     {items.map((item, index) => (
-                        <div 
+                        <div
                             key={item.id}
                             onClick={() => handleItemSelect(item)}
                             className={`cursor-pointer ${selectedItemId === item.id ? 'bg-slate-100' : ''}`}
@@ -165,4 +165,4 @@ export function EnrichedSelect<T>({
             )}
         </div>
     );
-} 
+}

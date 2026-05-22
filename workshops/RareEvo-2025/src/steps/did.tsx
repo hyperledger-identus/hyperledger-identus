@@ -63,15 +63,15 @@ const createInstance = async (name) => {
     const apollo = new SDK.Apollo();
     const pluto = new SDK.Pluto(store, apollo);
     const castor = new SDK.Castor(apollo, []);
-    
-    const agent = await SDK.Agent.initialize({ 
-        apollo, 
-        castor, 
-        mediatorDID, 
-        pluto, 
-        seed: apollo.createRandomSeed().seed 
+
+    const agent = await SDK.Agent.initialize({
+        apollo,
+        castor,
+        mediatorDID,
+        pluto,
+        seed: apollo.createRandomSeed().seed
     });
-    
+
     await agent.start();
     return { agent };
 };
@@ -79,8 +79,8 @@ const createInstance = async (name) => {
 // Create Prism DIDs for agents
 const createPrismDID = async (agent, role) => {
     const didTask = new SDK.Tasks.CreatePrismDID({
-        authenticationKeyCurve: SDK.Domain.Curve.SECP256K1, 
-        services: [], 
+        authenticationKeyCurve: SDK.Domain.Curve.SECP256K1,
+        services: [],
         alias: \`\${role}-did\`
     });
     const did = await agent.runTask(didTask);

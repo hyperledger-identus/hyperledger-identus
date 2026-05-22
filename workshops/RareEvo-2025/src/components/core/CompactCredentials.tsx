@@ -4,12 +4,12 @@ import { EnrichedSelect, EnrichedSelectItem } from "./EnrichedSelect";
 import { getClaimsPreview } from "../../utils/credentials";
 
 // Compact Credential Item Component
-const CredentialItemRenderer = ({ 
-    credential, 
-    index 
-}: { 
-    credential: SDK.Domain.Credential; 
-    index: number; 
+const CredentialItemRenderer = ({
+    credential,
+    index
+}: {
+    credential: SDK.Domain.Credential;
+    index: number;
 }) => {
     const credentialType = credential.credentialType || "Digital Credential";
     const claimsPreview = getClaimsPreview(credential);
@@ -81,4 +81,4 @@ export const CompactCredentials = ({
             }}
         />
     );
-}; 
+};

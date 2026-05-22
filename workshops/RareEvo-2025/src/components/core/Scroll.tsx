@@ -9,7 +9,7 @@ import type { ContentItem } from "@/types"
 function Scroll({ content, isPopupOpen }: { content: ContentItem[], isPopupOpen?: boolean }) {
   const router = useRouter()
   const scrollContainerRef = useRef<HTMLDivElement>(null)
-  
+
   // Helper function to generate URL-friendly IDs from names
   const generateUrlId = (name: string): string => {
     return encodeURIComponent(
@@ -48,7 +48,7 @@ function Scroll({ content, isPopupOpen }: { content: ContentItem[], isPopupOpen?
   const angle = 360 / length
   const halfHeight = 60 // Represents half the panel height for radius calculation
   const tz = length >= 2 ? Math.round(halfHeight / Math.sin(Math.PI / length)) : 50
-  
+
   // Initialize rotate with the correct position based on currentIndex
   const rotate = useMotionValue(currentIndex * angle)
 
@@ -69,7 +69,7 @@ function Scroll({ content, isPopupOpen }: { content: ContentItem[], isPopupOpen?
   // Function to get icon based on item type
   const getTypeIcon = (type: string) => {
     const iconSize = "w-12 h-12 md:w-16 md:h-16";
-    
+
     switch (type) {
       case 'issuer':
         return <Award className={`${iconSize} text-blue-600`} />;
@@ -86,11 +86,11 @@ function Scroll({ content, isPopupOpen }: { content: ContentItem[], isPopupOpen?
   const animateToIndex = (index: number, updateUrl: boolean = true) => {
     if (isAnimating.current) return;
     isAnimating.current = true;
-    
+
     const targetRotation = Math.round(index * angle * 100) / 100; // Round to 2 decimal places
-    animate(rotate, targetRotation, { 
-      type: "spring", 
-      stiffness: 150, 
+    animate(rotate, targetRotation, {
+      type: "spring",
+      stiffness: 150,
       damping: 25,
       restDelta: 0.01, // Smaller rest delta for more precise stopping
       onComplete: () => {
@@ -125,29 +125,29 @@ function Scroll({ content, isPopupOpen }: { content: ContentItem[], isPopupOpen?
       if (isPopupOpen) {
         return;
       }
-      
+
       e.preventDefault();
-      
+
       if (isAnimating.current) return;
-      
+
       // Accumulate scroll delta
       scrollAccumulator.current += e.deltaY;
-      
+
       // Clear any existing timeout
       if (scrollTimeout.current) {
         clearTimeout(scrollTimeout.current);
       }
-      
+
       // Check if we've crossed the threshold
       if (Math.abs(scrollAccumulator.current) >= scrollThreshold) {
         const direction = scrollAccumulator.current > 0 ? 1 : -1;
         const newIndex = Math.max(0, Math.min(length - 1, currentIndex + direction));
-        
+
         if (newIndex !== currentIndex) {
           setCurrentIndex(newIndex);
           animateToIndex(newIndex, true); // Update URL when user scrolls
         }
-        
+
         // Reset accumulator
         scrollAccumulator.current = 0;
       } else {

@@ -5,7 +5,7 @@ import SDK from "@hyperledger/identus-sdk";
 export function Status({ type }: { type: string }) {
     const { state: agentState } = useAgent();
     const { receivedMessages, sentMessages } = useMessages();
-    
+
     // Determine status circle color based on agent state
     const getStatusColor = () => {
         if (agentState === SDK.Domain.Startable.State.RUNNING) {
@@ -18,7 +18,7 @@ export function Status({ type }: { type: string }) {
             return "bg-red-500";
         }
     };
-    
+
     // Get human-readable status text
     const getStatusText = () => {
         if (agentState === SDK.Domain.Startable.State.RUNNING) {
@@ -31,7 +31,7 @@ export function Status({ type }: { type: string }) {
             return "Stopped";
         }
     };
-    
+
     return (
         <div className="flex items-center space-x-2 md:space-x-3 lg:space-x-4">
             {/* Agent Status */}
@@ -42,9 +42,9 @@ export function Status({ type }: { type: string }) {
                     {getStatusText()}
                 </span>
                 </span>
-               
+
             </div>
-            
+
             {/* Messages */}
             <div className="flex items-center space-x-2 md:space-x-3 lg:space-x-4">
                 {/* Received Messages */}
@@ -52,7 +52,7 @@ export function Status({ type }: { type: string }) {
                     <InboxIcon className="w-3 h-3 md:w-4 md:h-4 lg:w-5 lg:h-5 text-blue-500" />
                     <span className="text-xs md:text-sm lg:text-base text-slate-600">{receivedMessages.length}</span>
                 </div>
-                
+
                 {/* Sent Messages */}
                 <div className="flex items-center space-x-1">
                     <PaperAirplaneIcon className="w-3 h-3 md:w-4 md:h-4 lg:w-5 lg:h-5 text-green-500" />

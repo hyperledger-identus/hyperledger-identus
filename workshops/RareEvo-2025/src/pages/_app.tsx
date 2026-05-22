@@ -16,14 +16,14 @@ export function useWorkshop() {
         throw new Error('useWorkshop must be used within a WorkshopProvider');
     }
     return context;
-}   
+}
 
 function WorkshopProvider({ children }: { children: React.ReactNode }) {
     const [store, setStore] = useState<Store>({} as Store);
     const { connect, connected } = useWallet();
 
     useEffect(() => {
-       if (!connected) {
+      if (!connected) {
         BrowserWallet
         .getAvailableWallets()
         .then(async (wallets) => {
@@ -31,7 +31,7 @@ function WorkshopProvider({ children }: { children: React.ReactNode }) {
                 await connect('lace', true);
             }
         })
-       }
+      }
     }, [connect, setStore, store, connected])
     return <WorkshopContext.Provider value={{ ...store, setStore: (store) => setStore((prev) => ({ ...prev, ...store })) }}>
         {children}

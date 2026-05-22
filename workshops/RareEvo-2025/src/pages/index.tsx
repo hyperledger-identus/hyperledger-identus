@@ -33,7 +33,7 @@ const Home: React.FC<{}> = (props) => {
   const [holderContext, setHolderContext] = useState<any>(null)
   const [verifierContext, setVerifierContext] = useState<any>(null)
   const [isPopupOpen, setIsPopupOpen] = useState(false)
-  
+
   // Memoize the callback functions to prevent infinite re-renders
   const handleIssuerContextUpdate = useCallback((ctx: any) => {
     if (!isEqualIgnoringFunctions(issuerContext, ctx)) {
@@ -133,7 +133,7 @@ const Home: React.FC<{}> = (props) => {
           <AgentProvider><HookConsumer callback={handleIssuerContextUpdate} /></AgentProvider>
           <AgentProvider><HookConsumer callback={handleHolderContextUpdate} /></AgentProvider>
           <AgentProvider><HookConsumer callback={handleVerifierContextUpdate} /></AgentProvider>
-          
+
           <Scroll content={defaultContent} isPopupOpen={isPopupOpen} />
   </>
 }

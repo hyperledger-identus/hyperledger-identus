@@ -26,7 +26,7 @@ export function Mnemonics({ onNext }: { onNext: () => void }) {
     }
 
     return <>
-    
+
     <div className="bg-slate-50 rounded-lg p-3 md:p-4 lg:p-5 xl:p-6">
                 <Codes
                     codes={{
@@ -38,10 +38,10 @@ import { useApollo, useDatabase } from "@trust0/identus-react/hooks";
 import { RefreshCw, ArrowRight } from "lucide-react";
 
 /**
- * This component uses the Apollo instance of the Identus SDK to generate random bip39 mnemonics.
- * We also use the useDatabase hook to set the seed in the database.
- * If the Database is not yet started clicking next will throw exception.
- */
+* This component uses the Apollo instance of the Identus SDK to generate random bip39 mnemonics.
+* We also use the useDatabase hook to set the seed in the database.
+* If the Database is not yet started clicking next will throw exception.
+*/
 export function Mnemonics() {
     const apollo = useApollo();
     const { getSeed, setSeed, dbState } = useDatabase();
@@ -106,17 +106,17 @@ export function Mnemonics() {
 const apollo = new SDK.Apollo();
 
 /**
- * This function creates a random seed and a corresponding set of mnemonic phrases, directly using the SDK.
- */
+* This function creates a random seed and a corresponding set of mnemonic phrases, directly using the SDK.
+*/
 export function createRandomSeed() {
-   const seed = apollo.createRandomSeed();
-   return seed;
+  const seed = apollo.createRandomSeed();
+  return seed;
 }`
                         }
                     }} />
             </div>
             <div className="bg-white/95 backdrop-blur-lg py-6 px-4 md:py-8 md:px-6 lg:py-10 lg:px-8 xl:py-12 xl:px-10 shadow-xl rounded-2xl border border-slate-200">
-        
+
         <div className="grid grid-cols-2 md:grid-cols-3 gap-2 md:gap-3 lg:gap-4 mb-6 md:mb-8 lg:mb-10">
             {mnemonics.map((word, i) => (
                 <div
@@ -132,7 +132,7 @@ export function createRandomSeed() {
                 </div>
             ))}
         </div>
-        
+
         <div className="flex flex-col sm:flex-row gap-3 md:gap-4 lg:gap-5">
             <button
                 className="group flex-1 inline-flex items-center justify-center gap-2 py-2 px-4 md:py-3 md:px-6 lg:py-4 lg:px-8 bg-slate-100 backdrop-blur-sm text-slate-700 font-medium rounded-lg hover:bg-slate-200 transition-all duration-300 border border-slate-200 text-sm md:text-base lg:text-lg"

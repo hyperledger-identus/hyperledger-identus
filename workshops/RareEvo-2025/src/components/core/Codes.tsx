@@ -16,7 +16,7 @@ export const Codes: React.FC<CodesProps> = ({ codes, setIsPopupOpen }) => {
     const [isCodeModalOpen, setIsCodeModalOpen] = useState(false);
     const [selectedCode, setSelectedCode] = useState<CodeBlock>(Object.values(codes)[0]);
     const [selectedLabel, setSelectedLabel] = useState<string>(Object.keys(codes)[0]);
-    
+
     useEffect(() => {
         const handleKeyDown = (e: KeyboardEvent) => {
             if (e.key === "Escape") {
@@ -35,25 +35,25 @@ export const Codes: React.FC<CodesProps> = ({ codes, setIsPopupOpen }) => {
             document.removeEventListener("keydown", handleKeyDown);
         };
     }, [isCodeModalOpen, setIsPopupOpen]);
-    
+
     const openCodeModal = (label: string, code: CodeBlock) => {
         setSelectedLabel(label);
         setSelectedCode(code);
         setIsCodeModalOpen(true);
         setIsPopupOpen?.(true);
     };
-    
+
     const closeCodeModal = () => {
         setIsCodeModalOpen(false);
         setIsPopupOpen?.(false);
     };
-    
+
     const codeKeys = Object.keys(codes);
-    
+
     if (codeKeys.length === 0) {
         return null;
     }
-    
+
     return (
         <>
             <div className="flex flex-wrap gap-2 md:gap-3 lg:gap-4 mt-3 md:mt-4 lg:mt-5 justify-end">
@@ -70,16 +70,16 @@ export const Codes: React.FC<CodesProps> = ({ codes, setIsPopupOpen }) => {
                                 <title>Code icon</title>
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
                             </svg>
-                       
+
                         </span>
                     </button>
                 ))}
             </div>
-            
+
             {/* Code Modal */}
             {isCodeModalOpen && selectedCode && (
-                <div 
-                    className="w-full fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm px-10" 
+                <div
+                    className="w-full fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm px-10"
                     data-modal="true"
                     onClick={closeCodeModal}
                     onKeyDown={(e) => {
@@ -90,7 +90,7 @@ export const Codes: React.FC<CodesProps> = ({ codes, setIsPopupOpen }) => {
                     tabIndex={-1}
                     role="presentation"
                 >
-                    <div 
+                    <div
                         className="bg-white rounded-xl w-full mx-2 md:mx-3 lg:mx-4 max-h-[90vh] flex flex-col shadow-2xl border border-slate-200"
                         onClick={(e) => e.stopPropagation()}
                         onKeyDown={(e) => e.stopPropagation()}
@@ -114,11 +114,11 @@ export const Codes: React.FC<CodesProps> = ({ codes, setIsPopupOpen }) => {
                                 </svg>
                             </button>
                         </div>
-                        
+
                         <div className="flex-1 overflow-y-auto p-4 md:p-5 lg:p-6">
                             <CodeComponent content={selectedCode} />
                         </div>
-                        
+
                         <div className="p-3 md:p-4 lg:p-5 border-t border-slate-200 bg-slate-50 rounded-b-xl">
                             <p className="text-xs md:text-sm lg:text-base text-slate-500 text-center">Press ESC to close</p>
                         </div>
