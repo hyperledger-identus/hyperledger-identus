@@ -23,3 +23,7 @@ rules:
   # Relax comment spacing (allow 1 space before inline comments)
   comments:
     min-spaces-from-content: 1
+
+ignore: |
+  .claude/
+  node_modules/

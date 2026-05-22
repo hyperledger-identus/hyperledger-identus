@@ -16,6 +16,14 @@ indent_size = 4
 
 [*.md]
 trim_trailing_whitespace = false
+indent_size = unset
+
+[LICENSE]
+indent_size = unset
+
+# Shell scripts use tabs for heredocs (<<-)
+[*.sh]
+indent_style = tab
 
 [Makefile]
 indent_style = tab
