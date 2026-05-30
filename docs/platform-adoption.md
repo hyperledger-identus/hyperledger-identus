@@ -11,7 +11,7 @@ React (web) and React Native (mobile), with clear specifications and service int
 ## Deliverables in this repository
 
 | Deliverable | Location | Description |
-|-------------|----------|-------------|
+| ------------- | ---------- | ------------- |
 | Identity Wallet specification | [`identity-wallet-specification.md`](identity-wallet-specification.md) | Holder use cases: setup, DIDs, credentials, presentation, backup, recovery |
 | React Native integration guide | [`react-native-integration.md`](react-native-integration.md) | Polyfills, Metro, storage, agent init, testing phases |
 | React Native reference wallet | [`workshops/react-native-identity-wallet`](../workshops/react-native-identity-wallet) | Expo holder wallet on `@hyperledger/identus-sdk` v7 |
@@ -21,7 +21,7 @@ React (web) and React Native (mobile), with clear specifications and service int
 ## Component adoption matrix
 
 | Component | npm / repo | React (web) | React Native | Integration path |
-|-----------|------------|-------------|--------------|------------------|
+| ----------- | ------------ | ------------- | -------------- | ------------------ |
 | **Apollo** | `@hyperledger/identus-apollo` | ✅ Browser crypto | ⚠️ Polyfills / crypto shim | Pin `1.6.0`; use `react-native-quick-crypto` or workshop `crypto-shim.js` |
 | **SDK-TS** | `@hyperledger/identus-sdk` | ✅ Next.js workshops | ✅ Expo workshop | Default import; Metro polyfills for Buffer/process/stream |
 | **SDK-Swift** | [identus-edge-agent-sdk-swift](https://github.com/hyperledger/identus-edge-agent-sdk-swift) | N/A | ✅ Native iOS | Alternative to TS+polyfills for production iOS |
@@ -55,7 +55,7 @@ See [`react-native-integration.md`](react-native-integration.md) for polyfill an
 ### React (Next.js)
 
 | Workshop | SDK package | Notes |
-|----------|-------------|-------|
+| ---------- | ------------- | ------- |
 | RareEvo-2025 | `@hyperledger/identus-sdk` v7 | SD-JWT, OOB, Cardano DID publish |
 | sdjwt-medical-prescription | `@hyperledger/identus-edge-agent-sdk` v6 | Migrate to v7 for consistency |
 
@@ -64,7 +64,7 @@ Web apps can use `@trust0/identus-react` hooks (RareEvo-2025) instead of hand-ro
 ## Identity Wallet use-case coverage
 
 | Use case | RN workshop | Spec reference |
-|----------|-------------|----------------|
+| ---------- | ------------- | ---------------- |
 | UC-01 Create wallet | ✅ | §3 |
 | UC-02 Restore mnemonic | ✅ | §3 |
 | UC-03 Create PRISM DID | ✅ | §4 |

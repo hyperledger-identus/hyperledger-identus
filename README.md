@@ -22,7 +22,7 @@ If you want to try Identus locally the easiest way is to use Docker Compose. Fol
 ## Workshops
 
 | Workshop | Platform | Description |
-|----------|----------|-------------|
+| ---------- | ---------- | ------------- |
 | [sdjwt-medical-prescription](workshops/sdjwt-medical-prescription) | Next.js (web) | Medical prescription credential issuance and verification |
 | [RareEvo-2025](workshops/RareEvo-2025) | Next.js (web) | SD-JWT credentials with connectionless flows and Cardano DID publishing |
 | [react-native-identity-wallet](workshops/react-native-identity-wallet) | Expo / React Native (mobile) | Full holder identity wallet for iOS and Android |

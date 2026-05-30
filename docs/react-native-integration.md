@@ -33,7 +33,7 @@ cryptography, and known platform differences.
 ## 1. Compatibility matrix
 
 | Component | npm package | React Native | Notes |
-|-----------|-------------|--------------|-------|
+| ----------- | ------------- | -------------- | ------- |
 | Edge Agent SDK | `@hyperledger/identus-sdk` | ✅ v7+ | Polyfills required |
 | Apollo cryptography | `@hyperledger/identus-apollo` | ⚠️ Partial | WASM fallback via `react-native-quick-crypto` |
 | Pluto storage (AsyncStorage) | Workshop `AsyncStoragePlutoStore` | ✅ | Default in reference wallet |
@@ -127,7 +127,7 @@ registerRootComponent(App);
 ### Why each polyfill is needed
 
 | Polyfill | Why required |
-|----------|--------------|
+| ---------- | -------------- |
 | `react-native-get-random-values` | Hermes does not have a secure random source; this uses the native OS CSPRNG |
 | `react-native-url-polyfill` | SDK uses the WHATWG URL API; React Native's built-in is incomplete |
 | `buffer` | SDK uses `Buffer` extensively; not available in Hermes by default |
@@ -465,7 +465,7 @@ The following service profile keeps the wallet integration simple for React and
 React Native teams while covering the core holder use cases:
 
 | Service | Required | Role in wallet | Integration notes |
-|---------|----------|----------------|-------------------|
+| --------- | ---------- | ---------------- | ------------------- |
 | Identus Mediator | Yes | Receives DIDComm traffic while the device is offline | Configure once through `EXPO_PUBLIC_MEDIATOR_DID`; use the Trust0 public mediator for development and a dedicated mediator for production |
 | Identus Cloud Agent | Yes | Issues credentials and requests presentations | Wallet usually interacts through OOB QR links and DIDComm, not direct admin APIs |
 | Universal Resolver | Recommended | Resolves external DID methods | Configure `EXPO_PUBLIC_RESOLVER_URL`; use for mixed-method ecosystems and verifier interoperability |
@@ -485,7 +485,7 @@ Recommended adoption order:
 Use these phases before calling the integration production-ready:
 
 | Phase | Goal | Exit criteria |
-|------|------|---------------|
+| ------ | ------ | --------------- |
 | Phase 1 - Static validation | Catch compile and dependency issues early | `tsc --noEmit` passes; Metro config resolves Node polyfills; app boots on iOS and Android |
 | Phase 2 - Wallet lifecycle | Verify setup and recovery basics | Create wallet, reveal mnemonic, restart app, recover from mnemonic, reset wallet |
 | Phase 3 - DID operations | Validate holder DID behavior | Create PRISM DID, create Peer DID during OOB flow, resolve DIDs through configured resolver |
@@ -500,7 +500,7 @@ Use these phases before calling the integration production-ready:
 ## 12. Known limitations
 
 | Limitation | Status | Workaround |
-|------------|--------|------------|
+| ------------ | -------- | ------------ |
 | Apollo WebAssembly | WASM not supported in Hermes | `react-native-quick-crypto` replaces the Web Crypto path |
 | Cardano on-chain DID publishing | Requires browser wallet (Lace/Nami) | Use a server-side signing service or pre-signed transaction |
 | `StorageType.IndexDB` | Browser-only | Use `StorageType.InMemory` or the SQLite adapter |
@@ -512,7 +512,7 @@ Use these phases before calling the integration production-ready:
 ## 13. Component version references
 
 | Component | Repository | Version tested |
-|-----------|------------|----------------|
+| ----------- | ------------ | ---------------- |
 | Edge Agent SDK (TS) | [identus-edge-agent-sdk-ts](https://github.com/hyperledger/identus-edge-agent-sdk-ts) | 7.0.0-rc.12 |
 | Apollo | [identus-apollo](https://github.com/hyperledger/identus-apollo) | 1.6.0 |
 | Cloud Agent | [identus-cloud-agent](https://github.com/hyperledger/identus-cloud-agent) | latest |

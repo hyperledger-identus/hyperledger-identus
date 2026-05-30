@@ -38,7 +38,7 @@ the user without explicit consent.
 Supported credential formats:
 
 | Format | Description |
-|--------|-------------|
+| -------- | ------------- |
 | JWT-VC | JSON Web Token–based verifiable credential (W3C VC Data Model) |
 | SD-JWT-VC | Selective-Disclosure JWT — allows partial attribute disclosure |
 | AnonCreds | Hyperledger AnonCreds format (ZKP-based) |
@@ -48,7 +48,7 @@ Supported credential formats:
 ## 2. Actors
 
 | Actor | Description |
-|-------|-------------|
+| ------- | ------------- |
 | **Holder** | The user of the identity wallet |
 | **Issuer** | An organisation that issues credentials (Cloud Agent) |
 | **Verifier** | An organisation that requests credential presentations |
@@ -361,7 +361,7 @@ flow.
 ## 9. Security considerations
 
 | Concern | Mitigation |
-|---------|------------|
+| --------- | ------------ |
 | Mnemonic storage | Device keychain only (iOS Keychain / Android Keystore); never in plaintext on disk |
 | Private key exposure | Keys are derived in-memory from the seed; not serialised to storage |
 | Screen capture | Consider `FLAG_SECURE` (Android) / `.privacySensitive()` (iOS) on mnemonic display screens |
@@ -377,7 +377,7 @@ flow.
 ### Minimum deployment
 
 | Service | Purpose | Reference |
-|---------|---------|-----------|
+| --------- | --------- | ----------- |
 | Identus Cloud Agent | Issues and verifies credentials | [identus-cloud-agent](https://github.com/hyperledger/identus-cloud-agent) |
 | Identus Mediator | DIDComm message relay for offline devices | [identus-mediator](https://github.com/hyperledger/identus-mediator) |
 | Trust0 public mediator | Public mediator for development | `mediator.trust0.id` |
@@ -385,7 +385,7 @@ flow.
 ### Optional services
 
 | Service | Purpose | Reference |
-|---------|---------|-----------|
+| --------- | --------- | ----------- |
 | Universal Resolver | Cross-method DID resolution | [uniresolver.io](https://uniresolver.io) |
 | PRISM VDR driver | PRISM-specific DID resolution | [prism-vdr-driver](https://github.com/hyperledger-identus/prism-vdr-driver) |
 | Blockfrost | Cardano blockchain access (DID publishing) | [blockfrost.io](https://blockfrost.io) |
@@ -400,6 +400,7 @@ docker compose up -d
 ```
 
 This starts:
+
 - Cloud Agent on `http://localhost:8085`
 - Mediator on `ws://localhost:8080`
 - PostgreSQL (Cloud Agent storage)
