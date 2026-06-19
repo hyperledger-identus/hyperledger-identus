@@ -22,7 +22,7 @@ services:
       retries: 5
 
   prism-node:
-    image: identus/prism-node:2.4.1
+    image: docker.io/inputoutput/prism-node:2.6.0
     network_mode: "host"
     environment:
       NODE_PSQL_HOST: localhost:5432
@@ -31,7 +31,7 @@ services:
         condition: service_healthy
 
   cloud-agent:
-    image: hyperledgeridentus/identus-cloud-agent:2.0.0
+    image: docker.io/hyperledgeridentus/identus-cloud-agent:2.2.0
     network_mode: "host"
     environment:
       POLLUX_DB_HOST: localhost
@@ -84,7 +84,7 @@ services:
       - ./dbs/mongo-initdb.js:/docker-entrypoint-initdb.d/initdb.js
 
   identus-mediator:
-    image: docker.io/hyperledgeridentus/identus-mediator:1.2.0
+    image: docker.io/hyperledgeridentus/identus-mediator:1.2.1
     network_mode: "host"
     environment:
       # Creates the identity:

@@ -29,7 +29,7 @@ services:
 
   cloud-agent:
     # https://hub.docker.com/repository/docker/hyperledgeridentus/identus-cloud-agent/general
-    image: docker.io/hyperledgeridentus/identus-cloud-agent:2.0.0
+    image: docker.io/hyperledgeridentus/identus-cloud-agent:2.2.0
     # build: ./cloud-agent-M4-workaround # Workaround for the M4 see https://github.com/hyperledger/identus-cloud-agent/issues/1482
     ports:
       - "8085:8085" # API endpoint
@@ -101,7 +101,7 @@ services:
 
   identus-mediator:
     # https://hub.docker.com/repository/docker/hyperledgeridentus/identus-mediator/general
-    image: docker.io/hyperledgeridentus/identus-mediator:1.2.0
+    image: docker.io/hyperledgeridentus/identus-mediator:1.2.1
     ports:
       - "8080:8080"
     environment:
